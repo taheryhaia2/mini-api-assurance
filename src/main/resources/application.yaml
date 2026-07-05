@@ -1,3 +1,10 @@
 spring:
-  application:
-    name: mini-api-assurance
+  datasource:
+    url: jdbc:postgresql://localhost:5432/assurance_db
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false # <-- Ajoute ça
