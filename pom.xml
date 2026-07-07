@@ -53,6 +53,15 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Documentation Swagger / OpenAPI -->
+		<!-- Documentation Swagger / OpenAPI -->
+		<!-- Documentation Swagger / OpenAPI -->
+		<!-- Documentation Swagger / OpenAPI -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.7.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
