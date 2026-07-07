@@ -44,4 +44,29 @@ public class ContratService {
         // 5. Retourner la réponse
         return ContratMapper.toDto(savedContrat);
     }
+    @Transactional(readOnly = true)
+    public java.util.List<com.assurance.mini_api_assurance.dto.ContratResponseDto> listerContrats() {
+        return contratRepository.findAll().stream()
+                .map(contrat -> new ContratResponseDto(
+                        contrat.getId(),
+                        contrat.getClient().getId(),
+                        contrat.getDateDebut(),
+                        contrat.getDateFin(),
+                        contrat.getStatut(),             // Statut d'abord
+                        contrat.getMontantCouverture()   // Montant ensuite
+                ))
+                .toList();
+    }
+    @Transactional(readOnly = true)
+    public com.assurance.mini_api_assurance.dto.ContratResponseDto obtenirContratParId(Long id){
+        Contrat contrat=contratRepository.findById(id).orElseThrow(()->new RuntimeException());
+        return new ContratResponseDto(
+                contrat.getId(),
+                contrat.getClient().getId(),
+                contrat.getDateDebut(),
+                contrat.getDateFin(),
+                contrat.getStatut(),             // Statut d'abord
+                contrat.getMontantCouverture()   // Montant ensuite
+        );
+    }
 }
