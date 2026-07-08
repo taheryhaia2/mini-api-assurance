@@ -31,25 +31,25 @@ public class CustomUserDetails implements UserDetails {
         return user.getUsername();
     }
 
-    // TODO: Pour une V2, implémenter un vrai système d'expiration de compte
+    // TODO: For V2, implement a real account expiration system
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    // TODO: Pour une V2, implémenter un système de verrouillage après N tentatives échouées
+    // TODO: For V2, implement account locking after N failed attempts
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    // TODO: Pour une V2, implémenter une expiration de mot de passe (ex: tous les 90 jours)
+    // TODO: For V2, implement password expiration (e.g., every 90 days)
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    // TODO: Pour une V2, implémenter une activation de compte par email
+    // TODO: For V2, implement email account activation
     @Override
     public boolean isEnabled() {
         return true;

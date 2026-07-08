@@ -18,9 +18,9 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User creerUtilisateur(String username, String password, Role role) {
+    public User createUser(String username, String password, Role role) {
         if (userRepository.findByUsername(username).isPresent()) {
-            throw new RuntimeException("Ce nom d'utilisateur existe déjà");
+            throw new RuntimeException("Username already exists");
         }
 
         User user = new User();
@@ -30,9 +30,10 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
     public CustomUserDetails loadUserByUsernameForAuth(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
         return new CustomUserDetails(user);
     }
 }

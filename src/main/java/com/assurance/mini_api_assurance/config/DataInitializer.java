@@ -2,7 +2,7 @@ package com.assurance.mini_api_assurance.config;
 
 import com.assurance.mini_api_assurance.domain.*;
 import com.assurance.mini_api_assurance.repository.ClientRepository;
-import com.assurance.mini_api_assurance.repository.ContratRepository;
+import com.assurance.mini_api_assurance.repository.ContractRepository;
 import com.assurance.mini_api_assurance.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,63 +16,63 @@ public class DataInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final ClientRepository clientRepository;
-    private final ContratRepository contratRepository;
+    private final ContractRepository contractRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DataInitializer(UserRepository userRepository,
                            ClientRepository clientRepository,
-                           ContratRepository contratRepository,
+                           ContractRepository contractRepository,
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.clientRepository = clientRepository;
-        this.contratRepository = contratRepository;
+        this.contractRepository = contractRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
-        // 1. Création de l'ADMIN s'il n'existe pas
+        // 1. Create ADMIN account if it does not exist
         if (userRepository.findByUsername("admin").isEmpty()) {
             User admin = new User();
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setRole(Role.ADMIN);
             userRepository.save(admin);
-            System.out.println(">> [DataInit] Compte ADMIN créé (admin/admin123)");
+            System.out.println(">> [DataInit] ADMIN account created (admin/admin123)");
         }
 
-        // 2. Création d'un CLIENT de test s'il n'y a aucun client en base
+        // 2. Create a test CLIENT if the database is empty
         if (clientRepository.count() == 0) {
             Client client = new Client();
-            client.setNom("Ben Ali");
-            client.setPrenom("Ahmed");
+            client.setLastName("Ben Ali");
+            client.setFirstName("Ahmed");
             client.setEmail("ahmed@email.com");
             client.setCin("12345678");
-            client.setDateNaissance(LocalDate.of(1990, 5, 15));
-            client.setDateCreation(LocalDate.now());
+            client.setBirthDate(LocalDate.of(1990, 5, 15));
+            client.setCreatedAt(LocalDate.now());
             clientRepository.save(client);
-            System.out.println(">> [DataInit] Client 'Ahmed Ben Ali' créé");
+            System.out.println(">> [DataInit] Client 'Ahmed Ben Ali' created");
 
-            // 3. Création d'un Contrat ACTIF
-            Contrat contratActif = new Contrat();
-            contratActif.setClient(client);
-            contratActif.setDateDebut(LocalDate.now().minusMonths(1));
-            contratActif.setDateFin(LocalDate.now().plusYears(1));
-            contratActif.setMontantCouverture(new BigDecimal("50000.0"));
-            contratActif.setStatut(StatutContrat.ACTIF);
-            contratRepository.save(contratActif);
-            System.out.println(">> [DataInit] Contrat ACTIF créé pour Ahmed");
+            // 3. Create an ACTIVE Contract
+            Contract activeContract = new Contract();
+            activeContract.setClient(client);
+            activeContract.setStartDate(LocalDate.now().minusMonths(1));
+            activeContract.setEndDate(LocalDate.now().plusYears(1));
+            activeContract.setCoverageAmount(new BigDecimal("50000.0"));
+            activeContract.setStatus(ContractStatus.ACTIVE);
+            contractRepository.save(activeContract);
+            System.out.println(">> [DataInit] ACTIVE contract created for Ahmed");
 
-            // 4. Création d'un Contrat RESILIE
-            Contrat contratResilie = new Contrat();
-            contratResilie.setClient(client);
-            contratResilie.setDateDebut(LocalDate.now().minusYears(2));
-            contratResilie.setDateFin(LocalDate.now().minusYears(1));
-            contratResilie.setMontantCouverture(new BigDecimal("30000.0"));
-            contratResilie.setStatut(StatutContrat.RESILIE);
-            contratRepository.save(contratResilie);
-            System.out.println(">> [DataInit] Contrat RESILIE créé pour Ahmed");
+            // 4. Create a TERMINATED Contract
+            Contract terminatedContract = new Contract();
+            terminatedContract.setClient(client);
+            terminatedContract.setStartDate(LocalDate.now().minusYears(2));
+            terminatedContract.setEndDate(LocalDate.now().minusYears(1));
+            terminatedContract.setCoverageAmount(new BigDecimal("30000.0"));
+            terminatedContract.setStatus(ContractStatus.TERMINATED);
+            contractRepository.save(terminatedContract);
+            System.out.println(">> [DataInit] TERMINATED contract created for Ahmed");
         }
     }
 }

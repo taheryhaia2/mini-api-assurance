@@ -5,9 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 public record ClientCreateDto(
-        @NotBlank String nom,
-        @NotBlank String prenom,
-        @NotBlank @Email String email,
-        @NotBlank String cin,
-        LocalDate dateNaissance
+        @NotBlank
+        String lastName,
+        @NotBlank
+        String firstName,
+        @NotBlank @Email
+        String email,
+        @NotBlank
+        String cin,
+        LocalDate birthDate
 ) {}

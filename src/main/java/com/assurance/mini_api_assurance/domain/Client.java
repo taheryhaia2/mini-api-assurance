@@ -10,29 +10,38 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nom;
-    private String prenom;
+    private String lastName;
+
+    private String firstName;
+
     private String email;
 
     @Column(unique = true, nullable = false)
-    private String cin; // Carte d'identité nationale
+    private String cin;
 
-    private LocalDate dateNaissance;
-    private LocalDate dateCreation; // Date à laquelle le client a été enregistré
+    private LocalDate birthDate;
 
-    // Getters et Setters (génère-les avec Alt+Insert)
+    private LocalDate createdAt;
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public String getNom() { return nom; }
-    public void setNom(String nom) { this.nom = nom; }
-    public String getPrenom() { return prenom; }
-    public void setPrenom(String prenom) { this.prenom = prenom; }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
     public String getCin() { return cin; }
     public void setCin(String cin) { this.cin = cin; }
-    public LocalDate getDateNaissance() { return dateNaissance; }
-    public void setDateNaissance(LocalDate dateNaissance) { this.dateNaissance = dateNaissance; }
-    public LocalDate getDateCreation() { return dateCreation; }
-    public void setDateCreation(LocalDate dateCreation) { this.dateCreation = dateCreation; }
+
+    public LocalDate getBirthDate() { return birthDate; }
+    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
+
+    public LocalDate getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDate createdAt) { this.createdAt = createdAt; }
 }

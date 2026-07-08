@@ -13,21 +13,21 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    // Spring lit la valeur du application.yml et l'injecte ici
+    // Spring reads the value from application.yml and injects it here
     @Value("${jwt.secret}")
     private String secretKey;
 
-    // 1. Génération du token
+    // 1. Token generation
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .subject(userDetails.getUsername()) // Le "sujet" du token (qui est-ce ?)
-                .issuedAt(new Date())               // Date de création
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // Expire dans 24h
-                .signWith(getKey())                 // On signe avec la clé secrète
-                .compact();                         // On génère la chaîne de caractères finale
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // Expires in 24h
+                .signWith(getKey())
+                .compact();
     }
 
-    // 2. Extraction du username depuis le token
+    // 2. Extract username from token
     public String extractUsername(String token) {
         return Jwts.parser()
                 .verifyWith(getKey())
@@ -37,7 +37,7 @@ public class JwtService {
                 .getSubject();
     }
 
-    // 3. Validation du token (est-il valide et non expiré ?)
+    // 3. Validate token (is it valid and not expired?)
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
@@ -53,7 +53,7 @@ public class JwtService {
                 .before(new Date());
     }
 
-    // Méthode utilitaire pour décoder la clé Base64 du application.yml en objet cryptographique
+    // Utility method to decode the Base64 key from application.yml into a cryptographic object
     private SecretKey getKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);

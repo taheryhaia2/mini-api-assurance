@@ -19,8 +19,8 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("Mini-API Assurance")
                         .version("1.0")
-                        .description("API REST de gestion de clients, contrats et sinistres avec authentification JWT"))
-                // Cette ligne dit à Swagger d'appliquer le token à toutes les routes
+                        .description("REST API for managing clients, contracts and claims with JWT authentication"))
+                // This tells Swagger to apply the token to all routes
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(new Components()
                         .addSecuritySchemes(securitySchemeName,

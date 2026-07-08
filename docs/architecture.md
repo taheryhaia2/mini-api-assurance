@@ -1,50 +1,60 @@
 # Architecture Mini-API Assurance
 
-## Diagramme de classes (Modèle de domaine)
+## Domain Model Class Diagram
 
 ```mermaid
 classDiagram
     class Client {
         -Long id
-        -String nom
-        -String prenom
+        -String lastName
+        -String firstName
         -String email
         -String cin
-        -LocalDate dateNaissance
-        -LocalDate dateCreation
+        -LocalDate birthDate
+        -LocalDate createdAt
     }
 
-    class Contrat {
+    class Contract {
         -Long id
-        -LocalDate dateDebut
-        -LocalDate dateFin
-        -Double montantCouverture
-        -StatutContrat statut
+        -LocalDate startDate
+        -LocalDate endDate
+        -BigDecimal coverageAmount
+        -ContractStatus status
     }
 
-    class Sinistre {
+    class Claim {
         -Long id
         -String description
-        -LocalDate dateSinistre
-        -LocalDate dateDeclaration
-        -StatutSinistre statut
+        -LocalDate claimDate
+        -LocalDate declarationDate
+        -ClaimStatus status
     }
 
-    class StatutContrat {
+    class ContractStatus {
         <<enumeration>>
-        ACTIF
-        EXPIRE
-        RESILIE
+        ACTIVE
+        EXPIRED
+        TERMINATED
     }
 
-    class StatutSinistre {
+    class ClaimStatus {
         <<enumeration>>
-        DECLARE
-        EN_COURS
-        CLOTURE
+        SUBMITTED
+        PROCESSING
+        CLOSED
     }
 
-    Client "1" -- "*" Contrat : possede
-    Contrat "1" -- "*" Sinistre : contient
-    Contrat --> StatutContrat : a pour statut
-    Sinistre --> StatutSinistre : a pour statut
+    Client "1" -- "*" Contract : owns
+    Contract "1" -- "*" Claim : contains
+    Contract --> ContractStatus : has status
+    Claim --> ClaimStatus : has status
+```
+
+## Translation Notes
+
+- `Contrat` → `Contract`
+- `Sinistre` → `Claim`
+- `StatutContrat` → `ContractStatus` : ACTIF/EXPIRE/RESILIE → ACTIVE/EXPIRED/TERMINATED
+- `StatutSinistre` → `ClaimStatus` : DECLARE/EN_COURS/CLOTURE → SUBMITTED/PROCESSING/CLOSED
+- Field mapping preserved 1:1, JPA constraints preserved (`@Column(unique=true, nullable=false)`, `@Column(nullable=false)`, `@GeneratedValue`).
+```

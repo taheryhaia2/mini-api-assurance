@@ -14,12 +14,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
 
-        // On utilise une HashMap classique, qui accepte les valeurs null (contrairement à Map.of)
+        // Use a classic HashMap, which accepts null values (unlike Map.of)
         Map<String, String> body = new HashMap<>();
 
-        // Si le message est null, on met un texte par défaut, sinon on prend le vrai message
-        String message = (ex.getMessage() != null) ? ex.getMessage() : "Une erreur inattendue s'est produite";
-        body.put("erreur", message);
+        // If the message is null, use a default text, otherwise use the real message
+        String message = (ex.getMessage() != null) ? ex.getMessage() : "An unexpected error occurred";
+        body.put("error", message);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }

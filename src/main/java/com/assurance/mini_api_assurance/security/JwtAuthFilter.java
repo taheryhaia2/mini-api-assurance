@@ -32,30 +32,30 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // 1. Récupérer le header "Authorization"
+        // 1. Get the "Authorization" header
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
 
-        // Si pas de header ou s'il ne commence pas par "Bearer ", on passe au filtre suivant
+        // If no header or it does not start with "Bearer ", continue to next filter
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 2. Extraire le token (on coupe "Bearer " qui fait 7 caractères)
+        // 2. Extract the token (strip "Bearer " which is 7 characters)
         jwt = authHeader.substring(7);
 
-        // 3. Extraire le username du token via notre JwtService
+        // 3. Extract username from token via our JwtService
         username = jwtService.extractUsername(jwt);
 
-        // 4. Si on a un username et que l'utilisateur n'est pas encore connecté dans le "contexte" Spring
+        // 4. If we have a username and the user is not yet authenticated in Spring context
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            // 5. Vérifier si le token est mathématiquement valide
+            // 5. Check if the token is mathematically valid
             if (jwtService.isTokenValid(jwt, userDetails)) {
-                // Créer l'objet d'authentification officiel de Spring Security
+                // Create the official Spring Security authentication object
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
@@ -63,12 +63,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // Écrire dans le "bloc-notes" de Spring : "Cet utilisateur est connecté !"
+                // Write to Spring's context: "This user is authenticated!"
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 
-        // 6. Laisser la requête continuer son chemin vers le Controller
+        // 6. Let the request continue to the Controller
         filterChain.doFilter(request, response);
     }
 }

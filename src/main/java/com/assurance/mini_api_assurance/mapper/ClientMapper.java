@@ -6,27 +6,27 @@ import com.assurance.mini_api_assurance.dto.ClientResponseDto;
 
 public class ClientMapper {
 
-    // Transforme le DTO d'entrée en Entité JPA pour la sauvegarde
+    // Transforms input DTO into JPA Entity for persistence
     public static Client toEntity(ClientCreateDto dto) {
         Client client = new Client();
-        client.setNom(dto.nom());
-        client.setPrenom(dto.prenom());
+        client.setLastName(dto.lastName());
+        client.setFirstName(dto.firstName());
         client.setEmail(dto.email());
         client.setCin(dto.cin());
-        client.setDateNaissance(dto.dateNaissance());
+        client.setBirthDate(dto.birthDate());
         return client;
     }
 
-    // Transforme l'Entité JPA en DTO de sortie pour la réponse HTTP
+    // Transforms JPA Entity into output DTO for HTTP response
     public static ClientResponseDto toDto(Client client) {
         return new ClientResponseDto(
                 client.getId(),
-                client.getNom(),
-                client.getPrenom(),
+                client.getLastName(),
+                client.getFirstName(),
                 client.getEmail(),
                 client.getCin(),
-                client.getDateNaissance(),
-                client.getDateCreation()
+                client.getBirthDate(),
+                client.getCreatedAt()
         );
     }
 }

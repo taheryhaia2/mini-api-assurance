@@ -30,21 +30,21 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
-        User user = userService.creerUtilisateur(request.username(), request.password(), request.role());
-        return ResponseEntity.status(HttpStatus.CREATED).body("Utilisateur créé : " + user.getUsername());
+        User user = userService.createUser(request.username(), request.password(), request.role());
+        return ResponseEntity.status(HttpStatus.CREATED).body("User created: " + user.getUsername());
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
-        // 1. On demande à Spring Security de vérifier le username/password
+        // 1. Ask Spring Security to verify username/password
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password())
         );
 
-        // 2. Si on arrive ici, c'est que l'authentification a réussi (sinon exception levée avant)
+        // 2. If we reach here, authentication succeeded
         CustomUserDetails userDetails = (CustomUserDetails) userService.loadUserByUsernameForAuth(request.username());
 
-        // 3. On génère le token
+        // 3. Generate token
         String token = jwtService.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthResponse(token));

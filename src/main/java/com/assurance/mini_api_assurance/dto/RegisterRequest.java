@@ -5,12 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record RegisterRequest(
-        @NotBlank(message = "Le username est obligatoire")
+        @NotBlank(message = "Username is required")
         String username,
 
-        @NotBlank(message = "Le mot de passe est obligatoire")
+        @NotBlank(message = "Password is required")
         String password,
 
-        @NotNull(message = "Le rôle est obligatoire")
+        @NotNull(message = "Role is required")
         Role role
 ) {}

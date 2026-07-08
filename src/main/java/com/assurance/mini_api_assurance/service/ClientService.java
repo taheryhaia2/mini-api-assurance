@@ -8,44 +8,43 @@ import com.assurance.mini_api_assurance.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+
 @Service
 public class ClientService {
 
     private final ClientRepository clientRepository;
 
-    // Injection par constructeur (ne pas utiliser @Autowired sur le champ)
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
     @Transactional
-    public ClientResponseDto creerClient(ClientCreateDto dto) {
-        // 1. Conversion DTO -> Entité
+    public ClientResponseDto createClient(ClientCreateDto dto) {
+        // 1. Convert DTO -> Entity
         Client client = ClientMapper.toEntity(dto);
 
-        // Règle métier : la date de création est forcée par le serveur, pas par le client
-        client.setDateCreation(java.time.LocalDate.now());
+        // Business rule: creation date is forced by the server, not by the client
+        client.setCreatedAt(java.time.LocalDate.now());
 
-        // 2. Sauvegarde en base via le Repository
+        // 2. Save to database via Repository
         Client savedClient = clientRepository.save(client);
 
-        // 3. Conversion Entité -> DTO de réponse
+        // 3. Convert Entity -> Response DTO
         return ClientMapper.toDto(savedClient);
     }
+
     @Transactional(readOnly = true)
-    public List<ClientResponseDto>listerClients(){
+    public List<ClientResponseDto> listClients() {
         return clientRepository.findAll().stream()
                 .map(ClientMapper::toDto)
                 .toList();
     }
+
     @Transactional(readOnly = true)
-    public ClientResponseDto getClientParId(Long id) {
-        // findById renvoie un Optional. Soit y'a le client, soit y'a rien.
-        // orElseThrow : s'il n'y a rien, on lève une exception immédiatement.
+    public ClientResponseDto getClientById(Long id) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client non trouvé avec l'id : " + id));
+                .orElseThrow(() -> new RuntimeException("Client not found with id: " + id));
 
         return ClientMapper.toDto(client);
     }
-
 }

@@ -4,10 +4,10 @@ import java.time.LocalDate;
 
 public record ClientResponseDto(
         Long id,
-        String nom,
-        String prenom,
+        String lastName,
+        String firstName,
         String email,
         String cin,
-        LocalDate dateNaissance,
-        LocalDate dateCreation
+        LocalDate birthDate,
+        LocalDate createdAt
 ) {}

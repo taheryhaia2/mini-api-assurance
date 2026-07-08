@@ -1,47 +1,60 @@
 # Mini-API Assurance
 
-API REST de gestion de contrats d'assurance développée avec Spring Boot dans le cadre d'un stage d'été.
+REST API for insurance contract management developed with Spring Boot as a summer internship project.
 
-## Fonctionnalités
+## Features
 
-- Gestion des Clients (Création, Lecture)
-- Gestion des Contrats (Création, Lecture, Règles métier de validation des dates)
-- Gestion des Sinistres (Création, Règle métier : dépôt impossible sur un contrat inactif ou hors période de validité)
-- Sécurité JWT (Authentification par Token, Inscription, Login)
-- Documentation interactive Swagger/OpenAPI
+- Client Management (Create, Read)
+- Contract Management (Create, Read, Business rules for date validation)
+- Claim Management (Create, Business rule: cannot file a claim on an inactive or expired contract)
+- JWT Security (Token-based authentication, Registration, Login)
+- Interactive Swagger/OpenAPI Documentation
 
-## Prérequis
+## Prerequisites
 
 - Java 17
 - Maven 3.8+
 - PostgreSQL
 
-## Installation et Lancement
+## Setup and Launch
 
-1. **Cloner le repository**
+1. **Clone the repository**
    ```bash
    git clone https://github.com/taheryhaia2/mini-api-assurance.git
    cd mini-api-assurance
-Configurer la base de données
+   ```
+2. **Configure the database**
 
-Créer une base de données PostgreSQL nommée assurance_db.
-Modifier les identifiants dans src/main/resources/application.yml si nécessaire (par défaut : user=postgres, password=admin).
-Lancer l'application
+   Create a PostgreSQL database named `assurance_db`.
+   Update credentials in `src/main/resources/application.yml` if necessary (default: user=postgres, password=admin).
 
-Bash
+3. **Run the application**
 
-./mvnw spring-boot:run
-Accéder à la documentation Swagger
-L'interface interactive est disponible à l'adresse :
-👉 http://localhost:8080/swagger-ui/index.html
+   ```bash
+   ./mvnw spring-boot:run
+   ```
 
-Utilisation de l'API (Workflow)
-Inscription : Utiliser POST /api/auth/register pour créer un compte (ex: ADMIN).
-Connexion : Utiliser POST /api/auth/login pour obtenir un Token JWT.
-Autorisation : Cliquer sur le bouton 🔒 Authorize dans Swagger, saisir Bearer <votre_token> pour accéder aux routes protégées.
-Opérations : Créer des clients, des contrats et déclarer des sinistres.
-Architecture
-Framework : Spring Boot 3
-Base de données : PostgreSQL avec Spring Data JPA (Hibernate)
-Sécurité : Spring Security + JWT (JJWT)
-Documentation : Springdoc OpenAPI (Swagger)
+   Demo data (including an Admin account and sample contracts) is inserted automatically on startup.
+
+4. **Access Swagger documentation**
+
+   The interactive UI is available at:
+   👉 http://localhost:8080/swagger-ui/index.html
+
+## API Usage Workflow
+
+- **Register**: Use `POST /api/auth/register` to create an account (e.g., ADMIN).
+- **Login**: Use `POST /api/auth/login` to obtain a JWT Token.
+- **Authorize**: Click the 🔒 Authorize button in Swagger, enter `Bearer <your_token>` to access protected routes.
+- **Operations**: Create clients (`/api/clients`), contracts (`/api/contracts`), and file claims (`/api/contracts/{contractId}/claims`).
+
+## Demo Accounts
+
+- **Admin**: username: `admin` / password: `admin123`
+
+## Architecture
+
+- **Framework**: Spring Boot 3
+- **Database**: PostgreSQL with Spring Data JPA (Hibernate)
+- **Security**: Spring Security + JWT (JJWT)
+- **Documentation**: Springdoc OpenAPI (Swagger)
