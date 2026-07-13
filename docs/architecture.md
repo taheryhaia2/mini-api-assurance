@@ -10,24 +10,47 @@ classDiagram
         -String firstName
         -String email
         -String cin
+        -String phoneNumber
+        -String address
         -LocalDate birthDate
         -LocalDate createdAt
     }
 
     class Contract {
         -Long id
+        -String policyNumber
+        -ContractType type
         -LocalDate startDate
         -LocalDate endDate
         -BigDecimal coverageAmount
+        -BigDecimal premiumAmount
         -ContractStatus status
     }
 
     class Claim {
         -Long id
+        -String claimNumber
         -String description
         -LocalDate claimDate
         -LocalDate declarationDate
+        -BigDecimal estimatedAmount
+        -BigDecimal reimbursedAmount
         -ClaimStatus status
+    }
+
+    class User {
+        -Long id
+        -String username
+        -String password
+        -Role role
+    }
+
+    class ContractType {
+        <<enumeration>>
+        AUTO
+        HOME
+        HEALTH
+        LIFE
     }
 
     class ContractStatus {
@@ -41,20 +64,19 @@ classDiagram
         <<enumeration>>
         SUBMITTED
         PROCESSING
-        CLOSED
+        ACCEPTED
+        REJECTED
+    }
+
+    class Role {
+        <<enumeration>>
+        ADMIN
+        AGENT
     }
 
     Client "1" -- "*" Contract : owns
     Contract "1" -- "*" Claim : contains
+    User --> Role : has role
+    Contract --> ContractType : has type
     Contract --> ContractStatus : has status
     Claim --> ClaimStatus : has status
-```
-
-## Translation Notes
-
-- `Contrat` → `Contract`
-- `Sinistre` → `Claim`
-- `StatutContrat` → `ContractStatus` : ACTIF/EXPIRE/RESILIE → ACTIVE/EXPIRED/TERMINATED
-- `StatutSinistre` → `ClaimStatus` : DECLARE/EN_COURS/CLOTURE → SUBMITTED/PROCESSING/CLOSED
-- Field mapping preserved 1:1, JPA constraints preserved (`@Column(unique=true, nullable=false)`, `@Column(nullable=false)`, `@GeneratedValue`).
-```
