@@ -1,32 +1,44 @@
 package com.assurance.mini_api_assurance.domain;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 public class Claim {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String claimNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contract_id", nullable = false)
     private Contract contract;
 
+    private String description;
+
     private LocalDate claimDate;
 
     private LocalDate declarationDate;
+
+    @Column(nullable = false)
+    private BigDecimal estimatedAmount;
+
+    private BigDecimal reimbursedAmount; // Peut être null au départ, sera rempli si ACCEPTED
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ClaimStatus status;
 
-    private String description;
-
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
+    public String getClaimNumber() { return claimNumber; }
+    public void setClaimNumber(String claimNumber) { this.claimNumber = claimNumber; }
 
     public Contract getContract() { return contract; }
     public void setContract(Contract contract) { this.contract = contract; }
@@ -39,6 +51,12 @@ public class Claim {
 
     public LocalDate getDeclarationDate() { return declarationDate; }
     public void setDeclarationDate(LocalDate declarationDate) { this.declarationDate = declarationDate; }
+
+    public BigDecimal getEstimatedAmount() { return estimatedAmount; }
+    public void setEstimatedAmount(BigDecimal estimatedAmount) { this.estimatedAmount = estimatedAmount; }
+
+    public BigDecimal getReimbursedAmount() { return reimbursedAmount; }
+    public void setReimbursedAmount(BigDecimal reimbursedAmount) { this.reimbursedAmount = reimbursedAmount; }
 
     public ClaimStatus getStatus() { return status; }
     public void setStatus(ClaimStatus status) { this.status = status; }

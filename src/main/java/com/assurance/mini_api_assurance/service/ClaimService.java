@@ -6,15 +6,21 @@ import com.assurance.mini_api_assurance.domain.Contract;
 import com.assurance.mini_api_assurance.domain.ContractStatus;
 import com.assurance.mini_api_assurance.dto.ClaimCreateDto;
 import com.assurance.mini_api_assurance.dto.ClaimResponseDto;
+import com.assurance.mini_api_assurance.exception.BusinessRuleException;
+import com.assurance.mini_api_assurance.exception.NotFoundException;
+import com.assurance.mini_api_assurance.mapper.ClaimMapper;
 import com.assurance.mini_api_assurance.repository.ClaimRepository;
 import com.assurance.mini_api_assurance.repository.ContractRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Year;
 
 @Service
 public class ClaimService {
+
     private final ClaimRepository claimRepository;
     private final ContractRepository contractRepository;
 
@@ -25,37 +31,33 @@ public class ClaimService {
 
     @Transactional
     public ClaimResponseDto createClaim(Long contractId, ClaimCreateDto dto) {
-        // Retrieve the contract
         Contract contract = contractRepository.findById(contractId)
-                .orElseThrow(() -> new RuntimeException("Contract not found"));
+                .orElseThrow(() -> new NotFoundException("Contract not found with ID: " + contractId));
 
-        // Business rule 1: check contract status
         if (contract.getStatus() != ContractStatus.ACTIVE) {
-            throw new RuntimeException("Cannot file a claim: the contract is not ACTIVE");
+            throw new BusinessRuleException("Cannot file a claim: Contract is not ACTIVE");
         }
 
-        // Business rule 2: check date consistency
         if (dto.claimDate().isBefore(contract.getStartDate()) || dto.claimDate().isAfter(contract.getEndDate())) {
-            throw new RuntimeException("Claim date must be within the contract validity period");
+            throw new BusinessRuleException("Claim date must be within the contract coverage period");
         }
 
-        // Create claim
         Claim claim = new Claim();
-        claim.setClaimDate(dto.claimDate());
         claim.setContract(contract);
         claim.setDescription(dto.description());
-        claim.setStatus(ClaimStatus.SUBMITTED);
+        claim.setClaimDate(dto.claimDate());
         claim.setDeclarationDate(LocalDate.now());
+        claim.setEstimatedAmount(dto.estimatedAmount());
+        claim.setReimbursedAmount(BigDecimal.ZERO); // Initialisé à 0
+        claim.setStatus(ClaimStatus.SUBMITTED);
+        claim.setClaimNumber(generateClaimNumber());
 
-        // Save to database
-        Claim savedClaim = claimRepository.save(claim);
-        return new ClaimResponseDto(
-                savedClaim.getId(),
-                savedClaim.getContract().getId(),
-                savedClaim.getDescription(),
-                savedClaim.getClaimDate(),
-                savedClaim.getDeclarationDate(),
-                savedClaim.getStatus()
-        );
+        Claim saved = claimRepository.save(claim);
+        return ClaimMapper.toDto(saved);
+    }
+
+    private String generateClaimNumber() {
+        // Exemple: CL-2026-83421
+        return "CL-" + Year.now().getValue() + "-" + (System.currentTimeMillis() % 100000);
     }
 }
