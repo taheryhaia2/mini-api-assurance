@@ -49,6 +49,8 @@ public class DataInitializer implements CommandLineRunner {
             client.setFirstName("Ahmed");
             client.setEmail("ahmed@email.com");
             client.setCin("12345678");
+            client.setPhoneNumber("20000000");
+            client.setAddress("Tunis, Tunisia");
             client.setBirthDate(LocalDate.of(1990, 5, 15));
             client.setCreatedAt(LocalDate.now());
             clientRepository.save(client);

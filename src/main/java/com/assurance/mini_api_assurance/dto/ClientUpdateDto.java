@@ -10,5 +10,7 @@ public record ClientUpdateDto(
         @NotBlank String lastName,
         @NotBlank String firstName,
         @Email @NotBlank String email,
+        @NotBlank String phoneNumber,   // NEW
+        @NotBlank String address,       // NEW
         @NotNull LocalDate birthDate
 ) {}

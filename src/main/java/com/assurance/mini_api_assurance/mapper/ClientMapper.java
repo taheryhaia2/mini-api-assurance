@@ -7,18 +7,18 @@ import com.assurance.mini_api_assurance.dto.ClientUpdateDto;
 
 public class ClientMapper {
 
-    // Transforms input DTO into JPA Entity for persistence
     public static Client toEntity(ClientCreateDto dto) {
         Client client = new Client();
         client.setLastName(dto.lastName());
         client.setFirstName(dto.firstName());
         client.setEmail(dto.email());
         client.setCin(dto.cin());
+        client.setPhoneNumber(dto.phoneNumber());
+        client.setAddress(dto.address());
         client.setBirthDate(dto.birthDate());
         return client;
     }
 
-    // Transforms JPA Entity into output DTO for HTTP response
     public static ClientResponseDto toDto(Client client) {
         return new ClientResponseDto(
                 client.getId(),
@@ -26,14 +26,19 @@ public class ClientMapper {
                 client.getFirstName(),
                 client.getEmail(),
                 client.getCin(),
+                client.getPhoneNumber(),
+                client.getAddress(),
                 client.getBirthDate(),
                 client.getCreatedAt()
         );
     }
+
     public static void updateEntity(Client client, ClientUpdateDto dto) {
         client.setLastName(dto.lastName());
         client.setFirstName(dto.firstName());
         client.setEmail(dto.email());
+        client.setPhoneNumber(dto.phoneNumber());
+        client.setAddress(dto.address());
         client.setBirthDate(dto.birthDate());
     }
 }

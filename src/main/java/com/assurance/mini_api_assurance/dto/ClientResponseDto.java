@@ -8,6 +8,8 @@ public record ClientResponseDto(
         String firstName,
         String email,
         String cin,
+        String phoneNumber,   // NEW
+        String address,       // NEW
         LocalDate birthDate,
         LocalDate createdAt
 ) {}

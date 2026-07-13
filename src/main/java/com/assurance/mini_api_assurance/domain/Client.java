@@ -1,10 +1,7 @@
 package com.assurance.mini_api_assurance.domain;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 public class Client {
@@ -13,18 +10,26 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String lastName;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String email;
 
     @Column(unique = true, nullable = false)
     private String cin;
 
+    @Column(nullable = false)
+    private String phoneNumber;   // NEW
+
+    @Column(nullable = false)
+    private String address;       // NEW
+
     private LocalDate birthDate;
-    @CreationTimestamp
-    @Column(updatable = false)
+
     private LocalDate createdAt;
 
     // Getters and Setters
@@ -42,6 +47,12 @@ public class Client {
 
     public String getCin() { return cin; }
     public void setCin(String cin) { this.cin = cin; }
+
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
     public LocalDate getBirthDate() { return birthDate; }
     public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
