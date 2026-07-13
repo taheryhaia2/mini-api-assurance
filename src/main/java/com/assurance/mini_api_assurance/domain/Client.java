@@ -1,7 +1,10 @@
 package com.assurance.mini_api_assurance.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Client {
@@ -20,7 +23,8 @@ public class Client {
     private String cin;
 
     private LocalDate birthDate;
-
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDate createdAt;
 
     // Getters and Setters
