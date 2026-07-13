@@ -42,8 +42,20 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println(">> [DataInit] ADMIN account created (admin/admin123)");
         }
 
-        // 2. Create a test CLIENT if the database is empty
+        // 2. Create AGENT account if it does not exist (optional but useful)
+        if (userRepository.findByUsername("agent").isEmpty()) {
+            User agent = new User();
+            agent.setUsername("agent");
+            agent.setPassword(passwordEncoder.encode("agent123"));
+            agent.setRole(Role.AGENT);
+            userRepository.save(agent);
+            System.out.println(">> [DataInit] AGENT account created (agent/agent123)");
+        }
+
+        // 3. Create demo client + contracts if database is empty
         if (clientRepository.count() == 0) {
+
+            // 3.1 Client
             Client client = new Client();
             client.setLastName("Ben Ali");
             client.setFirstName("Ahmed");
@@ -56,22 +68,28 @@ public class DataInitializer implements CommandLineRunner {
             clientRepository.save(client);
             System.out.println(">> [DataInit] Client 'Ahmed Ben Ali' created");
 
-            // 3. Create an ACTIVE Contract
+            // 3.2 ACTIVE contract
             Contract activeContract = new Contract();
             activeContract.setClient(client);
+            activeContract.setPolicyNumber("CT-2026-00001");
+            activeContract.setType(ContractType.AUTO);
             activeContract.setStartDate(LocalDate.now().minusMonths(1));
             activeContract.setEndDate(LocalDate.now().plusYears(1));
-            activeContract.setCoverageAmount(new BigDecimal("50000.0"));
+            activeContract.setCoverageAmount(new BigDecimal("50000"));
+            activeContract.setPremiumAmount(new BigDecimal("1200"));
             activeContract.setStatus(ContractStatus.ACTIVE);
             contractRepository.save(activeContract);
             System.out.println(">> [DataInit] ACTIVE contract created for Ahmed");
 
-            // 4. Create a TERMINATED Contract
+            // 3.3 TERMINATED contract
             Contract terminatedContract = new Contract();
             terminatedContract.setClient(client);
+            terminatedContract.setPolicyNumber("CT-2026-00002");
+            terminatedContract.setType(ContractType.HOME);
             terminatedContract.setStartDate(LocalDate.now().minusYears(2));
             terminatedContract.setEndDate(LocalDate.now().minusYears(1));
-            terminatedContract.setCoverageAmount(new BigDecimal("30000.0"));
+            terminatedContract.setCoverageAmount(new BigDecimal("30000"));
+            terminatedContract.setPremiumAmount(new BigDecimal("800"));
             terminatedContract.setStatus(ContractStatus.TERMINATED);
             contractRepository.save(terminatedContract);
             System.out.println(">> [DataInit] TERMINATED contract created for Ahmed");

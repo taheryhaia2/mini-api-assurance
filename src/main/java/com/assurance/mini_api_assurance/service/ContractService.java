@@ -5,11 +5,16 @@ import com.assurance.mini_api_assurance.domain.Contract;
 import com.assurance.mini_api_assurance.domain.ContractStatus;
 import com.assurance.mini_api_assurance.dto.ContractCreateDto;
 import com.assurance.mini_api_assurance.dto.ContractResponseDto;
+import com.assurance.mini_api_assurance.exception.BusinessRuleException;
+import com.assurance.mini_api_assurance.exception.NotFoundException;
 import com.assurance.mini_api_assurance.mapper.ContractMapper;
 import com.assurance.mini_api_assurance.repository.ClientRepository;
 import com.assurance.mini_api_assurance.repository.ContractRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Year;
+import java.util.List;
 
 @Service
 public class ContractService {
@@ -17,58 +22,52 @@ public class ContractService {
     private final ContractRepository contractRepository;
     private final ClientRepository clientRepository;
 
-    public ContractService(ContractRepository contractRepository, ClientRepository clientRepository) {
+    public ContractService(ContractRepository contractRepository,
+                           ClientRepository clientRepository) {
         this.contractRepository = contractRepository;
         this.clientRepository = clientRepository;
     }
 
     @Transactional
     public ContractResponseDto createContract(ContractCreateDto dto) {
-        // 1. Business rule: End date must be after start date
+        Client client = clientRepository.findById(dto.clientId())
+                .orElseThrow(() -> new NotFoundException("Client not found with ID: " + dto.clientId()));
+
         if (dto.endDate().isBefore(dto.startDate())) {
-            throw new RuntimeException("End date cannot be before start date");
+            throw new BusinessRuleException("End date must be after start date");
         }
 
-        // 2. Check that the client exists
-        Client client = clientRepository.findById(dto.clientId())
-                .orElseThrow(() -> new RuntimeException("Client not found with id: " + dto.clientId()));
-
-        // 3. Map and prepare the contract
-        Contract contract = ContractMapper.toEntity(dto);
+        Contract contract = new Contract();
         contract.setClient(client);
+        contract.setType(dto.type());
+        contract.setStartDate(dto.startDate());
+        contract.setEndDate(dto.endDate());
+        contract.setCoverageAmount(dto.coverageAmount());
+        contract.setPremiumAmount(dto.premiumAmount());
         contract.setStatus(ContractStatus.ACTIVE);
+        contract.setPolicyNumber(generatePolicyNumber());
 
-        // 4. Save
-        Contract savedContract = contractRepository.save(contract);
-
-        // 5. Return response
-        return ContractMapper.toDto(savedContract);
+        Contract saved = contractRepository.save(contract);
+        return ContractMapper.toDto(saved);
     }
 
     @Transactional(readOnly = true)
-    public java.util.List<ContractResponseDto> listContracts() {
+    public List<ContractResponseDto> listContracts() {
         return contractRepository.findAll().stream()
-                .map(contract -> new ContractResponseDto(
-                        contract.getId(),
-                        contract.getClient().getId(),
-                        contract.getStartDate(),
-                        contract.getEndDate(),
-                        contract.getStatus(),
-                        contract.getCoverageAmount()
-                ))
+                .map(ContractMapper::toDto)
                 .toList();
     }
 
     @Transactional(readOnly = true)
     public ContractResponseDto getContractById(Long id) {
-        Contract contract = contractRepository.findById(id).orElseThrow(() -> new RuntimeException("Contract not found with id: " + id));
-        return new ContractResponseDto(
-                contract.getId(),
-                contract.getClient().getId(),
-                contract.getStartDate(),
-                contract.getEndDate(),
-                contract.getStatus(),
-                contract.getCoverageAmount()
-        );
+        Contract contract = contractRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Contract not found with ID: " + id));
+
+        return ContractMapper.toDto(contract);
+    }
+
+    private String generatePolicyNumber() {
+        // Exemple: CT-2026-83421
+        return "CT-" + Year.now().getValue() + "-" + (System.currentTimeMillis() % 100000);
     }
 }
