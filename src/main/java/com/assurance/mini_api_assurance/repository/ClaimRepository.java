@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ClaimRepository extends JpaRepository<Claim, Long> {
     List<Claim> findByContractId(Long contractId);
+    boolean existsByContractId(Long contractId);
 }
