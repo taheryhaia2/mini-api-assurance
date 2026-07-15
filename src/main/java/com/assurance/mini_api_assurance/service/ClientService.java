@@ -4,19 +4,23 @@ import com.assurance.mini_api_assurance.domain.Client;
 import com.assurance.mini_api_assurance.dto.ClientCreateDto;
 import com.assurance.mini_api_assurance.dto.ClientResponseDto;
 import com.assurance.mini_api_assurance.dto.ClientUpdateDto;
+import com.assurance.mini_api_assurance.exception.BusinessRuleException;
 import com.assurance.mini_api_assurance.mapper.ClientMapper;
 import com.assurance.mini_api_assurance.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import com.assurance.mini_api_assurance.exception.NotFoundException;
+import com.assurance.mini_api_assurance.repository.ContractRepository;
+import com.assurance.mini_api_assurance.repository.ContractRepository;
 @Service
 public class ClientService {
 
     private final ClientRepository clientRepository;
-
-    public ClientService(ClientRepository clientRepository) {
+    private final ContractRepository contractRepository;
+    public ClientService(ClientRepository clientRepository,ContractRepository contractRepository) {
         this.clientRepository = clientRepository;
+        this.contractRepository=contractRepository;
     }
 
     @Transactional
@@ -55,6 +59,18 @@ public class ClientService {
         ClientMapper.updateEntity(client,dto);
         Client saved =clientRepository.save(client);
         return ClientMapper.toDto(saved);
+    }
+    @Transactional
+    public void deleteClient(Long id) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Client not found with ID: " + id));
+
+        // Règle métier : on ne supprime pas un client qui a des contrats
+        if (contractRepository.existsByClientId(id)) {
+            throw new BusinessRuleException("Cannot delete client: existing contracts are linked to this client.");
+        }
+
+        clientRepository.delete(client);
     }
 
 }
