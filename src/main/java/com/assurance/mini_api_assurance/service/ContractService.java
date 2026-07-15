@@ -5,8 +5,10 @@ import com.assurance.mini_api_assurance.domain.Contract;
 import com.assurance.mini_api_assurance.domain.ContractStatus;
 import com.assurance.mini_api_assurance.dto.ContractCreateDto;
 import com.assurance.mini_api_assurance.dto.ContractResponseDto;
+import com.assurance.mini_api_assurance.dto.ContractUpdateDto;
 import com.assurance.mini_api_assurance.exception.BusinessRuleException;
 import com.assurance.mini_api_assurance.exception.NotFoundException;
+import com.assurance.mini_api_assurance.mapper.ClaimMapper;
 import com.assurance.mini_api_assurance.mapper.ContractMapper;
 import com.assurance.mini_api_assurance.repository.ClientRepository;
 import com.assurance.mini_api_assurance.repository.ContractRepository;
@@ -70,4 +72,25 @@ public class ContractService {
         // Exemple: CT-2026-83421
         return "CT-" + Year.now().getValue() + "-" + (System.currentTimeMillis() % 100000);
     }
+    @Transactional
+    public ContractResponseDto updateContract(Long contractId, ContractUpdateDto dto) {
+        Contract contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new NotFoundException("Contract not found with ID: " + contractId));
+
+        contract.setCoverageAmount(dto.coverageAmount());
+        contract.setEndDate(dto.endDate());
+        contract.setPremiumAmount(dto.premiumAmount());
+
+        if (dto.status() != null && !dto.status().isBlank()) {
+            try {
+                contract.setStatus(ContractStatus.valueOf(dto.status().toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                throw new BusinessRuleException("Invalid status value: " + dto.status());
+            }
+        }
+
+        // Pas besoin de contractRepository.save(contract) grâce à @Transactional
+        return ContractMapper.toDto(contract);
+    }
+
 }
