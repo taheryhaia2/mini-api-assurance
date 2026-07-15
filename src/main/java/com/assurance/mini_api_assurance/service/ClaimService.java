@@ -9,6 +9,7 @@ import com.assurance.mini_api_assurance.dto.ClaimResponseDto;
 import com.assurance.mini_api_assurance.exception.BusinessRuleException;
 import com.assurance.mini_api_assurance.exception.NotFoundException;
 import com.assurance.mini_api_assurance.mapper.ClaimMapper;
+import com.assurance.mini_api_assurance.mapper.ContractMapper;
 import com.assurance.mini_api_assurance.repository.ClaimRepository;
 import com.assurance.mini_api_assurance.repository.ContractRepository;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Year;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class ClaimService {
@@ -60,4 +65,18 @@ public class ClaimService {
         // Exemple: CL-2026-83421
         return "CL-" + Year.now().getValue() + "-" + (System.currentTimeMillis() % 100000);
     }
+    @Transactional(readOnly = true)
+    public List<ClaimResponseDto> getClaimsByContractId(Long contractId){
+        // 1. On vérifie que le contrat existe
+        if (!contractRepository.existsById(contractId)) {
+            throw new NotFoundException("Contract not found with ID: " + contractId);
+        }
+        // 2. On récupère les sinistres
+        List<Claim> claims=claimRepository.findByContractId(contractId);
+        // 3. On mappe en DTO et on retourne la liste
+        return claims.stream()
+                .map(ClaimMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

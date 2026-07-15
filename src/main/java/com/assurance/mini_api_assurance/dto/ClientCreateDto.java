@@ -11,7 +11,7 @@ public record ClientCreateDto(
         @NotBlank String firstName,
         @Email @NotBlank String email,
         @NotBlank String cin,
-        @NotBlank String phoneNumber,   // NEW
-        @NotBlank String address,       // NEW
+        @NotBlank String phoneNumber,
+        @NotBlank String address,
         @NotNull LocalDate birthDate
 ) {}
