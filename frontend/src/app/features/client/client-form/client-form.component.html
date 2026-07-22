@@ -1,0 +1,39 @@
+<h2>Ajouter un client</h2>
+
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <label>Prénom :</label>
+    <input type="text" [(ngModel)]="client.firstName" name="firstName" required>
+  </div>
+
+  <div>
+    <label>Nom :</label>
+    <input type="text" [(ngModel)]="client.lastName" name="lastName" required>
+  </div>
+
+  <div>
+    <label>Email :</label>
+    <input type="email" [(ngModel)]="client.email" name="email" required>
+  </div>
+
+  <div>
+    <label>Téléphone :</label>
+    <input type="text" [(ngModel)]="client.phoneNumber" name="phoneNumber">
+  </div>
+
+  <div>
+    <label>Adresse :</label>
+    <input type="text" [(ngModel)]="client.address" name="address">
+  </div>
+  <div>
+    <label>CIN :</label>
+    <input type="text" [(ngModel)]="client.cin" name="cin" required>
+  </div>
+
+  <div>
+    <label>Date de naissance :</label>
+    <input type="date" [(ngModel)]="client.birthDate" name="birthDate" required>
+  </div>
+
+  <button type="submit">Enregistrer</button>
+</form>

@@ -5,4 +5,6 @@ export interface Client {
   email: string;
   phoneNumber: string;
   address: string;
+  cin: string;
+  birthDate: string;
 }
