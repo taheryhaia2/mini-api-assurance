@@ -1,0 +1,22 @@
+<h2>Liste des clients</h2>
+<p>Nombre de clients : {{ clients().length }}</p>
+<table>
+  <thead>
+  <tr>
+    <th>Nom</th>
+    <th>Prénom</th>
+    <th>Email</th>
+    <th>Téléphone</th>
+  </tr>
+  </thead>
+  <tbody>
+  @for (client of clients(); track client.id) {
+  <tr>
+    <td>{{ client.lastName }}</td>
+    <td>{{ client.firstName }}</td>
+    <td>{{ client.email }}</td>
+    <td>{{ client.phoneNumber }}</td>
+  </tr>
+  }
+  </tbody>
+</table>
