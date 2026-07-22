@@ -16,8 +16,7 @@ export class AuthService {
       .pipe(
         tap((res) => {
           localStorage.setItem(this.TOKEN_KEY, res.token);
-          localStorage.setItem('username', res.username);
-          localStorage.setItem('role', res.role);
+          localStorage.setItem('username', credentials.username);
         })
       );
   }
@@ -25,7 +24,6 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem('username');
-    localStorage.removeItem('role');
   }
 
   getToken(): string | null {
@@ -38,9 +36,5 @@ export class AuthService {
 
   getUsername(): string | null {
     return localStorage.getItem('username');
-  }
-
-  getRole(): string | null {
-    return localStorage.getItem('role');
   }
 }
