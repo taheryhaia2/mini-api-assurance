@@ -1,6 +1,6 @@
 # Trame de soutenance — Mini-API Assurance
 
-- **Candidat** : Taher Yahia — FIGL1, ISIMG, Université de Gabès
+- **Candidat** : Taher Yahia — cycle d'ingénieur Génie Logiciel (FIGL1), ISIMG, Université de Gabès — taher.yahia@isimg.tn
 - **Stage** : Vermeg, 1er — 31 juillet 2026, encadrante Mme Faten Kardous (Lead Developer, Insurance Market Operations)
 - **Format visé** : 12 diapositives, exposé de 8 à 10 minutes, suivi de questions
 - **Règle de conduite** : une idée par diapositive, peu de texte affiché, pas de lecture des diapositives, une démonstration courte si l'équipement le permet
@@ -10,11 +10,11 @@
 ## 1. Plan des diapositives
 
 ### Diapositive 1 — Page de titre
-**Contenu affiché** : titre du travail, nom, formation, entreprise, encadrante, année universitaire, logos ISIMG et Vermeg.
+**Contenu affiché** : titre du travail, nom, formation (cycle d'ingénieur Génie Logiciel, 1re année), entreprise, encadrante, année universitaire, logos ISIMG et Vermeg.
 **Durée** : 20 s.
 
 ### Diapositive 2 — Contexte
-**Contenu affiché** : ISIMG / stage d'initiation de 4 semaines ; Vermeg, éditeur de logiciels pour les services financiers et l'assurance ; département Insurance Market Operations.
+**Contenu affiché** : ISIMG, cycle d'ingénieur Génie Logiciel / stage d'initiation de 4 semaines ; Vermeg, éditeur de logiciels pour les services financiers et l'assurance ; département Insurance Market Operations.
 **Durée** : 45 s.
 
 ### Diapositive 3 — Sujet et problématique
@@ -62,7 +62,7 @@
 ## 2. Texte oral suggéré (≈ 9 minutes)
 
 **[D1 — Titre]**
-Bonjour. Je m'appelle Taher Yahia, étudiant en première année de licence Génie Logiciel à l'ISIMG. Je vais vous présenter le travail que j'ai réalisé pendant mon stage d'initiation chez Vermeg, du 1er au 31 juillet 2026, sous l'encadrement de Mme Faten Kardous. Le sujet : une mini-API REST de gestion d'assurance.
+Bonjour. Je m'appelle Taher Yahia, élève ingénieur en première année de Génie Logiciel à l'ISIMG. Je vais vous présenter le travail que j'ai réalisé pendant mon stage d'initiation chez Vermeg, du 1er au 31 juillet 2026, sous l'encadrement de Mme Faten Kardous. Le sujet : une mini-API REST de gestion d'assurance.
 
 **[D2 — Contexte]**
 Vermeg est un éditeur de solutions logicielles pour les services financiers : la banque, les marchés de capitaux et l'assurance. J'ai été accueilli dans le département Insurance Market Operations, qui travaille sur le segment assurance. Cela explique le sujet qui m'a été confié : manipuler les objets métier fondamentaux de ce domaine.

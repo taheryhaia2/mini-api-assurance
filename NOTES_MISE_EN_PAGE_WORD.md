@@ -158,14 +158,14 @@ Reprendre le **modèle officiel téléchargeable depuis le compte ISIMG**. Élé
 - République Tunisienne — Ministère de l'Enseignement Supérieur et de la Recherche Scientifique
 - Université de Gabès — Institut Supérieur d'Informatique et de Multimédia de Gabès
 - Logos institutionnels
-- Mention « Rapport de stage » et niveau de formation (FIGL1)
+- Mention « Rapport de stage d'initiation » et niveau de formation : cycle d'ingénieur Génie Logiciel (FIGL1)
 - Titre du travail
 - Nom et prénom de l'étudiant : Taher Yahia
 - Organisme d'accueil : Vermeg
-- Encadrante entreprise : Mme Faten Kardous, Lead Developer, Insurance Market Operations
-- Encadrant académique : [À COMPLÉTER]
+- Encadrante : Mme Faten Kardous, Lead Developer, Insurance Market Operations
 - Période : 1er — 31 juillet 2026
 - Année universitaire : 2025 / 2026
+- Contact étudiant : taher.yahia@isimg.tn — 58 780 980
 
 La page de garde ne porte ni en-tête, ni pied de page, ni numéro de page.
 
@@ -186,7 +186,7 @@ La page de garde ne porte ni en-tête, ni pied de page, ni numéro de page.
 - [ ] Chaque chapitre débute sur une nouvelle page
 - [ ] Bibliographie cohérente dans les deux sens (texte ↔ liste)
 - [ ] Espaces insécables devant `;` `:` `?` `!` `%`
-- [ ] Tous les `[À COMPLÉTER]` renseignés ou supprimés : encadrant académique, entité Vermeg, contacts étudiant
+- [ ] Le seul `[À COMPLÉTER]` restant (entité et adresse exactes de Vermeg) est renseigné ou supprimé
 - [ ] Blocs « notes de mise en page » et « note de volumétrie » **supprimés** du document final
 - [ ] Volume du corps ≈ 15 pages maximum hors liminaires et annexes
 - [ ] Correction orthographique et grammaticale effectuée

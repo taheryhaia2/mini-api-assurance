@@ -1,6 +1,8 @@
 # Synthèse d'auto-évaluation — grille ISIMG
 
-Auto-relecture du document `RAPPORT_DE_STAGE.md` au regard des critères d'évaluation des stages LA1 et LA2 de l'ISIMG. Objectif : identifier les points forts, les risques de perte de points et les corrections à effectuer avant impression.
+Auto-relecture du document `RAPPORT_DE_STAGE.md` au regard des critères d'évaluation des stages de l'ISIMG (grille forme / fond). Objectif : identifier les points forts, les risques de perte de points et les corrections à effectuer avant impression.
+
+> **Contexte** : stage d'initiation de première année du cycle d'ingénieur en Génie Logiciel (FIGL1). Étudiant : Taher Yahia — taher.yahia@isimg.tn — 58 780 980. Encadrante unique : Mme Faten Kardous (Vermeg). Il n'y a pas d'encadrant académique pour ce stage.
 
 ---
 
@@ -61,7 +63,7 @@ Auto-relecture du document `RAPPORT_DE_STAGE.md` au regard des critères d'éval
 | # | Risque | Correction |
 |---|---|---|
 | R1 | **Références [9] à [14] non citées dans le texte** — rompt la règle de cohérence bibliographique | Soit insérer les citations dans le chapitre 4 (documentation Spring Boot en 4.2, Spring Security en 4.4, Spring Data JPA en 4.3, OpenAPI en 4.6, Angular en 4.8, PostgreSQL en 4.3), soit supprimer ces six entrées |
-| R2 | **Placeholders `[À COMPLÉTER]` restants** — encadrant académique, entité et adresse Vermeg, courriel et téléphone de l'étudiant, données entreprise en 1.1 | Renseigner ou supprimer les lignes concernées. Aucun `[À COMPLÉTER]` ne doit subsister dans la version imprimée |
+| R2 | **Placeholders `[À COMPLÉTER]` restants** — il n'en reste que deux : l'entité et l'adresse exactes de Vermeg (page de garde) et les données entreprise en 1.1 | Renseigner ou supprimer les lignes concernées. Aucun `[À COMPLÉTER]` ne doit subsister dans la version imprimée |
 | R3 | **Blocs de service non supprimés** — l'encadré « Notes de mise en page » en tête et la « Note de volumétrie » en fin de document ne font pas partie du rapport | Les supprimer lors de la conversion Word |
 | R4 | **Figures Mermaid non converties** — le code Mermaid n'est pas lisible dans Word | Exporter chaque figure en PNG 2x ou SVG depuis mermaid.live et l'insérer comme image |
 | R5 | **Page de garde non conforme au modèle officiel** | Remplacer par le modèle téléchargeable depuis le compte ISIMG, en y reportant les informations fournies |

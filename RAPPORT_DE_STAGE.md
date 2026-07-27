@@ -24,7 +24,7 @@
 
 **Rapport de stage d'initiation**
 
-*Licence Fondamentale en Informatique — Génie Logiciel (FIGL), première année*
+*Cycle d'ingénieur en Génie Logiciel (FIGL) — première année*
 
 &nbsp;
 
@@ -36,9 +36,7 @@
 
 **Organisme d'accueil :** Vermeg
 
-**Encadrante entreprise :** Mme Faten Kardous, *Lead Developer*, Insurance Market Operations
-
-**Encadrant académique :** [À COMPLÉTER]
+**Encadrante :** Mme Faten Kardous, *Lead Developer*, Insurance Market Operations
 
 **Période :** du 1er au 31 juillet 2026
 
@@ -48,7 +46,7 @@
 
 &nbsp;
 
-*[courriel À COMPLÉTER] — [téléphone À COMPLÉTER]*
+*taher.yahia@isimg.tn — 58 780 980*
 
 </div>
 
@@ -60,7 +58,7 @@
 
 Je remercie Mme Faten Kardous, *Lead Developer* au sein du département Insurance Market Operations de Vermeg, pour son encadrement, sa disponibilité et la clarté des objectifs qu'elle m'a fixés.
 
-Je remercie les collaborateurs de Vermeg que j'ai côtoyés pour leur accueil et leurs conseils, ainsi que le corps enseignant de l'ISIMG, dont la formation de première année a constitué la base directe des travaux présentés ici.
+Je remercie les collaborateurs de Vermeg que j'ai côtoyés pour leur accueil et leurs conseils, ainsi que le corps enseignant de l'ISIMG, dont les enseignements de première année du cycle d'ingénieur ont constitué la base directe des travaux présentés ici.
 
 Je remercie enfin les membres du jury pour l'attention portée à ce document.
 
@@ -97,7 +95,7 @@ Introduction · Chapitre 1 — Présentation de l'entreprise et cadre du stage (
 
 ## Introduction
 
-Le cursus de licence en informatique de l'Institut Supérieur d'Informatique et de Multimédia de Gabès (ISIMG) prévoit un stage d'initiation d'une durée minimale de quatre semaines continues. Ce stage vise à découvrir l'organisation réelle d'une entreprise du secteur, à mettre en pratique les acquis de première année et à produire un document professionnel rendant compte du travail effectué.
+Le cycle d'ingénieur en Génie Logiciel de l'Institut Supérieur d'Informatique et de Multimédia de Gabès (ISIMG) prévoit, dès la première année, un stage d'initiation d'une durée minimale de quatre semaines continues. Ce stage vise à découvrir l'organisation réelle d'une entreprise du secteur, à mettre en pratique les acquis de la formation et à produire un document professionnel rendant compte du travail effectué.
 
 J'ai effectué ce stage du 1er au 31 juillet 2026 chez Vermeg, éditeur de solutions logicielles pour les services financiers et l'assurance, sous l'encadrement de Mme Faten Kardous, *Lead Developer* au département Insurance Market Operations. Les formalités administratives associées — convention, fiche de suivi, attestation — ont été traitées séparément et ne font pas l'objet de ce rapport.
 
@@ -602,7 +600,7 @@ Au-delà de la liste, trois acquis me paraissent structurants. D'abord, la compr
 
 L'**autonomie** a été la première exigence : sur un sujet largement nouveau, j'ai dû identifier moi-même les ressources pertinentes et distinguer une documentation officielle d'un tutoriel obsolète — plusieurs exemples de code JWT trouvés en ligne s'appuyaient sur des interfaces dépréciées. La **méthode de résolution de problèmes** a progressé : l'erreur de chargement paresseux m'a appris à remonter à la cause première plutôt qu'à modifier le code au hasard jusqu'à la disparition du symptôme. La **rigueur documentaire** s'est développée par la pratique des messages de commit conventionnels et par la rédaction de ce rapport, qui m'a contraint à justifier chaque choix technique — exercice ayant révélé certaines des faiblesses exposées en section 5.4. La **communication professionnelle** s'est exercée lors des points de validation : présenter un avancement de façon synthétique, admettre ce qui ne fonctionne pas et poser une question précise sont des compétences que le cadre académique sollicite peu.
 
-Le stage a prolongé plusieurs enseignements de première année. La **programmation orientée objet** a trouvé une application directe dans la modélisation des entités, l'encapsulation et l'usage des énumérations. Les **bases de données** se sont traduites par la conception du schéma, les contraintes d'unicité et de clé étrangère et la notion de transaction — cette dernière prenant, dans le contexte JPA, une dimension bien plus concrète qu'en cours. L'**algorithmique** a servi dans la structuration des traitements de service. Réciproquement, le stage a mis en évidence des domaines que la formation aborde plus tard : architectures applicatives, sécurité des applications web, tests automatisés et déploiement. Cette découverte anticipée me permettra d'aborder ces modules avec un référentiel concret.
+Le stage a prolongé plusieurs enseignements de première année du cycle d'ingénieur. La **programmation orientée objet** a trouvé une application directe dans la modélisation des entités, l'encapsulation et l'usage des énumérations. Les **bases de données** se sont traduites par la conception du schéma, les contraintes d'unicité et de clé étrangère et la notion de transaction — cette dernière prenant, dans le contexte JPA, une dimension bien plus concrète qu'en cours. L'**algorithmique** a servi dans la structuration des traitements de service. Réciproquement, le stage a mis en évidence des domaines que la formation aborde plus tard : architectures applicatives, sécurité des applications web, tests automatisés et déploiement. Cette découverte anticipée me permettra d'aborder ces modules avec un référentiel concret.
 
 ### 6.3. Limites personnelles et perspectives
 
