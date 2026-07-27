@@ -82,12 +82,13 @@ Introduction · Chapitre 1 — Présentation de l'entreprise et cadre du stage (
 
 ## Liste des tableaux
 
-- Tableau 1 — Besoins fonctionnels retenus
-- Tableau 2 — Stack technique et justification
-- Tableau 3 — Règles métier implémentées
-- Tableau 4 — Difficultés rencontrées et solutions apportées
-- Tableau 5 — Compétences acquises et modules associés
-- Tableau 6 — Limites identifiées et pistes d'amélioration
+- Tableau 1 — Chronologie du développement, établie à partir de l'historique Git
+- Tableau 2 — Besoins fonctionnels retenus
+- Tableau 3 — Stack technique et justification
+- Tableau 4 — Règles métier implémentées
+- Tableau 5 — Difficultés rencontrées et solutions apportées
+- Tableau 6 — Compétences acquises et modules associés
+- Tableau 7 — Limites identifiées et pistes d'amélioration
 
 <div style="page-break-after: always;"></div>
 
@@ -121,7 +122,22 @@ Le département qui m'a accueilli, **Insurance Market Operations**, intervient s
 
 ### 1.2. Cadre et organisation du stage
 
-Le stage s'est déroulé sur quatre semaines pleines et continues, du 1er au 31 juillet 2026, conformément à la durée minimale exigée par l'ISIMG. L'organisation a reposé sur un rythme itératif : un objectif fonctionnel par période de quelques jours, une réalisation autonome, puis un point de validation avec l'encadrante. Le découpage suivi a été le suivant. **Semaine 1** : prise de connaissance du domaine et de l'écosystème Spring Boot, initialisation du projet, modélisation des entités et persistance. **Semaine 2** : couches service et contrôleur pour les clients et les contrats, objets de transfert et validation. **Semaine 3** : sinistres et règles associées, sécurisation par jeton, documentation OpenAPI, gestion des erreurs. **Semaine 4** : conteneurisation, premier test unitaire, travail personnel sur un client Angular, rédaction du rapport.
+Le stage s'est déroulé du 1er au 31 juillet 2026, conformément à la durée minimale exigée par l'ISIMG. L'organisation a reposé sur un rythme itératif : un objectif fonctionnel par séance de travail, une réalisation autonome, puis un point de validation avec l'encadrante. Le travail a produit vingt-neuf commits répartis sur huit journées de développement effectif, dont le tableau 1 retrace la progression.
+
+*Tableau 1 — Chronologie du développement, établie à partir de l'historique Git*
+
+| Date | Commits | Travail réalisé |
+|---|---|---|
+| 5 juillet | 2 | Initialisation du projet via Spring Initializr ; configuration de la source de données PostgreSQL et désactivation d'`open-in-view` |
+| 6 juillet | 4 | Entité `Client`, *repository* et schéma ; CRUD complet avec DTO, service et contrôleur REST ; entité `Contrat` avec relation client et validation des dates |
+| 7 juillet | 4 | Entité `Sinistre` avec ses règles métier et gestionnaire global d'exceptions ; diagramme de classes Mermaid ; intégration de Swagger/OpenAPI ; correction d'une `NullPointerException` dans le gestionnaire d'erreurs |
+| 8 juillet | 4 | Authentification JWT et configuration Spring Security ; rédaction du `README` ; configuration de Swagger pour le JWT et ajout du `DataInitializer` ; traduction de l'ensemble du code en anglais |
+| 13 juillet | 5 | Point d'accès de modification d'un client ; enrichissement du domaine `Client` et `Contract` (téléphone, adresse, numéro de police, type, prime) ; enrichissement du domaine `Claim` (numéro, montants, statuts) ; mise à jour du diagramme |
+| 15 juillet | 4 | Suppression d'un client avec contrôle métier sur les contrats ; liste des sinistres par contrat ; mise à jour d'un contrat ; premier test unitaire sur la règle du contrat résilié |
+| 21 juillet | 1 | Ajout des fichiers Docker ; début du client Angular : modèle d'authentification et service associé |
+| 22 juillet | 5 | Renseignement des fichiers Docker ; intercepteur JWT et garde de route ; liste des clients ; navigation depuis le tableau de bord ; formulaire de création ; feuilles de style |
+
+Deux observations ressortent de cette chronologie. D'abord, le travail s'est concentré sur des journées de présence espacées plutôt que sur un flux continu, ce qui a imposé de reprendre à chaque fois le contexte du développement précédent. Ensuite, la partie backend a été entièrement traitée entre le 5 et le 15 juillet ; les journées des 21 et 22 juillet ont été consacrées à la conteneurisation et au client Angular, ce dernier relevant d'une initiative personnelle (section 2.4).
 
 ### 1.3. Sujet et objectifs
 
@@ -129,7 +145,9 @@ Le sujet consiste à développer une interface de programmation REST autonome, s
 
 ### 1.4. Méthodologie de travail
 
-J'ai utilisé Git avec un dépôt distant sur GitHub, en conservant la branche principale dans un état fonctionnel et en isolant les développements exploratoires sur des branches dédiées : le client Angular, mené hors du périmètre initial, a été développé sur une branche séparée afin de ne pas déstabiliser le backend validé. Les messages de commit suivent la convention *Conventional Commits* [3], qui préfixe le message par le type de changement (`feat`, `fix`, `test`, `docs`) ; elle rend l'historique lisible et permet de retrouver rapidement le contexte d'une modification. C'est une pratique professionnelle que je n'appliquais pas avant ce stage.
+J'ai utilisé Git avec un dépôt distant sur GitHub. Les messages de commit suivent la convention *Conventional Commits* [3], qui préfixe le message par le type de changement (`feat`, `fix`, `test`, `refactor`, `docs`, `chore`) ; elle rend l'historique lisible et permet de retrouver rapidement le contexte d'une modification. C'est une pratique professionnelle que je n'appliquais pas avant ce stage, et l'historique du projet a servi de source directe pour établir le tableau 1.
+
+Je dois toutefois relever une limite dans ma pratique : l'ensemble du travail a été committé sur une seule branche, y compris le client Angular qui ne relevait pas du périmètre demandé. Une branche de fonctionnalité dédiée aurait mieux isolé cette exploration du backend déjà validé. Deux commits mélangent par ailleurs des sujets sans rapport — l'ajout des fichiers Docker et le début du service d'authentification Angular figurent dans le même commit du 21 juillet —, alors qu'un commit devrait porter un seul changement cohérent. Ce constat est le point de méthode que je retiens le plus clairement de ce stage.
 
 Outils employés : IntelliJ IDEA pour Java, Visual Studio Code pour Angular, `psql` et pgAdmin pour l'inspection de la base, Swagger UI et Postman pour l'appel des points d'accès, Docker Desktop pour l'exécution conteneurisée.
 
@@ -149,7 +167,7 @@ La cohérence de cet ensemble repose sur des invariants simples mais impératifs
 
 ### 2.2. Besoins fonctionnels
 
-*Tableau 1 — Besoins fonctionnels retenus*
+*Tableau 2 — Besoins fonctionnels retenus*
 
 | Réf. | Besoin | Statut |
 |---|---|---|
@@ -363,9 +381,9 @@ Deux mécanismes garantissent un démarrage fiable. Un **contrôle de santé** (
 
 ### 4.1. Stack technique et justification des choix
 
-Le tableau 2 récapitule les composants retenus et la raison de chaque choix.
+Le tableau 3 récapitule les composants retenus et la raison de chaque choix.
 
-*Tableau 2 — Stack technique et justification*
+*Tableau 3 — Stack technique et justification*
 
 | Composant | Version | Justification du choix |
 |---|---|---|
@@ -441,9 +459,9 @@ Concernant l'**autorisation par rôle**, il convient d'être précis. Les rôles
 
 ### 4.5. Fonctionnalités implémentées et règles métier
 
-Treize points d'accès sont exposés, couvrant l'authentification, la gestion complète des clients, celle des contrats et la déclaration ou la consultation des sinistres (annexe A). La valeur de l'application ne réside toutefois pas dans ces opérations d'accès aux données, mais dans les règles que le serveur fait respecter (tableau 3).
+Treize points d'accès sont exposés, couvrant l'authentification, la gestion complète des clients, celle des contrats et la déclaration ou la consultation des sinistres (annexe A). La valeur de l'application ne réside toutefois pas dans ces opérations d'accès aux données, mais dans les règles que le serveur fait respecter (tableau 4).
 
-*Tableau 3 — Règles métier implémentées*
+*Tableau 4 — Règles métier implémentées*
 
 | Réf. | Règle | Emplacement | Réaction |
 |---|---|---|---|
@@ -531,13 +549,13 @@ La limite doit être énoncée clairement : **la couverture de test automatisée
 
 ### 5.2. Résultats obtenus
 
-L'API est fonctionnelle sur l'ensemble des besoins retenus au tableau 1, à l'exception du besoin BF10 explicitement reporté. Les vérifications confirment les comportements suivants : une requête sans jeton sur une route métier est rejetée ; un *login* valide renvoie un jeton exploitable pendant vingt-quatre heures ; une déclaration de sinistre sur le contrat résilié du jeu de démonstration est refusée avec un message explicite, de même qu'une déclaration hors période de couverture ; la suppression d'un client porteur de contrats est refusée ; un client créé reçoit une date de création serveur et un contrat un numéro de police généré ; un courriel malformé ou un champ obligatoire vide est rejeté avant d'atteindre la couche service ; la pile Docker Compose démarre la base puis l'API dans cet ordre ; le client Angular parvient à s'authentifier, à afficher la liste des clients et à en créer un nouveau.
+L'API est fonctionnelle sur l'ensemble des besoins retenus au tableau 2, à l'exception du besoin BF10 explicitement reporté. Les vérifications confirment les comportements suivants : une requête sans jeton sur une route métier est rejetée ; un *login* valide renvoie un jeton exploitable pendant vingt-quatre heures ; une déclaration de sinistre sur le contrat résilié du jeu de démonstration est refusée avec un message explicite, de même qu'une déclaration hors période de couverture ; la suppression d'un client porteur de contrats est refusée ; un client créé reçoit une date de création serveur et un contrat un numéro de police généré ; un courriel malformé ou un champ obligatoire vide est rejeté avant d'atteindre la couche service ; la pile Docker Compose démarre la base puis l'API dans cet ordre ; le client Angular parvient à s'authentifier, à afficher la liste des clients et à en créer un nouveau.
 
 ### 5.3. Difficultés rencontrées et solutions
 
-Sept difficultés significatives ont jalonné le développement. Le tableau 4 en donne l'analyse et la solution retenue.
+Sept difficultés significatives ont jalonné le développement. Le tableau 5 en donne l'analyse et la solution retenue.
 
-*Tableau 4 — Difficultés rencontrées et solutions apportées*
+*Tableau 5 — Difficultés rencontrées et solutions apportées*
 
 | Difficulté | Analyse | Solution retenue |
 |---|---|---|
@@ -579,7 +597,7 @@ Trois faiblesses complètent ce constat. **Aucune intégration continue n'est en
 
 ### 6.1. Compétences techniques acquises
 
-*Tableau 5 — Compétences acquises et modules associés*
+*Tableau 6 — Compétences acquises et modules associés*
 
 | Compétence | Niveau atteint | Module ISIMG associé |
 |---|---|---|
@@ -591,7 +609,7 @@ Trois faiblesses complètent ce constat. **Aucune intégration continue n'est en
 | Authentification par jeton et hachage de mots de passe | Nouveau | Sécurité informatique (notions) |
 | Test unitaire avec JUnit 5 et Mockito | Initié | Génie logiciel |
 | Conteneurisation avec Docker et Docker Compose | Nouveau | Systèmes d'exploitation (prolongement) |
-| Gestion de versions avec Git et branches | Consolidé | Outils de développement |
+| Gestion de versions avec Git et commits conventionnels | Consolidé | Outils de développement |
 | Développement d'un client Angular | Initié — hors périmètre | Programmation web |
 
 Au-delà de la liste, trois acquis me paraissent structurants. D'abord, la compréhension du **rôle du serveur comme garant des règles métier** : avant ce stage, j'aurais volontiers laissé le client vérifier qu'une date de sinistre tombe dans la période de couverture. Ensuite, la notion de **contrat d'interface** : distinguer ce qu'une API accepte, ce qu'elle renvoie et ce qu'elle stocke est une discipline que je n'appliquais pas. Enfin, la **reproductibilité de l'environnement** : constater qu'un projet démarre sur une machine vierge en deux commandes change la perception de ce qu'est un livrable.
@@ -606,7 +624,7 @@ Le stage a prolongé plusieurs enseignements de première année du cycle d'ing�
 
 Je reconnais trois limites personnelles. La **culture du test** m'a manqué : j'ai écrit le code puis, tardivement, un unique test, au lieu de tester au fil des règles métier. La **gestion du temps** a été imparfaite : le temps consacré au frontend, bien qu'instructif, aurait été mieux investi dans la correction de l'autorisation par rôle et de la gestion des erreurs, deux défauts du périmètre effectivement demandé. Enfin, ma **maîtrise de Spring Security** reste superficielle : je sais faire fonctionner la chaîne, je ne saurais pas encore la modifier finement.
 
-*Tableau 6 — Limites identifiées et pistes d'amélioration*
+*Tableau 7 — Limites identifiées et pistes d'amélioration*
 
 | Limite | Amélioration proposée | Effort |
 |---|---|---|
@@ -759,9 +777,9 @@ La trame détaillée — plan des diapositives, texte oral et questions probable
 > **Mesurer d'abord** le nombre réel de pages après conversion : la densité varie selon les réglages d'espacement entre paragraphes. Si le corps dépasse 15 pages, appliquer les coupes dans cet ordre, jusqu'à revenir dans la cible :
 >
 > 1. Supprimer la figure 5 et réduire la section 4.8 à ses deux premiers paragraphes (gain ≈ 1 page).
-> 2. Réduire le tableau 5 aux six lignes les plus significatives (gain ≈ 0,3 page).
-> 3. Déplacer le tableau 3 en annexe A et n'en garder dans le texte que le commentaire sur la règle RM5 (gain ≈ 0,5 page).
+> 2. Réduire le tableau 6 (compétences) aux six lignes les plus significatives (gain ≈ 0,3 page).
+> 3. Déplacer le tableau 4 (règles métier) en annexe A et n'en garder dans le texte que le commentaire sur la règle RM5 (gain ≈ 0,5 page).
 > 4. Supprimer l'extrait 1 (le DTO), en conservant les extraits 2 et 3 (gain ≈ 0,3 page).
 > 5. Condenser les sections 2.3 et 3.3 en un paragraphe chacune (gain ≈ 0,4 page).
 >
-> **Ne jamais raccourcir la section 5.4 ni le tableau 6** : ils portent la note « aspect critique » et « difficultés rencontrées » de la grille d'évaluation, où se joue une part importante du barème de fond.
+> **Ne jamais raccourcir la section 5.4 ni le tableau 5** : ils portent la note « aspect critique » et « difficultés rencontrées » de la grille d'évaluation, où se joue une part importante du barème de fond.

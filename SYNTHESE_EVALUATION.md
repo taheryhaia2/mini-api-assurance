@@ -83,7 +83,7 @@ Auto-relecture du document `RAPPORT_DE_STAGE.md` au regard des critères d'éval
 | # | Amélioration | Bénéfice |
 |---|---|---|
 | R11 | Ajouter des captures d'écran réelles en annexe (Swagger UI, réponse d'erreur JSON, `docker compose up`, écran Angular) | Renforce la crédibilité ; les numéroter en Figures 6, 7… et les citer dans le texte |
-| R12 | Insérer un diagramme de Gantt de la planification des 4 semaines en section 1.2 | Valorise le critère « mise en contexte » et l'organisation du travail |
+| R12 | Transformer le tableau 1 (chronologie Git) en diagramme de Gantt en section 1.2 | Valorise le critère « mise en contexte » ; les dates réelles sont déjà dans le tableau |
 | R13 | Ajouter un cas d'utilisation UML en section 2.2 | Renforce la partie analyse du besoin |
 
 ---

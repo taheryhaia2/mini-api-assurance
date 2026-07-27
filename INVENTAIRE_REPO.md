@@ -4,11 +4,32 @@ Document de travail préalable à la rédaction du rapport de stage.
 Objectif : lister **uniquement** ce qui existe réellement dans le code, la configuration et la documentation du dépôt, afin que chaque affirmation du rapport soit vérifiable.
 
 - Dépôt : `https://github.com/taheryhaia2/mini-api-assurance`
-- Branche auditée : `arena/019fa2c0-mini-api-assurance` (issue de `feature/frontend-auth`, commit `d07e9e1`)
+- Branche auditée : `arena/019fa2c0-mini-api-assurance` (dernier commit de stage : `d07e9e1`, 22/07/2026)
 - Date de l'audit : 27/07/2026
 - Volumétrie : ~1 578 lignes de Java (`src/`), ~524 lignes de TypeScript/HTML/CSS (`frontend/src/`)
 
-> Remarque : le clone disponible est **superficiel** (`shallow`). Seuls deux commits sont visibles (`2864474` du 15/07/2026, `d07e9e1` du 22/07/2026). L'historique complet n'a donc pas pu être audité ; le rapport reste prudent sur ce point.
+## 0. Historique Git réel (29 commits, 8 journées)
+
+L'historique complet a été récupéré (`git fetch --unshallow`). Il constitue la source du tableau 1 du rapport.
+
+| Date | Commits | Contenu |
+|---|---|---|
+| 05/07 | 2 | Init Spring Initializr ; datasource PostgreSQL + `open-in-view: false` |
+| 06/07 | 4 | Entité `Client` + repository ; CRUD complet (DTO/Service/Controller) ; GET list et by id ; entité `Contrat` + validation des dates |
+| 07/07 | 4 | Entité `Sinistre` + règles + `GlobalExceptionHandler` ; diagramme Mermaid ; Swagger 2.7.0 ; fix `HashMap` vs `Map.of` |
+| 08/07 | 4 | JWT + Spring Security ; README ; Swagger JWT + `DataInitializer` ; **traduction complète du code en anglais** (49 fichiers) |
+| 13/07 | 5 | PUT client ; `phoneNumber`/`address` ; enrichissement `Client`/`Contract` ; enrichissement `Claim` ; mise à jour du diagramme |
+| 15/07 | 4 | DELETE client + règle métier ; GET sinistres par contrat ; PUT contrat ; **unique test unitaire** |
+| 21/07 | 1 | Fichiers Docker créés **vides** + `auth.model.ts` et `AuthService` |
+| 22/07 | 5 | **Contenu réel des fichiers Docker** ; interceptor + guard ; liste clients ; lien navigation ; formulaire création ; CSS |
+
+**Constats de méthode, à refléter honnêtement dans le rapport :**
+
+- **Une seule branche** : `master` contient les 23 commits backend (jusqu'au 15/07). Les 6 commits frontend + Docker (21-22/07) sont sur la branche de travail. Aucune branche de fonctionnalité dédiée n'existe dans le dépôt distant — ne pas affirmer qu'une branche dédiée a été utilisée.
+- **Commit du 21/07 non atomique** : il mélange l'ajout des trois fichiers Docker (créés vides, 0 ligne) et le début du service d'authentification Angular. Le contenu Docker n'arrive qu'au commit `04bf860` du 22/07, lui aussi mélangé avec l'interceptor et le guard.
+- **Docker n'est donc pas un chantier de « semaine 4 » planifié** : c'est un ajout tardif, glissé dans des commits frontend.
+- **Aucun développement entre le 8 et le 13 juillet, ni entre le 15 et le 21** : le travail s'est fait par journées espacées, non en flux continu sur 20 jours pleins.
+- Le refactor du 08/07 (`9b10ff6`, 49 fichiers) a renommé tout le domaine du français vers l'anglais (`Contrat`→`Contract`, `Sinistre`→`Claim`).
 
 ---
 
