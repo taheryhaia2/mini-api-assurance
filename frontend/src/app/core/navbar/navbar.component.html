@@ -1,0 +1,11 @@
+<nav class="navbar">
+  <div class="menu">
+    <a routerLink="/dashboard">Accueil</a>
+    <a routerLink="/clients">Clients</a>
+  </div>
+
+  <div class="user-area">
+    <span>{{ authService.getUsername() }}</span>
+    <button (click)="logout()">Déconnexion</button>
+  </div>
+</nav>

@@ -1,0 +1,30 @@
+<div class="dashboard">
+  <header class="dash-header">
+    <h1>Bonjour, {{ username }}</h1>
+    <p>Tableau de bord — Mini API Assurance</p>
+  </header>
+
+  <section class="kpi-row">
+    <div class="kpi-card">
+      <span class="kpi-label">Clients</span>
+      <span class="kpi-value">{{ totalClients() }}</span>
+    </div>
+
+    <a class="kpi-card action" routerLink="/clients">
+      <span class="kpi-label">Gérer</span>
+      <span class="kpi-value-sm">Voir les clients →</span>
+    </a>
+
+    <a class="kpi-card action" routerLink="/clients/new">
+      <span class="kpi-label">Nouveau</span>
+      <span class="kpi-value-sm">Ajouter un client →</span>
+    </a>
+  </section>
+
+  <section class="chart-card">
+    <h2>Répartition des clients</h2>
+    <div class="chart-wrap">
+      <canvas #clientsChart></canvas>
+    </div>
+  </section>
+</div>
