@@ -27,6 +27,8 @@ public class Client {
 
     @Column(nullable = false)
     private String address;       // NEW
+    @Column(nullable = false)
+    private boolean active = true; // true = client visible, false = archivé
 
     private LocalDate birthDate;
 
@@ -59,4 +61,6 @@ public class Client {
 
     public LocalDate getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDate createdAt) { this.createdAt = createdAt; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }

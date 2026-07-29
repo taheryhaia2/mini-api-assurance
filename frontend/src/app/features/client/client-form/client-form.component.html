@@ -1,39 +1,47 @@
+<form #clientForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+  @if (errorMessage()) {
+  <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 15px; border-radius: 4px;">
+    {{ errorMessage() }}
+  </div>
+  }
 
-
-<form (ngSubmit)="onSubmit()">
   <div>
-    <label>Prénom :</label>
+    <label>Prénom : <span style="color: red;">*</span></label>
     <input type="text" [(ngModel)]="client.firstName" name="firstName" required>
   </div>
 
   <div>
-    <label>Nom :</label>
+    <label>Nom : <span style="color: red;">*</span></label>
     <input type="text" [(ngModel)]="client.lastName" name="lastName" required>
   </div>
 
   <div>
-    <label>Email :</label>
+    <label>Email : <span style="color: red;">*</span></label>
     <input type="email" [(ngModel)]="client.email" name="email" required>
   </div>
 
   <div>
-    <label>Téléphone :</label>
-    <input type="text" [(ngModel)]="client.phoneNumber" name="phoneNumber">
+    <label>Téléphone : <span style="color: red;">*</span></label>
+    <input type="text" [(ngModel)]="client.phoneNumber" name="phoneNumber" required>
   </div>
 
   <div>
-    <label>Adresse :</label>
-    <input type="text" [(ngModel)]="client.address" name="address">
+    <label>Adresse : <span style="color: red;">*</span></label>
+    <input type="text" [(ngModel)]="client.address" name="address" required>
   </div>
+
   <div>
-    <label>CIN :</label>
+    <label>CIN : <span style="color: red;">*</span></label>
     <input type="text" [(ngModel)]="client.cin" name="cin" required>
   </div>
 
   <div>
-    <label>Date de naissance :</label>
+    <label>Date de naissance : <span style="color: red;">*</span></label>
     <input type="date" [(ngModel)]="client.birthDate" name="birthDate" required>
   </div>
-
-  <button type="submit">Ajouter un client</button>
+  <button
+    type="submit"
+    [disabled]="!client.firstName || !client.lastName || !client.email || !client.phoneNumber || !client.address || !client.cin || !client.birthDate">
+    Ajouter un client
+  </button>
 </form>
