@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestion des Employés</h2>
+    <button class="btn-primary" (click)="toggleForm()">
+      {{ showForm() ? 'Annuler' : '+ Ajouter un employé' }}
+    </button>
+  </div>
+
+  @if (showForm()) {
+  <form class="form-card" (ngSubmit)="onSubmit()">
+    <input type="text" placeholder="Prénom" [(ngModel)]="newUser.firstName" name="firstName" required>
+    <input type="text" placeholder="Nom" [(ngModel)]="newUser.lastName" name="lastName" required>
+    <input type="email" placeholder="Email" [(ngModel)]="newUser.email" name="email" required>
+    <input type="text" placeholder="Identifiant" [(ngModel)]="newUser.username" name="username" required>
+    <input type="password" placeholder="Mot de passe" [(ngModel)]="newUser.password" name="password" required>
+    <select [(ngModel)]="newUser.role" name="role" required>
+      <option value="AGENT">Agent</option>
+      <option value="ADMIN">Admin</option>
+    </select>
+    <button type="submit" class="btn-primary">Enregistrer</button>
+  </form>
+  }
+
+  <table>
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Email</th>
+      <th>Identifiant</th>
+      <th>Rôle</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (user of users(); track user.id) {
+    <tr>
+      <td>{{ user.lastName }}</td>
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.username }}</td>
+      <td><span class="badge" [class.admin]="user.role === 'ADMIN'">{{ user.role }}</span></td>
+    </tr>
+    }
+    </tbody>
+  </table>
+</div>

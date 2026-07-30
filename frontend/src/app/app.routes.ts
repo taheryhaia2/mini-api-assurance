@@ -7,7 +7,8 @@ import { ContractListComponent } from './features/contract/contract-list/contrac
 import { ClaimListComponent } from './features/claim/claim-list/claim-list';
 import { authGuard } from './core/guards/auth.guard';
 import { ClaimFormComponent } from './features/claim/claim-form/claim-form';
-
+import { UserListComponent } from './features/users/user-list/user-list';
+import { roleGuard } from './core/guards/role.guard';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'claims/new', component: ClaimFormComponent, canActivate: [authGuard] },
   { path: 'claims/:id', loadComponent: () => import('./features/claim/claim-detail/claim-detail').then(m => m.ClaimDetailComponent), canActivate: [authGuard] },
   { path: 'clients/:id', loadComponent: () => import('./features/client/client-detail/client-detail').then(m => m.ClientDetailComponent), canActivate: [authGuard] },
+    { path: 'users', component: UserListComponent, canActivate: [authGuard, roleGuard] },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' },  // <-- TOUJOURS EN DERNIER
 ];

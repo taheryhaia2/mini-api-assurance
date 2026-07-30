@@ -4,6 +4,9 @@
     <a routerLink="/clients">Clients</a>
     <a routerLink="/contracts">Contrats</a>
     <a routerLink="/claims">Sinistres</a>
+    @if (authService.isAdmin()) {
+    <a routerLink="/users">Employés</a>
+    }
   </div>
 
   <div class="user-area">
