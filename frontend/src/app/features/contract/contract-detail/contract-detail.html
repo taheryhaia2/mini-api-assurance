@@ -1,0 +1,18 @@
+<div class="page-container">
+  <button class="btn-back" (click)="goBack()">&larr; Retour à la liste</button>
+
+  @if (contract()) {
+  <h2 class="page-title">Contrat {{ contract()!.policyNumber }}</h2>
+  <div class="details-grid">
+    <div class="detail-item"><span class="label">Client ID</span> {{ contract()!.clientId }}</div>
+    <div class="detail-item"><span class="label">Type</span> {{ contract()!.type }}</div>
+    <div class="detail-item"><span class="label">Statut</span> {{ contract()!.status }}</div>
+    <div class="detail-item"><span class="label">Couverture</span> {{ contract()!.coverageAmount | currency:'EUR' }}</div>
+    <div class="detail-item"><span class="label">Prime</span> {{ contract()!.premiumAmount | currency:'EUR' }}</div>
+    <div class="detail-item"><span class="label">Début</span> {{ contract()!.startDate | date:'dd/MM/yyyy' }}</div>
+    <div class="detail-item"><span class="label">Fin</span> {{ contract()!.endDate | date:'dd/MM/yyyy' }}</div>
+  </div>
+  } @else {
+  <p class="loading">Chargement du contrat...</p>
+  }
+</div>

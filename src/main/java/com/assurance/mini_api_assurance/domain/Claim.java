@@ -32,6 +32,7 @@ public class Claim {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ClaimStatus status;
+    private String documentPath;
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -60,4 +61,6 @@ public class Claim {
 
     public ClaimStatus getStatus() { return status; }
     public void setStatus(ClaimStatus status) { this.status = status; }
+    public String getDocumentPath() { return documentPath; }
+    public void setDocumentPath(String documentPath) { this.documentPath = documentPath; }
 }

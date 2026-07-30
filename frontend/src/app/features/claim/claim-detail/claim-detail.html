@@ -1,0 +1,18 @@
+<div class="page-container">
+  <button class="btn-back" (click)="goBack()">&larr; Retour à la liste</button>
+
+  @if (claim()) {
+  <h2 class="page-title">Sinistre {{ claim()!.claimNumber }}</h2>
+  <div class="details-grid">
+    <div class="detail-item"><span class="label">Contrat ID</span> {{ claim()!.contractId }}</div>
+    <div class="detail-item"><span class="label">Statut</span> {{ claim()!.status }}</div>
+    <div class="detail-item"><span class="label">Date du sinistre</span> {{ claim()!.claimDate | date:'dd/MM/yyyy' }}</div>
+    <div class="detail-item"><span class="label">Date de déclaration</span> {{ claim()!.declarationDate | date:'dd/MM/yyyy' }}</div>
+    <div class="detail-item"><span class="label">Montant estimé</span> {{ claim()!.estimatedAmount | currency:'EUR' }}</div>
+    <div class="detail-item"><span class="label">Montant remboursé</span> {{ claim()!.reimbursedAmount | currency:'EUR' }}</div>
+    <div class="detail-item full-width"><span class="label">Description</span> {{ claim()!.description }}</div>
+  </div>
+  } @else {
+  <p class="loading">Chargement du sinistre...</p>
+  }
+</div>

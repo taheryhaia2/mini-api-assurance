@@ -1,0 +1,38 @@
+<div class="page-container">
+  <h2 class="page-title">Liste des Sinistres</h2>
+
+  <table class="corporate-table">
+    <thead>
+    <tr>
+      <th>N° Sinistre</th>
+      <th>Contrat ID</th>
+      <th>Date</th>
+      <th>Montant estimé</th>
+      <th>Remboursé</th>
+      <th>Statut</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (claim of claims(); track claim.id) {
+    <tr>
+      <td>{{ claim.claimNumber }}</td>
+      <td>{{ claim.contractId }}</td>
+      <td>{{ claim.claimDate | date:'dd/MM/yyyy' }}</td>
+      <td>{{ claim.estimatedAmount | currency:'EUR' }}</td>
+      <td>{{ claim.reimbursedAmount | currency:'EUR' }}</td>
+      <td>{{ claim.status }}</td>
+      <td>
+        <button class="btn-details" (click)="onViewDetails(claim.id)">
+          Détails
+        </button>
+      </td>
+    </tr>
+    } @empty {
+    <tr>
+      <td colspan="7" class="empty-state">Aucun sinistre trouvé.</td>
+    </tr>
+    }
+    </tbody>
+  </table>
+</div>

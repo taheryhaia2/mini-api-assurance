@@ -1,0 +1,36 @@
+<div class="page-container">
+  <h2 class="page-title">Liste des Contrats</h2>
+
+  <table class="corporate-table">
+    <thead>
+    <tr>
+      <th>Police</th>
+      <th>Client ID</th>
+      <th>Type</th>
+      <th>Statut</th>
+      <th>Prime</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (contract of contracts(); track contract.id) {
+    <tr>
+      <td>{{ contract.policyNumber }}</td>
+      <td>{{ contract.clientId }}</td>
+      <td>{{ contract.type }}</td>
+      <td>{{ contract.status }}</td>
+      <td>{{ contract.premiumAmount | currency:'EUR' }}</td>
+      <td>
+        <button class="btn-details" (click)="onViewDetails(contract.id)">
+          Détails
+        </button>
+      </td>
+    </tr>
+    } @empty {
+    <tr>
+      <td colspan="6" class="empty-state">Aucun contrat trouvé.</td>
+    </tr>
+    }
+    </tbody>
+  </table>
+</div>

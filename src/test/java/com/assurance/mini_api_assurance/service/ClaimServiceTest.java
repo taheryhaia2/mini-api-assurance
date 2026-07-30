@@ -51,7 +51,7 @@ class ClaimServiceTest {
 
         // Act + Assert
         assertThrows(BusinessRuleException.class, () ->
-                claimService.createClaim(contractId, dto)
+                claimService.createClaim(contractId, dto,null)
         );
     }
 }
