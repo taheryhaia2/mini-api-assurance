@@ -18,6 +18,7 @@ export const routes: Routes = [
   { path: 'claims', component: ClaimListComponent, canActivate: [authGuard] },
   { path: 'claims/new', component: ClaimFormComponent, canActivate: [authGuard] },
   { path: 'claims/:id', loadComponent: () => import('./features/claim/claim-detail/claim-detail').then(m => m.ClaimDetailComponent), canActivate: [authGuard] },
+  { path: 'clients/:id', loadComponent: () => import('./features/client/client-detail/client-detail').then(m => m.ClientDetailComponent), canActivate: [authGuard] },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' },  // <-- TOUJOURS EN DERNIER
 ];

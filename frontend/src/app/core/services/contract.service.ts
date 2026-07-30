@@ -29,4 +29,7 @@ export class ContractService {
   getContractById(id: number): Observable<Contract> {
     return this.http.get<Contract>(`${this.apiUrl}/${id}`);
   }
+  getContractsByClient(clientId: number): Observable<Contract[]> {
+    return this.http.get<Contract[]>(`${this.apiUrl}/client/${clientId}`);
+  }
 }

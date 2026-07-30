@@ -43,4 +43,8 @@ public class ContractController {
         ContractResponseDto updatedContract = contractService.updateContract(id, dto);
         return ResponseEntity.ok(updatedContract);
     }
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<ContractResponseDto>> getContractsByClient(@PathVariable Long clientId) {
+        return ResponseEntity.ok(contractService.getContractsByClientId(clientId));
+    }
 }

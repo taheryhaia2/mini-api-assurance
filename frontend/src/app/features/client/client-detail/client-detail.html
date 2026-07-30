@@ -1,0 +1,47 @@
+<div class="page-container">
+  <button class="btn-back" (click)="goBack()">&larr; Retour à la liste</button>
+
+  @if (client()) {
+  <h2 class="page-title">{{ client()!.firstName }} {{ client()!.lastName }}</h2>
+  <div class="details-grid">
+    <div class="detail-item"><span class="label">CIN</span> {{ client()!.cin }}</div>
+    <div class="detail-item"><span class="label">Date de naissance</span> {{ client()!.birthDate | date:'dd/MM/yyyy' }}</div>
+    <div class="detail-item"><span class="label">Téléphone</span> {{ client()!.phoneNumber }}</div>
+    <div class="detail-item"><span class="label">Email</span> {{ client()!.email }}</div>
+    <div class="detail-item full-width"><span class="label">Adresse</span> {{ client()!.address }}</div>
+  </div>
+
+  <h3 class="section-title">Contrats associés</h3>
+
+  @if (contracts().length > 0) {
+  <table class="corporate-table">
+    <thead>
+    <tr>
+      <th>Police</th>
+      <th>Type</th>
+      <th>Statut</th>
+      <th>Prime</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (contract of contracts(); track contract.id) {
+    <tr>
+      <td>{{ contract.policyNumber }}</td>
+      <td>{{ contract.type }}</td>
+      <td>{{ contract.status }}</td>
+      <td>{{ contract.premiumAmount | currency:'EUR' }}</td>
+      <td>
+        <button class="btn-details" (click)="onViewContractDetails(contract.id)">Détails</button>
+      </td>
+    </tr>
+    }
+    </tbody>
+  </table>
+  } @else {
+  <p class="empty-state">Aucun contrat pour ce client.</p>
+  }
+  } @else {
+  <p class="loading">Chargement du client...</p>
+  }
+</div>

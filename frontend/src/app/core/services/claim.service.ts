@@ -27,4 +27,7 @@ export class ClaimService {
   getClaimById(id: number): Observable<Claim> {
     return this.http.get<Claim>(`${this.apiUrl}/${id}`);
   }
+  getClaimsByContract(contractId: number): Observable<Claim[]> {
+    return this.http.get<Claim[]>(`http://localhost:8080/api/contracts/${contractId}/claims`);
+  }
 }

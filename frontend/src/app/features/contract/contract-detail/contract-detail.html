@@ -12,6 +12,36 @@
     <div class="detail-item"><span class="label">Début</span> {{ contract()!.startDate | date:'dd/MM/yyyy' }}</div>
     <div class="detail-item"><span class="label">Fin</span> {{ contract()!.endDate | date:'dd/MM/yyyy' }}</div>
   </div>
+  <h3 class="section-title" style="margin-top: 30px;">Sinistres liés</h3>
+
+  @if (claims().length > 0) {
+  <table class="data-table">
+    <thead>
+    <tr>
+      <th>N° Sinistre</th>
+      <th>Date</th>
+      <th>Montant estimé</th>
+      <th>Statut</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (claim of claims(); track claim.id) {
+    <tr>
+      <td>{{ claim.claimNumber }}</td>
+      <td>{{ claim.declarationDate | date:'dd/MM/yyyy' }}</td>
+      <td>{{ claim.estimatedAmount | currency:'EUR' }}</td>
+      <td>{{ claim.status }}</td>
+      <td>
+        <button class="btn-action" [routerLink]="['/claims', claim.id]">Détails</button>
+      </td>
+    </tr>
+    }
+    </tbody>
+  </table>
+  } @else {
+  <p>Aucun sinistre pour ce contrat.</p>
+  }
   } @else {
   <p class="loading">Chargement du contrat...</p>
   }

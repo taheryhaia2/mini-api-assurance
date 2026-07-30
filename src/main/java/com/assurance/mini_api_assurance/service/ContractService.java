@@ -92,5 +92,11 @@ public class ContractService {
         // Pas besoin de contractRepository.save(contract) grâce à @Transactional
         return ContractMapper.toDto(contract);
     }
+    @Transactional(readOnly = true)
+    public List<ContractResponseDto> getContractsByClientId(Long clientId) {
+        return contractRepository.findByClientId(clientId).stream()
+                .map(ContractMapper::toDto)
+                .toList();
+    }
 
 }
