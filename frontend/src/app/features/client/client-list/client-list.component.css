@@ -58,3 +58,18 @@ button {
 button:hover {
   background-color: #003d99;
 }
+.btn-add {
+  display: inline-block;
+  background-color: #0052cc;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  float: right;
+  transition: background-color 0.2s;
+}
+
+.btn-add:hover {
+  background-color: #003d99;
+}

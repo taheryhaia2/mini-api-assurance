@@ -38,6 +38,9 @@ public class DataInitializer implements CommandLineRunner {
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setRole(Role.ADMIN);
+            admin.setFirstName("Admin");
+            admin.setLastName("System");
+            admin.setEmail("admin@assurance.com");
             userRepository.save(admin);
             System.out.println(">> [DataInit] ADMIN account created (admin/admin123)");
         }
@@ -48,6 +51,9 @@ public class DataInitializer implements CommandLineRunner {
             agent.setUsername("agent");
             agent.setPassword(passwordEncoder.encode("agent123"));
             agent.setRole(Role.AGENT);
+            agent.setFirstName("Agent");
+            agent.setLastName("Field");
+            agent.setEmail("agent@assurance.com");
             userRepository.save(agent);
             System.out.println(">> [DataInit] AGENT account created (agent/agent123)");
         }

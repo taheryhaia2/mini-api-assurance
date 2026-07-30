@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-
+import com.assurance.mini_api_assurance.domain.Role;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -30,23 +30,30 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
-        User user = userService.createUser(request.username(), request.password(), request.role());
+        User user = userService.createUser(
+                request.username(),
+                request.password(),
+                request.role(),
+                request.firstName(),
+                request.lastName(),
+                request.email()
+        );
         return ResponseEntity.status(HttpStatus.CREATED).body("User created: " + user.getUsername());
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
-        // 1. Ask Spring Security to verify username/password
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password())
         );
 
-        // 2. If we reach here, authentication succeeded
         CustomUserDetails userDetails = (CustomUserDetails) userService.loadUserByUsernameForAuth(request.username());
-
-        // 3. Generate token
         String token = jwtService.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthResponse(token));
+        // On récupère le username et le rôle
+        String username = userDetails.getUsername();
+        Role role = userDetails.getUser().getRole();
+
+        return ResponseEntity.ok(new AuthResponse(token, username, role));
     }
 }

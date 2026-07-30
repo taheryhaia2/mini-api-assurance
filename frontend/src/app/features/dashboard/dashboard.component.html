@@ -5,26 +5,39 @@
   </header>
 
   <section class="kpi-row">
-    <div class="kpi-card">
+    <div class="kpi-card stat">
       <span class="kpi-label">Clients</span>
       <span class="kpi-value">{{ totalClients() }}</span>
     </div>
+    <div class="kpi-card stat">
+      <span class="kpi-label">Contrats</span>
+      <span class="kpi-value">{{ totalContracts() }}</span>
+    </div>
+    <div class="kpi-card stat">
+      <span class="kpi-label">Sinistres</span>
+      <span class="kpi-value">{{ totalClaims() }}</span>
+    </div>
+  </section>
 
-    <a class="kpi-card action" routerLink="/clients">
-      <span class="kpi-label">Gérer</span>
-      <span class="kpi-value-sm">Voir les clients →</span>
+  <section class="actions-row">
+    <a class="action-card" routerLink="/clients">
+      <span class="action-title">Voir les clients</span>
+      <span class="action-arrow">→</span>
     </a>
-
-    <a class="kpi-card action" routerLink="/clients/new">
-      <span class="kpi-label">Nouveau</span>
-      <span class="kpi-value-sm">Ajouter un client →</span>
+    <a class="action-card" routerLink="/contracts">
+      <span class="action-title">Voir les contrats</span>
+      <span class="action-arrow">→</span>
+    </a>
+    <a class="action-card" routerLink="/claims">
+      <span class="action-title">Voir les sinistres</span>
+      <span class="action-arrow">→</span>
     </a>
   </section>
 
   <section class="chart-card">
-    <h2>Répartition des clients</h2>
+    <h2>Vue d'ensemble</h2>
     <div class="chart-wrap">
-      <canvas #clientsChart></canvas>
+      <canvas #globalChart></canvas>
     </div>
   </section>
 </div>

@@ -12,5 +12,14 @@ public record RegisterRequest(
         String password,
 
         @NotNull(message = "Role is required")
-        Role role
+        Role role,
+
+        @NotBlank(message = "First name is required")
+        String firstName,
+
+        @NotBlank(message = "Last name is required")
+        String lastName,
+
+        @NotBlank(message = "Email is required")
+        String email
 ) {}

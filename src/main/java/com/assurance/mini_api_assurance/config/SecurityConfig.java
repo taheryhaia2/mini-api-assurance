@@ -58,6 +58,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // Seul l'ADMIN peut gérer les employés
+                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+                        // ADMIN et AGENT peuvent gérer clients, contrats et sinistres
+                        .requestMatchers("/api/clients/**", "/api/contracts/**", "/api/claims/**").hasAnyRole("ADMIN", "AGENT")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

@@ -2,47 +2,52 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--primary);
-  color: var(--white);
-  padding: 14px 32px;
+  background-color: #0052cc;
+  padding: 0 20px;
+  height: 60px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .menu {
   display: flex;
-  gap: 24px;
+  gap: 15px;
 }
 
 .menu a {
-  color: var(--white);
+  color: white;
   text-decoration: none;
-  font-size: 15px;
   font-weight: 500;
-  opacity: 0.9;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
 }
 
 .menu a:hover {
-  opacity: 1;
-  text-decoration: underline;
+  background-color: #003d99;
 }
 
 .user-area {
   display: flex;
   align-items: center;
-  gap: 16px;
-  font-size: 14px;
+  gap: 15px;
+}
+
+.user-area span {
+  font-weight: 500;
 }
 
 .user-area button {
-  background-color: transparent;
-  color: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  padding: 7px 14px;
+  background-color: white;
+  color: #0052cc;
+  border: none;
+  padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 13px;
+  font-weight: 600;
+  transition: background-color 0.2s;
 }
 
 .user-area button:hover {
-  background-color: var(--danger);
-  border-color: var(--danger);
+  background-color: #f0f4f8;
 }
