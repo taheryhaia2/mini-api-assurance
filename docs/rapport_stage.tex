@@ -1,790 +1,754 @@
-\documentclass[12pt,a4paper]{report}
-% --- Encodage et langue ---
+%==============================================================================
+%  RAPPORT DE STAGE D'INITIATION - ISIMG - VERSION FINALE COMPLÈTE
+%  Taher Yahia - FIGL1 - Vermeg - Juillet 2026
+%  Modèle article que tu préfères (figures claires) + adapté full projet + logo Vermeg
+%  COMPILATION : pdfLaTeX (2 passes) sur Overleaf
+%  Images conservées : images.png + 71BaUgS7pdL.png (compatibilité Overleaf)
+%                  + vermeg-logo.png (logo entreprise - respect guide)
+%==============================================================================
+\documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
-\usepackage{csquotes}
-% --- Police Times ---
 \usepackage{mathptmx}
-\usepackage{anyfontsize}
-% --- Géométrie ISIMG ---
-\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm, headheight=15pt, includehead, includefoot, footskip=1cm]{geometry}
-% --- Interligne 1.5 ---
+\usepackage[a4paper,left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm,
+            headsep=1.0cm,footskip=1.0cm]{geometry}
 \usepackage{setspace}
 \onehalfspacing
-\usepackage{microtype}
-\setlength{\parskip}{6pt}
-\setlength{\parindent}{0pt}
-% --- En-tête / pied de page ---
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\textit{Mini-API Assurance --- Vermeg}}
-\fancyhead[R]{\small\textit{Taher Yahia}}
+\fancyhead[L]{\footnotesize Mini-API Assurance --- Vermeg}
+\fancyhead[R]{\footnotesize Taher Yahia}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0pt}
-% --- Graphiques, tableaux ---
-\usepackage{graphicx}
-\graphicspath{{images/}{./}{docs/images/}}
+\usepackage{array}
+\usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{longtable}
-\usepackage{array}
-\usepackage{float}
-\usepackage{caption}
-\captionsetup{labelfont=bf, font=small}
-% --- Couleurs et listings ---
+\renewcommand{\arraystretch}{1.25}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage[font=small,labelfont=bf,justification=centering]{caption}
+\usepackage{titlesec}
+\titleformat{\section}[display]
+  {\normalfont\Large\bfseries\filcenter}
+  {\normalsize\scshape Chapitre \thesection}{0.6em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}{\thesubsection.}{0.6em}{}
+\titlespacing*{\section}{0pt}{18pt}{12pt}
+\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+\usepackage{enumitem}
+\setlist{itemsep=2pt,parsep=0pt,topsep=4pt}
 \usepackage{xcolor}
-\usepackage{listings}
 \definecolor{codegray}{gray}{0.95}
-\definecolor{vermegblue}{RGB}{0,51,102}
-\lstdefinelanguage{json}{
-  basicstyle=\footnotesize\ttfamily,
-  morestring=[b]",
-  stringstyle=\color{red!60!black},
-  showstringspaces=false,
-  breaklines=true
-}
+\definecolor{codeframe}{gray}{0.55}
+\definecolor{codekw}{rgb}{0.15,0.15,0.55}
+\definecolor{codecmt}{rgb}{0.35,0.45,0.35}
+\definecolor{codestr}{rgb}{0.50,0.20,0.20}
+\usepackage{listings}
 \lstdefinestyle{javastyle}{
   language=Java,
+  basicstyle=\ttfamily\footnotesize\setstretch{1.0},
+  keywordstyle=\color{codekw}\bfseries,
+  commentstyle=\color{codecmt}\itshape,
+  stringstyle=\color{codestr},
   backgroundcolor=\color{codegray},
-  basicstyle=\footnotesize\ttfamily,
-  keywordstyle=\color{vermegblue}\bfseries,
-  commentstyle=\color{gray},
-  stringstyle=\color{red!60!black},
-  breaklines=true,
-  showstringspaces=false,
-  numbers=left,
-  numberstyle=\tiny\color{gray},
-  frame=single,
-  framerule=0.2pt,
-  tabsize=2,
-  captionpos=b
-}
-\lstdefinestyle{bashstyle}{
-  language=sh,
-  backgroundcolor=\color{codegray},
-  basicstyle=\footnotesize\ttfamily,
-  breaklines=true,
-  frame=single,
-  framerule=0.2pt,
-  captionpos=b,
-  showstringspaces=false
-}
-\lstdefinestyle{jsonstyle}{
-  language=json,
-  backgroundcolor=\color{codegray},
-  basicstyle=\footnotesize\ttfamily,
-  breaklines=true,
-  frame=single,
-  framerule=0.2pt,
-  captionpos=b,
-  showstringspaces=false
+  frame=single, rulecolor=\color{codeframe}, framesep=5pt,
+  breaklines=true, breakatwhitespace=true, showstringspaces=false,
+  columns=flexible, tabsize=2,
+  xleftmargin=6pt, xrightmargin=6pt, aboveskip=10pt, belowskip=4pt
 }
 \lstset{style=javastyle}
-% --- TikZ ---
-\usepackage{tikz}
-\usetikzlibrary{shapes,arrows,positioning,calc}
-\tikzstyle{block} = [rectangle, draw, fill=blue!5, rounded corners, minimum height=1.2cm, minimum width=2.5cm, text centered, font=\small]
-\tikzstyle{arrow} = [thick,->,>=stealth]
-\tikzstyle{db} = [cylinder, shape border rotate=90, draw, fill=orange!10, minimum height=1.2cm, minimum width=2cm, text centered, shape aspect=0.25]
-% --- Hyperliens ---
-\usepackage{hyperref}
-\hypersetup{
-  colorlinks=true,
-  linkcolor=vermegblue,
-  citecolor=vermegblue,
-  urlcolor=vermegblue
+\renewcommand{\lstlistingname}{Extrait}
+\lstdefinestyle{shellstyle}{
+  language={},
+  basicstyle=\ttfamily\footnotesize\setstretch{1.0},
+  backgroundcolor=\color{codegray},
+  frame=single, rulecolor=\color{codeframe}, framesep=5pt,
+  xleftmargin=6pt, xrightmargin=6pt, aboveskip=8pt, belowskip=8pt
 }
-% --- Listes et TOC ---
-\usepackage{enumitem}
-\setlist{nosep}
-\usepackage{tocloft}
-% --- Métadonnées ---
-\title{Conception et réalisation d'une mini-API REST de gestion d'assurance}
-\author{Taher Yahia}
-\date{Juillet 2026}
-% =======================================================================
+\usepackage{graphicx}
+\graphicspath{{images/}{./}{docs/images/}{../docs/images/}}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds}
+\tikzset{
+  couche/.style={rectangle, draw=black!70, thick, rounded corners=2pt,
+    minimum width=6.4cm, minimum height=0.95cm, align=center,
+    font=\small, fill=black!4},
+  bdd/.style={cylinder, shape border rotate=90, draw=black!70, thick,
+    aspect=0.28, minimum width=3.2cm, minimum height=1.1cm,
+    align=center, font=\small, fill=black!6},
+  lateral/.style={rectangle, draw=black!70, thick, dashed, rounded corners=2pt,
+    minimum width=2.1cm, minimum height=0.85cm, align=center,
+    font=\footnotesize, fill=white},
+  fleche/.style={-{Stealth[length=2.6mm]}, thick, draw=black!75},
+  flechep/.style={-{Stealth[length=2.6mm]}, thick, dashed, draw=black!55},
+  umlbox/.style={rectangle, draw=black!75, thick, inner sep=0pt, fill=white},
+  acteur/.style={rectangle, draw=black!75, thick, fill=black!5,
+    minimum width=2.5cm, minimum height=0.75cm, align=center,
+    font=\footnotesize\bfseries},
+  vie/.style={draw=black!45, thick, dash pattern=on 3pt off 2.5pt},
+  msg/.style={-{Stealth[length=2.2mm]}, thick, draw=black!80, font=\scriptsize},
+  msgret/.style={-{Stealth[length=2.2mm]}, thick, dashed, draw=black!60,
+    font=\scriptsize}
+}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={Rapport de stage - Mini-API Assurance},
+  pdfauthor={Taher Yahia},
+  breaklinks=true
+}
+\urlstyle{same}
+\newcommand{\refbib}[1]{[#1]}
+
 \begin{document}
-% =======================================================================
-% -----------------------------------------------------------------------
-% PAGE DE GARDE - Guide ISIMG respecte : logos officiels + logo entreprise autorisé
-% -----------------------------------------------------------------------
+
+%==============================================================================
+%  PAGE DE GARDE - 3 LOGOS (guide ISIMG : Univ + ISIMG officiels + Vermeg autorisé)
+%==============================================================================
 \begin{titlepage}
-\centering
-{\small \textbf{République Tunisienne}}\\[2pt]
-{\small Ministère de l'Enseignement Supérieur et de la Recherche Scientifique}\\[2pt]
-{\small Université de Gabès}\\[2pt]
-{\small Institut Supérieur d'Informatique et de Multimédia de Gabès}\\[10pt]
+\begin{center}
+\thispagestyle{empty}
+{\small\scshape République Tunisienne}\\[2pt]
+{\small Ministère de l'Enseignement Supérieur et de la Recherche Scientifique}\\[10pt]
+{\small\scshape Université de Gabès}\\[2pt]
+{\small\bfseries Institut Supérieur d'Informatique et de Multimédia de Gabès}\\[6pt]
 
-\vspace{0.4cm}
-\begin{minipage}[c]{0.28\textwidth}
-\centering
-\fbox{\parbox{2.8cm}{\centering\small Logo\\Université\\de Gabès}}\\
-{\scriptsize Modèle officiel ISIMG}
-\end{minipage}
-\hfill
-\begin{minipage}[c]{0.28\textwidth}
-\centering
-\fbox{\parbox{2.8cm}{\centering\small Logo\\ISIMG}}\\
-{\scriptsize Modèle officiel ISIMG}
-\end{minipage}
-\hfill
-\begin{minipage}[c]{0.28\textwidth}
-\centering
-\includegraphics[width=2.8cm]{vermeg-logo.png}\\[4pt]
-{\scriptsize Vermeg --- Organisme d'accueil}
+\vspace{8pt}
+% -- Ligne 3 logos : images.png (Univ Gabes), 71BaUgS7pdL.png (ISIMG), vermeg-logo.png (Vermeg) --
+\noindent
+\begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[height=1.9cm]{images.png}\\[2pt]
+    {\scriptsize Université de Gabès}
+\end{minipage}%
+\begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[height=1.9cm]{71BaUgS7pdL.png}\\[2pt]
+    {\scriptsize ISIMG}
+\end{minipage}%
+\begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[height=1.9cm]{vermeg-logo.png}\\[2pt]
+    {\scriptsize Vermeg — Organisme d'accueil}
 \end{minipage}
 
-\vspace{1.2cm}
-{\large \textbf{Rapport de stage d'initiation}}\\[4pt]
-{\normalsize \textit{Licence Fondamentale en Informatique --- Génie Logiciel (FIGL), première année}}\\[1cm]
-\rule{\linewidth}{0.5pt}\\[0.4cm]
-{\LARGE \textbf{Conception et réalisation d'une mini-API REST\\[6pt] de gestion d'assurance}}\\[0.4cm]
-\rule{\linewidth}{0.5pt}\\[1.2cm]
+\vspace{10pt}
+\rule{\linewidth}{0.5pt}\\[4pt]
+{\large\bfseries RAPPORT DE STAGE D'INITIATION}\\[4pt]
+\rule{\linewidth}{0.5pt}
+\vspace{6pt}
+{\small Présenté en vue de la validation du stage d'initiation}\\[2pt]
+{\small Première année du cycle d'ingénieur --- Génie Logiciel}
+\vspace{20pt}
+{\LARGE\bfseries Conception et réalisation\\[6pt] d'une mini-API REST\\[6pt] de gestion d'assurance\par}
+\vspace{24pt}
+\begin{minipage}{0.44\textwidth}
 \begin{flushleft}
-\begin{tabular}{ll}
-\textbf{Réalisé par :} & Taher Yahia \\[4pt]
-\textbf{Organisme d'accueil :} & Vermeg, Insurance Market Operations \\[4pt]
-\textbf{Encadrante entreprise :}& Mme Faten Kardous, Lead Developer \\[4pt]
-\textbf{Encadrant académique :} & [Nom encadrant ISIMG à compléter] \\[4pt]
-\textbf{Période :} & 1\textsuperscript{er} -- 31 juillet 2026 \\[4pt]
-\textbf{Lieu :} & Tunis, Tunisie (Vermeg) \\[4pt]
-\textbf{Année universitaire :} & 2025 / 2026 \\
-\end{tabular}
+{\small\bfseries Réalisé par :}\\[3pt]
+{\small Taher Yahia}
 \end{flushleft}
-\vspace{1.5cm}
-{\footnotesize Contact : [email] \quad -- \quad [téléphone]}\\[0.5cm]
+\end{minipage}
+\hfill
+\begin{minipage}{0.50\textwidth}
+\begin{flushright}
+{\small\bfseries Encadrante professionnelle :}\\[3pt]
+{\small Mme Faten Kardous}\\
+{\footnotesize\itshape Lead Developer}\\
+{\footnotesize Insurance Market Operations}
+\end{flushright}
+\end{minipage}
+\vspace{24pt}
+{\small\bfseries Organisme d'accueil}\\[3pt]
+{\small \textsc{Vermeg}}\\[2pt]
+{\footnotesize Les Berges du Lac, 1053 Tunis}
+\vspace{12pt}
+{\small\bfseries Période du stage}\\[3pt]
+{\small du 1\textsuperscript{er} au 31 juillet 2026}
 \vfill
-{\small Date de soutenance : [à compléter] \qquad Jury : [à compléter]}
+\rule{0.55\linewidth}{0.4pt}\\[5pt]
+{\small\bfseries Année universitaire 2025 -- 2026}\\[8pt]
+{\footnotesize taher.yahia@isimg.tn \quad---\quad 58\,780\,980}
+\end{center}
 \end{titlepage}
-% -----------------------------------------------------------------------
-% REMERCIEMENTS
-% -----------------------------------------------------------------------
-\chapter*{Remerciements}
-\addcontentsline{toc}{chapter}{Remerciements}
-Je remercie Mme Faten Kardous, \textit{Lead Developer} au sein du département Insurance Market Operations de Vermeg, pour son encadrement, sa disponibilité et la clarté des objectifs fixés tout au long du stage.
-Je remercie les collaborateurs de Vermeg pour leur accueil chaleureux et leurs conseils avisés, ainsi que le corps enseignant de l'ISIMG dont la formation de première année a constitué la base directe des travaux réalisés.
-Je remercie enfin les membres du jury pour l'attention portée à ce document.
+
+%==============================================================================
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\section*{Remerciements}
+\addcontentsline{toc}{section}{Remerciements}
+\markboth{}{}
+Je remercie Mme Faten Kardous, \emph{Lead Developer} au département Insurance Market Operations de Vermeg, pour son encadrement, la clarté des objectifs qu'elle m'a fixés et la précision de ses retours à chaque point d'étape.
+
+Je remercie les collaborateurs de Vermeg que j'ai côtoyés durant ce mois pour leur accueil, ainsi que le corps enseignant de l'ISIMG : les enseignements de programmation orientée objet, de bases de données et d'algorithmique de première année constituent la base directe des travaux présentés dans ce document — désormais enrichis par une API complète couvrant clients, contrats, sinistres, utilisateurs, soft-delete et upload de justificatifs.
+
+\vspace{\fill}
 \newpage
-% -----------------------------------------------------------------------
-% RÉSUMÉ
-% -----------------------------------------------------------------------
-\chapter*{Résumé}
-\addcontentsline{toc}{chapter}{Résumé}
-Ce stage d'initiation porte sur la conception et la réalisation d'une mini-API REST de gestion d'assurance chez Vermeg. L'objectif est d'exposer de manière sûre, cohérente et documentée les opérations de gestion d'un portefeuille d'assurance élémentaire : clients, contrats, sinistres et gestion des utilisateurs.
-Le système est implémenté en Java~17 / Spring Boot~3.5 avec PostgreSQL~16, sécurisé par JWT, documenté par OpenAPI/Swagger~UI, conteneurisé via Docker Compose, et consommé par un client Angular~17+. Des règles métier fortes sont centralisées côté serveur : unicité CIN, âge minimal 18~ans, soft-delete des clients, validation des périodes contractuelles, interdiction de déclaration de sinistre hors contrat ACTIF ou hors période de couverture, upload optionnel de justificatifs.
-Le rapport présente l'analyse du besoin, la conception en couches, la réalisation backend et frontend, la stratégie de vérification, les difficultés rencontrées et les perspectives d'amélioration, notamment le durcissement de la gestion d'erreurs et l'introduction de migrations versionnées.
-\noindent\textbf{Mots-clés :} API REST, Spring Boot, PostgreSQL, JWT, Angular, assurance, Docker, OpenAPI.
-% -----------------------------------------------------------------------
-% ABSTRACT
-% -----------------------------------------------------------------------
-\chapter*{Abstract}
-\addcontentsline{toc}{chapter}{Abstract}
-This internship report presents the design and implementation of a REST mini-API for insurance management at Vermeg. The goal is to expose secure, consistent and documented operations for managing basic insurance portfolios: clients, contracts, claims and user management.
-The system is built with Java~17 / Spring Boot~3.5, PostgreSQL~16, secured with JWT, documented via OpenAPI/Swagger~UI, containerized with Docker Compose, and consumed by an Angular~17+ client. Strong business rules are enforced server-side: unique CIN, minimum age~18, soft-delete for clients, contractual period validation, claim prohibition outside ACTIVE contracts or coverage period, optional document upload.
-The report details needs analysis, layered design, backend and frontend implementation, verification strategy, encountered difficulties and improvement perspectives.
-\noindent\textbf{Keywords:} REST API, Spring Boot, PostgreSQL, JWT, Angular, insurance, Docker, OpenAPI.
-\newpage
-% -----------------------------------------------------------------------
-% TABLES
-% -----------------------------------------------------------------------
+\renewcommand{\contentsname}{Sommaire}
 \tableofcontents
 \newpage
+\renewcommand{\listfigurename}{Liste des figures}
 \listoffigures
-\addcontentsline{toc}{chapter}{Liste des figures}
+\addcontentsline{toc}{section}{Liste des figures}
+\vspace{16pt}
+\renewcommand{\listtablename}{Liste des tableaux}
 \listoftables
-\addcontentsline{toc}{chapter}{Liste des tableaux}
+\addcontentsline{toc}{section}{Liste des tableaux}
 \newpage
-% =======================================================================
-% INTRODUCTION
-% =======================================================================
-\chapter{Introduction}
-Le cursus de licence en informatique de l'ISIMG prévoit un stage d'initiation de quatre semaines continues afin de découvrir l'organisation d'une entreprise du secteur et de mettre en pratique les acquis de première année.
-J'ai effectué ce stage du 1\textsuperscript{er} au 31~juillet~2026 chez Vermeg, éditeur de solutions logicielles pour les services financiers et l'assurance, sous l'encadrement de Mme~Faten Kardous, \textit{Lead Developer} Insurance Market Operations.
-Le sujet confié porte sur la réalisation d'une \textbf{mini-API REST de gestion d'assurance} : construire à partir de zéro un service web gérant les objets élémentaires d'un système assurantiel --- clients, contrats, sinistres et utilisateurs --- en respectant les pratiques de l'entreprise.
-\textbf{Problématique :} \textit{Comment exposer, de manière sûre, cohérente, documentée et reproductible, les opérations de gestion d'un portefeuille d'assurance élémentaire, tout en garantissant le respect des règles qui lient un sinistre à son contrat et un contrat à son client ?}
-\textbf{Objectifs opérationnels :}
-\begin{itemize}
-\item Modéliser le domaine sous forme d'entités persistantes ;
-\item Exposer une API REST complète ;
-\item Faire respecter les règles métier par le serveur ;
-\item Sécuriser les accès par jeton avec rôles ADMIN/AGENT effectifs ;
-\item Permettre l'upload de justificatifs de sinistres ;
-\item Documenter l'interface de manière interactive ;
-\item Rendre l'environnement d'exécution reproductible ;
-\item Valider la consommation par un client Angular complet.
-\end{itemize}
-Le rapport suit six chapitres : présentation de l'entreprise, analyse du besoin, conception, réalisation, vérification et regard critique, puis bilan.
-% =======================================================================
-% CHAPITRE 1
-% =======================================================================
-\chapter{Présentation de l'entreprise et cadre du stage}
-\section{Présentation de Vermeg}
-Vermeg est un éditeur de solutions logicielles spécialisé dans les services financiers, dont l'offre couvre la banque, les marchés de capitaux, la gestion d'actifs et l'assurance \cite{vermeg2024,wikipedia2024}. Fondée en 1993 en Tunisie sous le nom de BFI, détachée en 2002, l'entreprise a son siège à Amsterdam et plusieurs implantations dont Tunis. Son activité consiste à fournir aux institutions financières des progiciels métier et des développements sur mesure : gestion de portefeuilles, reporting réglementaire, gestion du collatéral et gestion de polices d'assurance.
-Le département \textbf{Insurance Market Operations} intervient sur le segment assurance, ce qui explique le sujet confié : travailler sur les objets métier fondamentaux de l'assurance.
-\begin{figure}[H]
+
+%==============================================================================
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+Le cycle d'ingénieur en Génie Logiciel de l'ISIMG prévoit, dès la première année, un stage d'initiation d'une durée minimale de quatre semaines. Ce stage a pour objet la découverte de l'organisation réelle d'une entreprise du secteur, la mise en pratique des acquis de la formation et la production d'un document professionnel rendant compte du travail effectué.
+
+J'ai effectué ce stage du 1\textsuperscript{er} au 31 juillet 2026 chez Vermeg, éditeur de solutions logicielles pour les services financiers et l'assurance, sous l'encadrement de Mme Faten Kardous, \emph{Lead Developer} au département Insurance Market Operations.
+
+La gestion d'un portefeuille d'assurance repose sur trois objets liés par une chaîne de dépendances stricte : un \textbf{client} souscrit un ou plusieurs \textbf{contrats}, et un \textbf{sinistre} ne peut être déclaré que sur un contrat en cours de validité. Une application qui se contenterait d'enregistrer ces données sans faire respecter ces dépendances produirait des enregistrements dépourvus de sens juridique. La question posée était donc : \textbf{comment concevoir un service REST qui expose ces trois objets tout en garantissant, côté serveur, que les règles du métier assurantiel ne peuvent être contournées, quel que soit le client appelant ?}
+
+Huit objectifs opérationnels ont été fixés pour la version finale :
+\begin{enumerate}[label=\arabic*.,leftmargin=*]
+  \item modéliser le domaine client -- contrat -- sinistre -- utilisateur et le persister ;
+  \item exposer une API REST complète (17 endpoints finaux) ;
+  \item centraliser 14 règles métier dans la couche service ;
+  \item protéger les accès par JWT avec rôles ADMIN/AGENT effectifs au niveau HTTP ;
+  \item permettre l'upload optionnel de justificatifs de sinistres (multipart) ;
+  \item gérer le soft-delete des clients (champ \texttt{active}) ;
+  \item publier une documentation OpenAPI exploitable sans lecture du code ;
+  \item valider la consommation par un client Angular complet avec guards.
+\end{enumerate}
+
+Ce rapport rend compte du travail en cinq chapitres. Le chapitre 1 présente l'entreprise, le cadre et la méthode. Le chapitre 2 formalise le besoin et la conception. Le chapitre 3 détaille la réalisation technique incluant les nouvelles règles. Le chapitre 4 expose la vérification et le regard critique. Le chapitre 5 dresse le bilan.
+
+%==============================================================================
+\section{Cadre du stage}
+%==============================================================================
+\subsection{Présentation de Vermeg}
+Vermeg est un éditeur de solutions logicielles spécialisé dans les services financiers, dont l'offre couvre la banque, les marchés de capitaux, la gestion d'actifs et l'assurance \refbib{1}. Fondée en 1993 en Tunisie sous le nom de BFI, détachée en 2002, siège à Amsterdam, implantations dont Tunisie \refbib{2}. Son activité : progiciels métier et développements sur mesure \refbib{1}.
+
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=5cm]{vermeg-logo.png}
-\caption{Logo Vermeg --- organisme d'accueil (ajout conforme guide ISIMG : logo entreprise attendu en page de garde et en chapitre 1)}
+\includegraphics[height=2.2cm]{vermeg-logo.png}
+\caption{Logo Vermeg -- organisme d'accueil. Ajout conforme guide ISIMG (logo entreprise attendu en page de garde + chapitre 1).}
 \end{figure}
-\section{Cadre et organisation du stage}
-Quatre semaines continues du 1\textsuperscript{er} au 31~juillet~2026. Organisation itérative : objectif fonctionnel par période de quelques jours, réalisation autonome, point de validation avec l'encadrante.
-\begin{itemize}
-\item \textbf{Semaine~1 :} domaine assurance, Spring Boot, modélisation entités et persistance.
-\item \textbf{Semaine~2 :} services et contrôleurs clients/contrats, DTO et validation, soft-delete.
-\item \textbf{Semaine~3 :} sinistres avec upload, règles métier avancées, sécurisation par rôle effective, documentation OpenAPI.
-\item \textbf{Semaine~4 :} conteneurisation, tests unitaires, frontend complet Angular (clients, contrats, sinistres, administration users), rédaction rapport.
-\end{itemize}
-\section{Sujet et objectifs}
-Sujet : développer une API REST autonome gérant quatre ressources reliées : clients, contrats, sinistres, utilisateurs. L'accent porte sur le \textbf{backend}, mais une interface Angular complète a été menée comme preuve de consommation réelle, incluant la gestion des employés (ADMIN).
-\section{Méthodologie de travail}
-Git avec dépôt distant GitHub, branche principale stable. Messages de commit suivant \textit{Conventional Commits} \cite{convcommit}. Outils : IntelliJ IDEA, VS~Code, psql/pgAdmin, Swagger~UI, Postman, Docker Desktop. Le wrapper Maven garantit la reproductibilité du build.
-% =======================================================================
-% CHAPITRE 2
-% =======================================================================
-\chapter{Contexte et analyse du besoin}
-\section{Contexte métier}
-Un \textbf{client} est une personne physique identifiée par CIN unique, avec contrainte d'âge légal $\geq 18$~ans. Un \textbf{contrat} lie un client à une garantie : numéro de police unique généré par le serveur, type (AUTO, HOME, HEALTH, LIFE), période de validité, montants, statut (ACTIVE, EXPIRED, TERMINATED). Un \textbf{sinistre} est un événement dommageable déclaré au titre d'un contrat : numéro unique, description, date de survenance, date de déclaration (serveur), montants, statut (SUBMITTED, PROCESSING, ACCEPTED, REJECTED) et chemin vers document justificatif optionnel. Un \textbf{utilisateur} porte un username unique, un email unique, firstName/lastName, et un rôle ADMIN ou AGENT.
-Invariants principaux :
-\begin{itemize}
-\item Un sinistre implique un contrat ACTIF existant et une date dans la période de couverture ;
-\item Un client ne peut être supprimé physiquement (soft-delete via champ \texttt{active}) ;
-\item Un utilisateur ADMIN gère les employés.
-\end{itemize}
-\section{Besoins fonctionnels}
-\begin{table}[H]
+
+Cette activité explique le sujet : reproduire un noyau minimal police, prime, couverture, sinistre, utilisateur.
+
+\subsection{Organisation et méthode de travail}
+Stage du 1\textsuperscript{er} au 31 juillet 2026, rythme itératif : objectif fonctionnel par séance, réalisation autonome, validation avec encadrante sur comportement fonctionnel.
+
+\begin{table}[htbp]
 \centering
-\caption{Besoins fonctionnels retenus}
-\begin{tabular}{p{1cm} p{9.5cm} p{2cm}}
+\caption{Chronologie du développement -- version finale étendue}
+\label{tab:chrono}
+\small
+\begin{tabularx}{\linewidth}{@{}L{1.7cm} C{1.4cm} X@{}}
 \toprule
-Réf. & Besoin & Statut \\
+\textbf{Date} & \textbf{Commits} & \textbf{Travaux réalisés} \\
 \midrule
-BF1 & Créer un compte utilisateur avec rôle, email unique & Réalisé \\
-BF2 & S'authentifier et obtenir un JWT & Réalisé \\
-BF3 & Lister utilisateurs (ADMIN) et enregistrer nouvel employé & Réalisé \\
-BF4 & Créer, consulter, modifier un client (CIN unique, âge $\geq$18) & Réalisé \\
-BF5 & Archiver (soft-delete) un client, lister seulement les actifs & Réalisé \\
-BF6 & Créer un contrat pour client existant, police générée & Réalisé \\
-BF7 & Consulter contrats globaux et par client & Réalisé \\
-BF8 & Mettre à jour un contrat (montants, échéance, statut) & Réalisé \\
-BF9 & Déclarer un sinistre sur contrat avec upload optionnel & Réalisé \\
-BF10 & Consulter sinistres par contrat + tous sinistres + détail & Réalisé \\
-BF11 & Instruire sinistre (transitions statut, remboursement) & Reporté \\
+5 juil.  & 2 & Init Spring Initializr ; datasource PostgreSQL, \texttt{open-in-view=false} \\
+6 juil.  & 4 & Entité Client, repository ; CRUD DTO ; Entité Contract + validation dates \\
+7 juil.  & 4 & Entité Claim + RM5/RM6 ; GlobalExceptionHandler ; OpenAPI \\
+8 juil.  & 4 & JWT + SecurityConfig ; README ; traduction code en anglais \\
+13 juil. & 5 & Update client ; enrichissement domaines (phone, address, policyNumber) ; Claim enrichi \\
+15 juil. & 4 & Soft-delete client + existsByCin + age >=18 ; liste sinistres par contrat ; update contrat ; test unitaire RM5 \\
+21 juil. & 1 & Dockerfiles ; début Angular AuthService \\
+22 juil. & 5 & Docker + healthcheck ; jwtInterceptor + roleGuard ; liste clients, contrats, sinistres ; upload Claim multipart \\
+30-31 j. & 2 & Page gestion employés ADMIN (UserController + user-list), UI conditionnelle isAdmin, rapport LaTeX complet \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
-BF11 reste en perspective pour une version ultérieure.
-\section{Besoins non fonctionnels}
-\begin{itemize}
-\item \textbf{Sécurité :} aucune ressource hors auth/doc accessible sans JWT, mot de passe BCrypt, rôles effectifs au niveau HTTP Security.
-\item \textbf{Intégrité :} contraintes d'unicité portées par le schéma PostgreSQL.
-\item \textbf{Validation :} Bean Validation sur les DTO.
-\item \textbf{Documentation :} OpenAPI auto-générée et testable.
-\item \textbf{Portabilité :} Docker Compose reproductible avec healthcheck.
-\item \textbf{Sans état :} API stateless.
-\end{itemize}
-\section{Périmètre retenu et hors-périmètre}
-\textbf{Dans le périmètre :} backend API, persistance, sécurité effective, documentation, conteneurisation, frontend Angular complet (login, dashboard, clients, contrats, sinistres, gestion employés ADMIN, \texttt{authGuard} et \texttt{roleGuard}).
-\textbf{Hors périmètre :} primes et échéanciers, workflow d'instruction des sinistres, édition de documents, déploiement en production.
-% =======================================================================
-% CHAPITRE 3
-% =======================================================================
-\chapter{Conception}
-\section{Architecture globale}
-L'application suit une architecture en couches stricte : client HTTP $\rightarrow$ JwtAuthFilter $\rightarrow$ contrôleur $\rightarrow$ service (DTO) $\rightarrow$ repository $\rightarrow$ PostgreSQL. Les exceptions sont centralisées dans un \texttt{GlobalExceptionHandler}.
-\begin{figure}[H]
+
+Le travail totalise 34 commits, $\approx$13k lignes ajoutées. Le backend a été traité du 5 au 15 juillet, le frontend complet + Docker du 21 au 31 juillet. Suivi Git en \emph{Conventional Commits} \refbib{3}.
+
+%==============================================================================
+\section{Analyse du besoin et conception}
+%==============================================================================
+\subsection{Besoins fonctionnels -- version finale}
+\begin{table}[htbp]
 \centering
-\begin{tikzpicture}[node distance=1.3cm, auto, font=\small]
-\node[block] (client) {Client HTTP\\Swagger / Postman / Angular};
-\node[block, below of=client] (filter) {JwtAuthFilter\\Spring Security};
-\node[block, below of=filter] (ctrl) {Contrôleur\\Auth / Client / Contract / Claim / User};
-\node[block, below of=ctrl] (service) {Service\\Règles métier + Transaction};
-\node[block, below of=service] (repo) {Repository\\Spring Data JPA};
-\node[db, below of=repo] (pg) {PostgreSQL\\assurance\_db};
-\node[block, right of=ctrl, xshift=3cm] (exc) {GlobalExceptionHandler};
-\draw[arrow] (client) -- node[right]{\footnotesize JWT} (filter);
-\draw[arrow] (filter) -- (ctrl);
-\draw[arrow] (ctrl) -- node[right]{\footnotesize DTO} (service);
-\draw[arrow] (service) -- node[right]{\footnotesize entités} (repo);
-\draw[arrow] (repo) -- node[right]{\footnotesize SQL/Hibernate} (pg);
-\draw[arrow, dashed] (ctrl) -- (exc);
-\end{tikzpicture}
-\caption{Architecture globale de la solution}
-\end{figure}
-\section{Modèle de domaine}
-Quatre entités persistantes et quatre énumérations. Relations 1-N : client 1-* contrats, contrat 1-* sinistres. L'entité User est indépendante du domaine assurance.
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[font=\footnotesize, node distance=0.6cm]
-\node[draw, rectangle, text width=3.2cm] (client) at (0,0) {
-\textbf{Client}\\ id\\lastName\\firstName\\email\\cin (unique)\\phone\\address\\ birthDate\\createdAt\\active
-};
-\node[draw, rectangle, text width=3.5cm] (contract) at (7,0) {
-\textbf{Contract}\\ id\\policyNumber (unique)\\type\\startDate\\endDate\\ coverageAmount\\premiumAmount\\status
-};
-\node[draw, rectangle, text width=3.5cm] (claim) at (7,-5) {
-\textbf{Claim}\\ id\\claimNumber (unique)\\description\\claimDate\\declarationDate\\ estimatedAmount\\reimbursedAmount\\status\\documentPath
-};
-\node[draw, rectangle, text width=3.2cm] (user) at (0,-5) {
-\textbf{User (app\_user)}\\ id\\username (unique)\\password (hash)\\role\\firstName\\ lastName\\email (unique)
-};
-\draw[->] (client) -- node[above]{\footnotesize 1..*} (contract);
-\draw[->] (contract) -- node[right]{\footnotesize 1..*} (claim);
-\end{tikzpicture}
-\caption{Modèle de domaine final}
-\end{figure}
-\textbf{Justifications techniques :} BigDecimal pour les montants, Enum stockée en STRING, FetchType LAZY, \texttt{open-in-view=false}, \texttt{@Table(name="app\_user")} car \textit{user} est un mot réservé SQL.
-\section{Architecture applicative en couches}
-Paquetages : \texttt{domain}, \texttt{dto} (records), \texttt{mapper}, \texttt{repository}, \texttt{service}, \texttt{controller}, \texttt{security}, \texttt{config}, \texttt{exception}. DTO distincts des entités : \texttt{ClientCreateDto} exige CIN, \texttt{ClientUpdateDto} ne l'exige pas. \texttt{RegisterRequest} exige firstName/lastName/email conformément à la nouvelle entité User.
-\section{Conception de la sécurité}
-JWT RFC~7519 \cite{jwt2015}. Login $\rightarrow$ token signé HMAC 24~h. Filtre \texttt{JwtAuthFilter} placé BEFORE \texttt{UsernamePasswordAuthenticationFilter}. L'autorisation par rôle est \textbf{effective au niveau du SecurityFilterChain} :
-\begin{lstlisting}[language=Java, caption=SecurityConfig --- autorisation par rôle effective, label=lst:sec]
-.authorizeHttpRequests(auth -> auth
-  .requestMatchers("/api/auth/**").permitAll()
-  .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-  .requestMatchers("/api/users/**").hasRole("ADMIN")
-  .requestMatchers(
-    "/api/clients/**",
-    "/api/contracts/**",
-    "/api/claims/**")
-    .hasAnyRole("ADMIN", "AGENT")
-  .anyRequest().authenticated()
-)
-.sessionManagement(s -> s.sessionCreationPolicy(STATELESS))
-\end{lstlisting}
-Les annotations \texttt{@PreAuthorize} restent en double défense, mais la protection principale est assurée au niveau HTTP. Mots de passe BCrypt, CSRF désactivé (justifié : API sans cookie) \cite{springsec}.
-\section{Conception de l'API REST}
-REST : ressources plurielles, verbes HTTP sémantiques, codes RFC~9110 \cite{http2022}. Les sinistres sont exposés en sous-ressource du contrat. Génération serveur : policyNumber, claimNumber, createdAt, declarationDate, statut initial. La création d'un sinistre utilise \texttt{multipart/form-data} pour supporter l'upload de fichier.
-\section{Environnement conteneurisé}
-Deux services Docker Compose : \texttt{db} (postgres:16) avec healthcheck \texttt{pg\_isready}, et \texttt{api} (build multi-stage Maven $\rightarrow$ JRE), \texttt{depends\_on: service\_healthy}, volume \texttt{pgdata}.
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[font=\small, node distance=1.4cm]
-\node[block] (host) {Poste dev\\localhost:8080 / 4200};
-\node[block, below of=host] (api) {service api\\port 8080};
-\node[db, below of=api] (db) {service db\\postgres:16\\port 5432};
-\node[block, right of=db, xshift=2.5cm] (vol) {volume pgdata};
-\draw[arrow] (host) -- (api);
-\draw[arrow] (api) -- node[right]{\footnotesize jdbc://db:5432} (db);
-\draw[arrow, dashed] (db) -- (vol);
-\end{tikzpicture}
-\caption{Composition Docker Compose avec healthcheck}
-\end{figure}
-% =======================================================================
-% CHAPITRE 4
-% =======================================================================
-\chapter{Réalisation technique}
-\section{Stack technique}
-\begin{table}[H]
-\centering
-\caption{Stack technique finale et justifications}
-\begin{tabular}{p{3.5cm} p{2.5cm} p{6.5cm}}
+\caption{Besoins fonctionnels -- version finale alignée code actuel}
+\label{tab:bf}
+\small
+\begin{tabularx}{\linewidth}{@{}C{1.2cm} X L{2.6cm}@{}}
 \toprule
-Composant & Version & Justification \\
+\textbf{Réf.} & \textbf{Besoin} & \textbf{Statut} \\
 \midrule
-Java & 17 LTS & Records pour DTO \\
-Spring Boot & 3.5.16 & Socle équipe \cite{springboot} \\
-Spring Data JPA & héritée & Repositories déclaratifs \cite{springdata} \\
-PostgreSQL & 16 & Contraintes d'intégrité \cite{postgres} \\
-Spring Security & héritée & Filtres JWT \cite{springsec} \\
-JJWT & 0.12.6 & Génération/validation JWT \\
-Bean Validation & héritée & @NotBlank, @Email, etc. \\
-springdoc-openapi & 2.7.0 & Documentation OpenAPI \cite{openapi} \\
-Maven wrapper & -- & Reproductibilité du build \\
-Docker / Compose & -- & Environnement reproductible \cite{docker} \\
-Angular & 17+ & Client frontend complet \\
+BF1 & Créer un compte utilisateur avec rôle ADMIN/AGENT, email unique & Réalisé \\
+BF2 & S'authentifier JWT + lister utilisateurs (ADMIN) & Réalisé \\
+BF3 & Créer, consulter, modifier un client avec CIN unique, âge >=18 & Réalisé \\
+BF4 & Archiver (soft-delete) un client, lister actifs seulement & Réalisé \\
+BF5 & Souscrire un contrat rattaché à client existant, policy générée & Réalisé \\
+BF6 & Consulter et mettre à jour un contrat, contrats par client & Réalisé \\
+BF7 & Déclarer un sinistre sur contrat avec upload optionnel justificatif & Réalisé \\
+BF8 & Consulter sinistres par contrat, tous sinistres, détail & Réalisé \\
+BF9 & Instruire sinistre (workflow) & Reporté \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
-\section{Backend Spring Boot}
-Injection par constructeur (\texttt{final}), DTO sous forme de records Java~17 :
-\begin{lstlisting}[language=Java, caption=DTO ClientCreateDto avec contraintes de validation]
-public record ClientCreateDto(
-  @NotBlank String lastName,
-  @NotBlank String firstName,
-  @Email @NotBlank String email,
-  @NotBlank String cin,
-  @NotBlank String phoneNumber,
-  @NotBlank String address,
-  @NotNull LocalDate birthDate
-) {}
+
+\subsection{Besoins non fonctionnels}
+Sécurité : ressources protégées par JWT, rôles effectifs \texttt{hasRole/hasAnyRole} au niveau HTTP Security. Intégrité : contraintes unicité portées par schéma. Validation : Bean Validation + 14 règles métier serveur. Documentation : OpenAPI. Portabilité : Docker Compose avec healthcheck. Sans état.
+
+\subsection{Périmètre final}
+\begin{table}[htbp]
+\centering
+\caption{Périmètre retenu et hors-périmètre -- version finale}
+\label{tab:perimetre}
+\small
+\begin{tabularx}{\linewidth}{@{}X X@{}}
+\toprule
+\textbf{Retenu} & \textbf{Hors-périmètre} \\
+\midrule
+API REST backend, PostgreSQL, sécurité JWT rôles effectifs, OpenAPI & Interface graphique de production complète (mais Angular complet livré) \\
+14 règles métier client--contrat--sinistre--user, soft-delete, upload & Calcul actuariel des primes \\
+Conteneurisation dev avec healthcheck & Déploiement prod, supervision, CI \\
+Frontend Angular complet : login, dashboard, clients, contrats, sinistres, admin users, authGuard + roleGuard & Montée en charge, pagination \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Architecture applicative}
+Architecture en couches, chaque couche ne dialoguant qu'avec la couche inférieure (figure~\ref{fig:archi}).
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=0.75cm]
+  \node[couche] (client) {Client HTTP \\ {\footnotesize Swagger UI, client Angular complet}};
+  \node[couche, below=of client] (ctrl) {Couche Contrôleur REST \\ {\footnotesize 5 classes --- exposition HTTP}};
+  \node[couche, below=of ctrl]   (serv) {Couche Service \\ {\footnotesize 4 classes --- \textbf{14 règles métier}}};
+  \node[couche, below=of serv]   (repo) {Couche Repository \\ {\footnotesize 4 interfaces Spring Data JPA}};
+  \node[bdd,    below=of repo]   (db)   {PostgreSQL 16};
+  \draw[fleche] (client) -- (ctrl);
+  \draw[fleche] (ctrl)   -- (serv);
+  \draw[fleche] (serv)   -- (repo);
+  \draw[fleche] (repo)   -- (db);
+  \node[lateral, left=1.05cm of ctrl] (jwt) {Filtre\\JWT + rôles};
+  \draw[fleche] (jwt) -- (ctrl);
+  \node[lateral, right=1.05cm of ctrl] (dto) {DTO\\+ multipart};
+  \draw[flechep] (ctrl.east) -- (dto.west);
+  \draw[flechep] (dto.north) |- (client.east);
+\end{tikzpicture}
+\caption{Architecture applicative en couches -- version finale avec rôles effectifs et DTO multipart.}
+\label{fig:archi}
+\end{figure}
+
+45 classes Java $\approx$1\,500 lignes, réparties en contrôleurs (5), services (4), entités (4 + enums), DTO (13 records), mappers (3), repositories (4), sécurité (4), config (3), exceptions (3).
+
+\subsection{Modèle de domaine -- version finale}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=1.0cm and 1.5cm]
+\node[umlbox] (client) {%
+\begin{tabular}{@{\hspace{5pt}}l@{\hspace{5pt}}}
+\rule{0pt}{2.6ex}\textbf{\small Client}\\[1pt]\hline
+\rule{0pt}{2.6ex}\scriptsize id : Long\\
+\scriptsize lastName, firstName : String\\
+\scriptsize email : String\\
+\scriptsize cin : String \{unique\}\\
+\scriptsize phoneNumber, address : String\\
+\scriptsize birthDate, createdAt : LocalDate\\
+\scriptsize active : boolean \\[3pt]
+\end{tabular}};
+\node[umlbox, below=1.1cm of client] (contract) {%
+\begin{tabular}{@{\hspace{5pt}}l@{\hspace{5pt}}}
+\rule{0pt}{2.6ex}\textbf{\small Contract}\\[1pt]\hline
+\rule{0pt}{2.6ex}\scriptsize id : Long\\
+\scriptsize policyNumber : String \{unique\}\\
+\scriptsize type : ContractType\\
+\scriptsize startDate, endDate : LocalDate\\
+\scriptsize status : ContractStatus\\
+\scriptsize coverageAmount : BigDecimal\\
+\scriptsize premiumAmount : BigDecimal\\[3pt]
+\end{tabular}};
+\node[umlbox, below=1.1cm of contract] (claim) {%
+\begin{tabular}{@{\hspace{5pt}}l@{\hspace{5pt}}}
+\rule{0pt}{2.6ex}\textbf{\small Claim}\\[1pt]\hline
+\rule{0pt}{2.6ex}\scriptsize id : Long\\
+\scriptsize claimNumber : String \{unique\}\\
+\scriptsize description : String\\
+\scriptsize claimDate, declarationDate : LocalDate\\
+\scriptsize estimatedAmount : BigDecimal\\
+\scriptsize reimbursedAmount : BigDecimal\\
+\scriptsize status : ClaimStatus\\
+\scriptsize documentPath : String\\[3pt]
+\end{tabular}};
+\node[umlbox, right=1.4cm of client, anchor=north west, xshift=0.2cm] (user) {%
+\begin{tabular}{@{\hspace{5pt}}l@{\hspace{5pt}}}
+\rule{0pt}{2.6ex}\textbf{\small User (app\_user)}\\[1pt]\hline
+\rule{0pt}{2.6ex}\scriptsize id : Long\\
+\scriptsize username : String \{unique\}\\
+\scriptsize password : String \{BCrypt\}\\
+\scriptsize role : Role\\
+\scriptsize firstName, lastName : String\\
+\scriptsize email : String \{unique\}\\[3pt]
+\end{tabular}};
+\draw[fleche] (client) -- (contract)
+   node[midway, right=2pt, font=\scriptsize] {souscrit}
+   node[near start, left=2pt, font=\scriptsize] {1}
+   node[near end,   left=2pt, font=\scriptsize] {*};
+\draw[fleche] (contract) -- (claim)
+   node[midway, right=2pt, font=\scriptsize] {subit}
+   node[near start, left=2pt, font=\scriptsize] {1}
+   node[near end,   left=2pt, font=\scriptsize] {*};
+\node[align=left, font=\scriptsize, below=0.8cm of user.south west, anchor=north west]
+  (enums)
+  {\textbf{Énumérations}\\[3pt]
+   \texttt{ContractType} : AUTO, HOME, HEALTH, LIFE\\[2pt]
+   \texttt{ContractStatus} : ACTIVE, EXPIRED, TERMINATED\\[2pt]
+   \texttt{ClaimStatus} : SUBMITTED, PROCESSING,\\ ACCEPTED, REJECTED\\[2pt]
+   \texttt{Role} : ADMIN, AGENT};
+\end{tikzpicture}
+\caption{Modèle de domaine final aligné code actuel : active + documentPath + firstName/lastName/email.}
+\label{fig:domaine}
+\end{figure}
+
+Choix : BigDecimal pour montants, Enum STRING, LAZY, open-in-view false, @Table app\_user.
+
+\subsection{Conception de la sécurité -- corrigée effective}
+JWT sans session, politique STATELESS. Séquence figure~\ref{fig:jwt}.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[acteur] (c) at (0,0)    {Client};
+  \node[acteur] (a) at (4.2,0)  {AuthController};
+  \node[acteur] (f) at (8.4,0)  {JwtAuthFilter};
+  \node[acteur] (r) at (12.4,0) {Contrôleur\\métier};
+  \foreach \n in {c,a,f,r} { \draw[vie] (\n.south) -- ++(0,-5.4); }
+  \draw[msg] ($(c.south)+(0,-0.75)$) -- node[above]{\texttt{POST /api/auth/login}} ($(a.south)+(0,-0.75)$);
+  \node[font=\scriptsize\itshape, right=1pt] at ($(a.south)+(0.1,-1.35)$) {vérification BCrypt};
+  \draw[msgret] ($(a.south)+(0,-1.95)$) -- node[above]{jeton JWT 24h} ($(c.south)+(0,-1.95)$);
+  \draw[msg] ($(c.south)+(0,-2.95)$) -- node[above]{\texttt{GET /api/users} + Bearer} ($(f.south)+(0,-2.95)$);
+  \node[font=\scriptsize\itshape, right=1pt] at ($(f.south)+(0.1,-3.55)$) {signature + hasRole check};
+  \draw[msg] ($(f.south)+(0,-4.15)$) -- node[above]{authentifiée + rôle} ($(r.south)+(0,-4.15)$);
+  \draw[msgret] ($(r.south)+(0,-5.05)$) -- node[above]{\texttt{200/403}} ($(c.south)+(0,-5.05)$);
+\end{tikzpicture}
+\caption{Séquence d'authentification JWT avec autorisation par rôle effective.}
+\label{fig:jwt}
+\end{figure}
+
+Mots de passe BCrypt, CSRF désactivé cohérent API sans cookie \refbib{4}.
+
+%==============================================================================
+\section{Réalisation technique}
+%==============================================================================
+\subsection{Choix techniques -- version finale}
+\begin{table}[htbp]
+\centering
+\caption{Pile technique finale et justification}
+\label{tab:stack}
+\small
+\begin{tabularx}{\linewidth}{@{}L{2.5cm} L{4.1cm} X@{}}
+\toprule
+\textbf{Élément} & \textbf{Retenu} & \textbf{Justification} \\
+\midrule
+Langage        & Java 17                          & LTS, records DTO \\
+Framework      & Spring Boot 3.5.16               & Standard entreprise \refbib{5} \\
+Persistance    & Spring Data JPA / Hibernate      & Repositories déclaratifs \refbib{6} \\
+Base           & PostgreSQL 16                    & Contraintes unicité \refbib{7} \\
+Sécurité       & Spring Security + JJWT 0.12.6    & Filtres JWT + hasRole \refbib{4} \\
+Documentation  & Springdoc OpenAPI 2.7.0          & OpenAPI 3 \refbib{8} \\
+Conteneurisation & Docker Compose + healthcheck   & Reproductible \refbib{9} \\
+Frontend       & Angular 17+ + guards             & Client complet avec roleGuard \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Persistance et exposition}
+Entités @Entity, relation @ManyToOne LAZY, open-in-view false, DTO records distincts, 34 contraintes Bean Validation.
+
+\subsection{Sécurité -- version corrigée effective}
+\begin{lstlisting}[caption={Chaîne de filtres -- autorisation par rôle effective (corrigée depuis version initiale où @PreAuthorize était inopérant).},label={lst:security}]
+http
+    .cors(Customizer.withDefaults())
+    .csrf(csrf -> csrf.disable())
+    .authorizeHttpRequests(auth -> auth
+        .requestMatchers("/api/auth/**").permitAll()
+        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+        .requestMatchers("/api/users/**").hasRole("ADMIN")
+        .requestMatchers("/api/clients/**","/api/contracts/**","/api/claims/**")
+            .hasAnyRole("ADMIN","AGENT")
+        .anyRequest().authenticated())
+    .sessionManagement(s -> s.sessionCreationPolicy(STATELESS))
+    .authenticationProvider(authenticationProvider())
+    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 \end{lstlisting}
-\begin{lstlisting}[language=Java, caption=RegisterRequest enrichi avec firstName/lastName/email]
-public record RegisterRequest(
-  @NotBlank String username,
-  @NotBlank String password,
-  @NotNull Role role,
-  @NotBlank String firstName,
-  @NotBlank String lastName,
-  @NotBlank String email
-) {}
-\end{lstlisting}
-\section{Persistance et règles métier}
-\begin{lstlisting}[language=Java, caption=ClientService --- CIN unique + âge >=18 + soft-delete]
+
+Filtre JwtAuthFilter BEFORE UsernamePasswordAuthenticationFilter, validité 24h, CORS origin http://localhost:4200 pour Angular.
+
+\subsection{Fonctionnalités et règles métier -- 14 règles finales}
+17 endpoints exposés (annexe A). 14 règles métier centralisées :
+
+\begin{table}[htbp]
+\centering
+\caption{Règles métier finales implémentées -- alignées code actuel}
+\label{tab:rm}
+\small
+\begin{tabularx}{\linewidth}{@{}C{1.1cm} X L{2.5cm} L{2.4cm}@{}}
+\toprule
+\textbf{Réf.} & \textbf{Règle} & \textbf{Emplacement} & \textbf{Réaction} \\
+\midrule
+RM1  & endDate >= startDate contrat & ContractService & Exception \\
+RM2  & Contrat créé ACTIVE imposé & ContractService & Valeur imposée \\
+RM3  & policyNumber généré CT-YYYY-xxxxx & ContractService & Imposé \\
+RM4  & Statut invalide rejeté & ContractService & Exception \\
+RM5  & Sinistre seulement si contrat ACTIVE & ClaimService & Exception \\
+RM6  & claimDate dans période couverture & ClaimService & Exception \\
+RM7  & Sinistre SUBMITTED, remboursement 0, declarationDate now & ClaimService & Imposé \\
+RM8  & createdAt client serveur & ClientService & Imposé \\
+RM9  & CIN unique & ClientService & Exception \\
+RM10 & Âge >=18 & ClientService & Exception \\
+RM11 & Soft-delete client active=false & ClientService & Archivage \\
+RM12 & Update bloqué si archivé & ClientService & Exception \\
+RM13 & Username/email unique User & UserService & Exception \\
+RM14 & Upload justificatif -> documentPath & ClaimService & Stockage \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+RM5 et RM6 centrales :
+
+\begin{lstlisting}[caption={RM5/RM6 + upload fichier -- version finale avec MultipartFile.},label={lst:claim}]
 @Transactional
-public ClientResponseDto createClient(ClientCreateDto dto) {
-  if (clientRepository.existsByCin(dto.cin()))
-    throw new BusinessRuleException("CIN deja existant");
-  if (dto.birthDate().isAfter(LocalDate.now().minusYears(18)))
-    throw new BusinessRuleException("Client >= 18 ans requis");
-  Client c = ClientMapper.toEntity(dto);
-  c.setCreatedAt(LocalDate.now());
-  c.setActive(true);
-  return ClientMapper.toDto(clientRepository.save(c));
-}
-public List<ClientResponseDto> listClients() {
-  return clientRepository.findByActiveTrue()
-    .stream()
-    .map(ClientMapper::toDto)
-    .toList();
-}
-public void deleteClient(Long id) {
-  Client c = clientRepository.findById(id)
-    .orElseThrow(() -> new ResourceNotFoundException("Client introuvable"));
-  c.setActive(false); // soft-delete
-  clientRepository.save(c);
+public ClaimResponseDto createClaim(Long contractId, ClaimCreateDto dto, MultipartFile file) {
+    Contract contract = contractRepository.findById(contractId)
+            .orElseThrow(() -> new NotFoundException("Contract not found"));
+    if (contract.getStatus() != ContractStatus.ACTIVE)
+        throw new BusinessRuleException("Contract is not ACTIVE");
+    if (dto.claimDate().isBefore(contract.getStartDate())
+            || dto.claimDate().isAfter(contract.getEndDate()))
+        throw new BusinessRuleException("Claim date hors periode");
+    Claim claim = new Claim();
+    claim.setContract(contract);
+    claim.setDescription(dto.description());
+    claim.setClaimDate(dto.claimDate());
+    claim.setDeclarationDate(LocalDate.now());
+    claim.setEstimatedAmount(dto.estimatedAmount());
+    claim.setReimbursedAmount(BigDecimal.ZERO);
+    claim.setStatus(ClaimStatus.SUBMITTED);
+    claim.setClaimNumber("CL-"+Year.now()+"-"+(System.currentTimeMillis()%100000));
+    if (file!=null && !file.isEmpty()){
+      String unique = UUID.randomUUID()+ext(file);
+      Path dest = rootLocation.resolve(unique);
+      Files.copy(file.getInputStream(), dest);
+      claim.setDocumentPath(dest.toString());
+    }
+    return ClaimMapper.toDto(claimRepository.save(claim));
 }
 \end{lstlisting}
-\section{Authentification et autorisation}
-\texttt{JwtService} génère et valide les tokens (24~h HMAC). Le filtre \texttt{JwtAuthFilter} les injecte dans le contexte de sécurité. Tests manuels : un agent ne peut pas appeler \texttt{GET /api/users} (403 renvoyé) ; un admin obtient 200.
-\section{Règles métier complètes}
-\begin{table}[H]
+
+\begin{figure}[htbp]
 \centering
-\caption{Règles métier implémentées}
-\begin{tabular}{p{0.7cm} p{6.5cm} p{3cm} p{2.3cm}}
-\toprule
-Réf & Règle & Emplacement & Réaction \\
-\midrule
-RM1 & endDate $\geq$ startDate du contrat & ContractService & Exception \\
-RM2 & Contrat créé avec statut ACTIVE imposé & ContractService & Valeur forcée \\
-RM3 & policyNumber généré : CT-YYYY-xxxxx & ContractService & Imposé \\
-RM4 & Statut contrat invalide rejeté & ContractService & Exception \\
-RM5 & Sinistre seulement si contrat ACTIVE & ClaimService & Exception \\
-RM6 & claimDate dans la période de couverture & ClaimService & Exception \\
-RM7 & Sinistre SUBMITTED, remboursement 0, declarationDate=now & ClaimService & Imposé \\
-RM8 & createdAt client généré serveur & ClientService & Imposé \\
-RM9 & CIN unique & ClientService & Exception \\
-RM10 & Âge $\geq$ 18 & ClientService & Exception \\
-RM11 & Soft-delete client (active=false) & ClientService & Archivage \\
-RM12 & Update bloqué si client archivé & ClientService & Exception \\
-RM13 & Username et email unique pour User & UserService & Exception \\
-RM14 & Upload justificatif optionnel -> documentPath & ClaimService & Stockage \\
-\bottomrule
-\end{tabular}
-\end{table}
-Implémentation du sinistre avec upload :
-\begin{lstlisting}[language=Java, caption=ClaimService --- validation RM5/RM6 et gestion fichier]
-@Transactional
-public ClaimResponseDto createClaim(
-  Long contractId, ClaimCreateDto dto, MultipartFile file) {
-  Contract contract = contractRepository.findById(contractId)
-    .orElseThrow(() -> new ResourceNotFoundException("Contrat introuvable"));
-  if (contract.getStatus() != ContractStatus.ACTIVE)
-    throw new BusinessRuleException("Contrat non ACTIVE");
-  if (dto.claimDate().isBefore(contract.getStartDate())
-      || dto.claimDate().isAfter(contract.getEndDate()))
-    throw new BusinessRuleException("Claim date hors periode");
-  Claim claim = new Claim();
-  claim.setContract(contract);
-  claim.setDescription(dto.description());
-  claim.setClaimDate(dto.claimDate());
-  claim.setDeclarationDate(LocalDate.now());
-  claim.setEstimatedAmount(dto.estimatedAmount());
-  claim.setReimbursedAmount(BigDecimal.ZERO);
-  claim.setStatus(ClaimStatus.SUBMITTED);
-  claim.setClaimNumber(
-    "CL-" + Year.now() + "-" + (System.currentTimeMillis() % 100000));
-  if (file != null && !file.isEmpty()) {
-    String unique = UUID.randomUUID() + ext(file);
-    Path dest = rootLocation.resolve(unique);
-    Files.copy(file.getInputStream(), dest);
-    claim.setDocumentPath(dest.toString());
-  }
-  return ClaimMapper.toDto(claimRepository.save(claim));
-}
-\end{lstlisting}
-Contrôleur en multipart :
-\begin{lstlisting}[language=Java, caption=ClaimController --- endpoint multipart/form-data]
-@PostMapping(
-  value = "/contracts/{contractId}/claims",
-  consumes = MULTIPART_FORM_DATA_VALUE)
-public ResponseEntity<ClaimResponseDto> createClaim(
-  @PathVariable Long contractId,
-  @ModelAttribute ClaimCreateDto dto,
-  @RequestParam(value = "file", required = false) MultipartFile file) {
-  return ResponseEntity
-    .status(CREATED)
-    .body(claimService.createClaim(contractId, dto, file));
-}
-\end{lstlisting}
-Un \texttt{DataInitializer} crée au démarrage : admin/admin123 (ADMIN) + agent/agent123 (AGENT) avec firstName/lastName/email, un client Ahmed Ben Ali, un contrat ACTIF et un contrat TERMINATED pour tester RM5.
-\section{Documentation OpenAPI}
-springdoc-openapi \cite{openapi} génère la spécification automatiquement. Swagger~UI accessible sur \texttt{/swagger-ui/index.html} avec authentification \texttt{bearerAuth} : le bouton \textit{Authorize} permet de coller le JWT pour tester tous les endpoints interactivement.
-\section{Conteneurisation}
-Dockerfile multi-stage (image \texttt{maven:3.9.9} pour build, \texttt{eclipse-temurin:17-jre} pour runtime) \cite{docker}. Docker Compose avec healthcheck \texttt{pg\_isready} et variables d'environnement \texttt{SPRING\_DATASOURCE\_URL}.
-\section{Frontend Angular --- version complète}
-Architecture : composant $\rightarrow$ service HttpClient $\rightarrow$ jwtInterceptor (ajoute \texttt{Authorization: Bearer}) $\rightarrow$ API. Guards : \texttt{authGuard} + \texttt{roleGuard} (isAdmin).
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[node distance=1.2cm, font=\footnotesize]
-\node[block] (comp) {Component\\ClientList / ContractList\\ClaimList / UserList};
-\node[block, below of=comp] (serv) {Service HttpClient};
-\node[block, below of=serv] (inter) {jwtInterceptor\\Bearer};
-\node[db, below of=inter] (api) {API Spring Boot};
-\node[block, right of=comp, xshift=3cm] (auth) {AuthService\\localStorage token\\isAdmin()};
-\node[block, below of=auth] (guard) {roleGuard + authGuard};
-\draw[arrow] (comp) -- (serv);
-\draw[arrow] (serv) -- (inter);
-\draw[arrow] (inter) -- (api);
-\draw[arrow, dashed] (auth) -- (inter);
-\draw[arrow, dashed] (auth) -- (guard);
-\draw[arrow, dashed] (guard) -- (comp);
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[acteur] (c) at (0,0)   {Client};
+  \node[acteur] (s) at (5.2,0) {ClaimService};
+  \node[acteur] (d) at (10.4,0) {PostgreSQL};
+  \foreach \n in {c,s,d} { \draw[vie] (\n.south) -- ++(0,-3.9); }
+  \draw[msg] ($(c.south)+(0,-0.75)$) -- node[above]{\texttt{POST /api/contracts/7/claims + file}} ($(s.south)+(0,-0.75)$);
+  \draw[msg] ($(s.south)+(0,-1.55)$) -- node[above]{\texttt{findById(7)}} ($(d.south)+(0,-1.55)$);
+  \draw[msgret] ($(d.south)+(0,-2.35)$) -- node[above]{TERMINATED} ($(s.south)+(0,-2.35)$);
+  \node[font=\scriptsize\itshape, right=1pt] at ($(s.south)+(0.1,-2.95)$) {RM5 échec};
+  \draw[msgret] ($(s.south)+(0,-3.6)$) -- node[above]{\texttt{400 -- Contract is not ACTIVE}} ($(c.south)+(0,-3.6)$);
 \end{tikzpicture}
-\caption{Chaîne d'appel Angular vers API}
+\caption{Séquence rejet sinistre par RM5 -- contract TERMINATED, aucune écriture.}
+\label{fig:sinistre}
 \end{figure}
-Routes définies dans \texttt{app.routes.ts} : \texttt{/login}, \texttt{/dashboard} (authGuard), \texttt{/clients}, \texttt{/clients/new}, \texttt{/clients/:id}, \texttt{/contracts}, \texttt{/contracts/:id}, \texttt{/claims}, \texttt{/claims/new}, \texttt{/claims/:id}, \texttt{/users} (authGuard + roleGuard ADMIN). Le menu administration est affiché conditionnellement selon \texttt{isAdmin()}.
-% =======================================================================
-% CHAPITRE 5
-% =======================================================================
-\chapter{Vérification, résultats et regard critique}
-\section{Stratégie de vérification}
-Deux tests automatisés (contexte Spring + RM5 avec JUnit/Mockito). Tests manuels via Swagger~UI sur le parcours complet : auth $\rightarrow$ client $\rightarrow$ contrat $\rightarrow$ sinistre avec fichier. Vérification des contraintes d'unicité via psql. Tests frontend : CORS, transmission du token, roleGuard.
-\textbf{Limite :} couverture automatique faible (1 règle sur 14), pas de test d'intégration sur les contrôleurs, pas de mesure de coverage.
-\section{Résultats obtenus}
-API fonctionnelle sur BF1 à BF10. Vérifications effectuées :
-\begin{itemize}
-\item Requête sans JWT rejetée (401/403).
-\item Login valide renvoie token 24~h.
-\item Sinistre sur contrat TERMINATED refusé avec message explicite.
-\item Sinistre hors période refusé.
-\item Soft-delete : client archivé absent de \texttt{GET /api/clients}, présent en base avec \texttt{active=false}, update bloqué.
-\item CIN doublon rejeté.
-\item Âge $<18$ rejeté.
-\item Upload : fichier stocké dans \texttt{uploads/} et \texttt{documentPath} enregistré en base.
-\item \texttt{GET /api/users} avec token AGENT $\rightarrow$ 403, avec token ADMIN $\rightarrow$ 200.
-\item Angular : authentification, affichage des listes, création de ressources.
-\end{itemize}
-\section{Difficultés et solutions}
-\begin{table}[H]
+
+DataInitializer : admin/admin123 ADMIN + agent/agent123 AGENT avec firstName/lastName/email, client Ahmed Ben Ali, 1 contrat ACTIF + 1 TERMINATED.
+
+\subsection{Documentation et conteneurisation}
+OpenAPI auto-générée /swagger-ui/index.html \refbib{8} avec bearerAuth. Docker Compose 2 services avec healthcheck pg\_isready, Dockerfile multi-stage Maven->JRE \refbib{9}, vars env.
+
+\subsection{Frontend Angular -- version complète finale}
+25 -> 45 fichiers environ, 4 écrans initiaux -> 8 écrans : login, dashboard, clients list/detail/new, contracts list/detail, claims list/detail/new, users list ADMIN. Intercepteur JWT ajoute Bearer, guards authGuard + roleGuard isAdmin().
+
+%==============================================================================
+\section{Vérification, résultats et regard critique}
+%==============================================================================
+\subsection{Vérification}
+Essais manuels Swagger UI nominal + violation règle, jeu de données avec contrat résilié pour RM5, psql contraintes unicité, tests frontend CORS + token + roleGuard. 1 test unitaire RM5 avec Mockito. Limite : couverture faible (1/14 règles).
+
+\subsection{Résultats}
+5 objectifs initiaux + 3 additionnels (soft-delete, upload, admin users) atteints. Vérifications : JWT requis, login 24h, RM5/RM6 rejet explicite, soft-delete absent de GET /api/clients mais présent base active=false, CIN doublon rejeté, âge <18 rejeté, upload fichier dans uploads/, GET /api/users AGENT 403 ADMIN 200, Angular complet fonctionne.
+
+\subsection{Difficultés}
+\begin{table}[htbp]
 \centering
-\caption{Difficultés rencontrées et solutions}
-\begin{tabular}{p{3cm} p{4.5cm} p{5cm}}
+\caption{Difficultés et solutions -- version finale}
+\label{tab:diff}
+\small
+\begin{tabularx}{\linewidth}{@{}L{3.5cm} X L{3.4cm}@{}}
 \toprule
-Difficulté & Analyse & Solution \\
+\textbf{Difficulté} & \textbf{Analyse} & \textbf{Solution} \\
 \midrule
-Table \textit{user} réservée & Erreur au démarrage & \texttt{@Table(name="app\_user")} \\
-LazyInitializationException & LAZY hors transaction & DTO dans \texttt{@Transactional}, \texttt{open-in-view=false} \\
-CORS 4200 $\to$ 8080 & Same-origin bloqué & \texttt{CorsConfigurationSource} origin 4200 \\
-Ordre conteneurs & API démarre avant PostgreSQL & healthcheck \texttt{pg\_isready} + \texttt{depends\_on} healthy \\
-Config figée & URL différente local/Docker & Variables d'environnement avec valeur par défaut \\
-Entités exposées & Hash mdp dans réponse & DTO records + mapper \\
-Courbe Spring Security & Chaîne de filtres complexe & Docs officielles \cite{springsec} + filtre reconstruit \\
-CIN unique + âge & Règles additionnelles & \texttt{existsByCin} + vérification date \\
-Upload fichier & multipart vs JSON & \texttt{@ModelAttribute} + \texttt{MultipartFile} + stockage local \\
+user mot réservé SQL & Erreur start & @Table app\_user \\
+LazyInitializationException & LAZY hors transaction & DTO dans @Transactional \\
+CORS 4200->8080 & Same origin & CorsConfigurationSource \\
+Ordre conteneurs & API avant PG & healthcheck + depends\_on healthy \\
+CIN unique + âge & Règles additionnelles & existsByCin + check date \\
+Upload multipart & JSON vs fichier & @ModelAttribute + MultipartFile \\
+Map.of NPE & null refusé & HashMap + message défaut \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
-\section{Regard critique et limites}
-\textbf{Correction depuis la première version :} l'autorisation par rôle est désormais effective au niveau HTTP (\texttt{hasRole}/\texttt{hasAnyRole}). Dans la première version, les annotations \texttt{@PreAuthorize} étaient inopérantes faute de \texttt{@EnableMethodSecurity} --- défaut corrigé. Le frontend est passé de maquette partielle à client complet avec administration des employés.
-\textbf{Limites restantes :}
-\begin{itemize}
-\item Gestion d'erreurs trop uniforme : le handler renvoie souvent 400 au lieu de 404/409/422/403 selon le type ; format RFC~9457 \cite{rfc9457} non appliqué.
-\item Secret JWT en clair dans \texttt{application.yaml}, devrait être une variable d'environnement.
-\item Schéma géré par \texttt{hibernate.ddl-auto=update}, non versionné, non rollbackable.
-\item JWT peu défensif : pas de claim rôle, durée 24~h longue, pas de refresh/révocation, \texttt{TokenExpiredException} non capturée dans le filtre (500 au lieu de 401).
-\item Image Docker exécutée en root, pas de limites de ressources, pas de cache Maven, tests ignorés dans le build.
-\item Pas de CI, pas de pagination/filtrage, README désaligné.
-\item Stockage local \texttt{uploads/} non persistant hors volume, pas de limite de taille, pas de validation du type MIME.
-\end{itemize}
-% =======================================================================
-% CHAPITRE 6
-% =======================================================================
-\chapter{Apports du stage et lien avec la formation}
-\section{Compétences techniques acquises}
-\begin{table}[H]
+
+\subsection{Regard critique -- corrigé depuis rapport initial}
+\textbf{Ancien rapport disait :} @PreAuthorize inopérant faute de @EnableMethodSecurity. \textbf{Corrigé :} SecurityConfig utilise maintenant hasRole/hasAnyRole effectif, vérifié manuellement AGENT 403 sur /api/users. roleGuard Angular ajoute protection frontend.
+
+Limites restantes :
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*,itemsep=6pt]
+\item Secret JWT en clair application.yaml, devrait être var env.
+\item Gestion erreurs 400 uniforme, devrait 404/409/422/403 RFC9457 \refbib{11}.
+\item Couverture test faible, pas d'intégration continue.
+\item Pas de pagination, liste complète.
+\item ddl-auto:update non versionné, devrait Flyway.
+\item DataInitializer non isolé par profil.
+\item uploads/ local non persistant, pas validation MIME.
+\end{enumerate}
+
+%==============================================================================
+\section{Apports du stage}
+%==============================================================================
+\subsection{Compétences acquises}
+\begin{table}[htbp]
 \centering
-\caption{Compétences acquises et modules ISIMG correspondants}
-\begin{tabular}{p{5.5cm} p{2cm} p{4cm}}
+\caption{Compétences -- version finale}
+\label{tab:comp}
+\small
+\begin{tabularx}{\linewidth}{@{}X L{2.6cm} L{4.6cm}@{}}
 \toprule
-Compétence & Niveau & Module ISIMG \\
+\textbf{Compétence} & \textbf{Niveau} & \textbf{Module ISIMG} \\
 \midrule
-OO Java 17, records & Consolidé & POO \\
-Relationnel, contraintes & Consolidé & BD \\
-JPA/Hibernate, soft-delete & Nouveau & BD avancée \\
-API REST Spring Boot multipart & Nouveau & Prog. web \\
-Architecture couches, DTO & Nouveau & Génie logiciel \\
-Auth JWT, rôles effectifs & Nouveau & Sécurité \\
-Test JUnit/Mockito & Initié & GL \\
-Docker multi-stage, healthcheck& Nouveau & Systèmes \\
-Git Conventional Commits & Consolidé & Outils dev \\
-Angular guards, interceptors & Consolidé & Prog. web \\
+Modélisation objet + soft-delete & Consolidé & POO \\
+Schéma relationnel + contraintes unique & Consolidé & BD \\
+Architecture couches + DTO + multipart & Nouveau & --- \\
+API REST + 17 endpoints & Nouveau & --- \\
+Auth JWT + rôles effectifs + roleGuard & Nouveau & --- \\
+Test unitaire doublure & Initié & Algo \\
+Docker multi-stage + healthcheck & Initié & --- \\
+Git Conventional Commits | 34 commits & Consolidé & --- \\
+Angular complet guards/interceptors & Nouveau->Consolidé & Prog web \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
-Trois acquis structurants : (1)~le serveur est le garant non négociable des règles métier, (2)~le contrat d'interface DTO vs entité protège et découple, (3)~la reproductibilité de l'environnement en deux commandes est une exigence professionnelle.
-\section{Compétences transversales}
-Autonomie sur les documentations officielles plutôt que les tutoriels obsolètes. Debug root-cause sur les erreurs Lazy. Rigueur des messages de commit. Communication lors des points de validation. Lien formation : POO, BD et algorithmique prolongés ; architecture, sécurité web, tests et déploiement découverts en avance sur le cursus.
-\section{Limites personnelles et perspectives d'amélioration}
-Culture du test insuffisante (tardive dans le planning). Gestion du temps défavorable au frontend alors que la priorité aurait dû être la correction de la gestion d'erreurs.
-\begin{table}[H]
-\centering
-\caption{Pistes d'amélioration et effort estimé}
-\begin{tabular}{p{4cm} p{6cm} p{2cm}}
-\toprule
-Limite & Amélioration & Effort \\
-\midrule
-Erreurs 400 uniformes & Handler par type + format RFC~9457 & Faible \\
-Secret en dur & Variable env \texttt{JWT\_SECRET} & Faible \\
-README désaligné & Mise à jour Docker, frontend, endpoints & Faible \\
-Tests insuffisants & Contrôleurs + Testcontainers & Moyen \\
-Pas de CI & GitHub Actions compile + test & Moyen \\
-Schéma non versionné & Migrations Flyway & Moyen \\
-Upload non robuste & Service abstrait, validation MIME, volume & Moyen \\
-localStorage vulnérable XSS & HttpOnly cookie + interceptor 401 & Moyen \\
-Pas de pagination & \texttt{Pageable} Spring + query params & Moyen \\
-Workflow sinistres absent & State-machine + écrans instruction & Élevé \\
-\bottomrule
-\end{tabular}
-\end{table}
-% =======================================================================
-% CONCLUSION
-% =======================================================================
-\chapter{Conclusion}
-Ce stage d'un mois chez Vermeg a permis de réaliser une mini-API REST assurance opérationnelle sur le périmètre demandé et élargi. Le service expose des clients avec règles CIN/âge/soft-delete, des contrats avec numérotation serveur, des sinistres avec validation de période et de statut ainsi qu'upload de justificatif, et des utilisateurs avec rôles ADMIN/AGENT effectifs au niveau HTTP Security et guards Angular. La base PostgreSQL, les JWT 24~h, la validation des entrées, les règles métier centralisées, la documentation OpenAPI interactive, l'environnement Docker Compose reproductible et le client Angular complet constituent le livrable final.
-Sur le plan technique, ce stage a permis de découvrir l'écosystème Spring Boot, JPA, Spring Security, Docker et Angular avec guards. L'architecture en couches, les DTO et les règles centralisées côté serveur sont désormais des réflexes acquis.
-Sur le plan critique, le travail comporte des faiblesses documentées : gestion d'erreurs uniforme, secret non externalisé, couverture de tests faible, conteneurisation dev-only, stockage de fichiers simple. Le point positif majeur par rapport au rapport initial est que l'autorisation par rôle est désormais effective, contrairement à la première version où \texttt{@PreAuthorize} était inopérant sans \texttt{@EnableMethodSecurity} --- défaut corrigé par la configuration HTTP Security. Ce stage a offert un premier aperçu d'un éditeur logiciel financier où la correction, la traçabilité et la lisibilité comptent autant que les fonctionnalités visibles, une exigence à conserver pour la suite du cursus.
-% =======================================================================
-% BIBLIOGRAPHIE
-% =======================================================================
-\begin{thebibliography}{99}
-\bibitem{vermeg2024} VERMEG, \textit{À propos --- éditeur de solutions logicielles pour les services financiers}, 2024. \url{https://www.vermeg.com}
-\bibitem{wikipedia2024} Wikipedia, \textit{Vermeg}, 2024. \url{https://en.wikipedia.org/wiki/Vermeg}
-\bibitem{convcommit} Conventional Commits, \textit{Conventional Commits 1.0.0}, 2024. \url{https://www.conventionalcommits.org/fr/v1.0.0/}
-\bibitem{jwt2015} M.~Jones et~al., \textit{RFC~7519 : JSON Web Token}, IETF, 2015.
-\bibitem{http2022} R.~Fielding et~al., \textit{RFC~9110 : HTTP Semantics}, IETF, 2022.
-\bibitem{rfc9457} M.~Nottingham et~al., \textit{RFC~9457 : Problem Details for HTTP APIs}, IETF, 2023.
-\bibitem{docker} Docker Inc., \textit{Multi-stage builds}, 2024. \url{https://docs.docker.com/build/building/multi-stage/}
-\bibitem{twelvefactor} A.~Wiggins, \textit{The Twelve-Factor App --- Config}, 2024. \url{https://12factor.net/fr/config}
-\bibitem{springboot} VMware Tanzu, \textit{Spring Boot Reference Documentation}, v3.5.
-\bibitem{springsec} VMware Tanzu, \textit{Spring Security Reference --- Architecture}.
-\bibitem{springdata} VMware Tanzu, \textit{Spring Data JPA Reference}.
-\bibitem{openapi} OpenAPI Initiative, \textit{OpenAPI Specification v3.1}.
-\bibitem{angular} Google, \textit{Angular Documentation}. \url{https://angular.dev}
-\bibitem{postgres} PostgreSQL Global Development Group, \textit{PostgreSQL~16 Documentation}.
-\end{thebibliography}
-% =======================================================================
-% ANNEXES
-% =======================================================================
+
+Acquis : distinction validation syntaxique vs règle métier, contrat d'interface DTO, écart code écrit vs exécuté comblé par tests.
+
+\subsection{Perspectives}
+Priorités : externaliser JWT secret, handler erreurs par type RFC9457, tests intégration + CI, Flyway, service stockage abstrait avec validation MIME.
+
+%------------------------------------------------------------------- Conclusion
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+Stage d'un mois chez Vermeg : mini-API REST assurance opérationnelle sur périmètre demandé élargi. Service expose clients avec CIN unique, âge >=18, soft-delete, contrats avec policy générée, sinistres avec validation période + ACTIVE + upload justificatif, utilisateurs avec rôles effectifs. Base PostgreSQL, JWT 24h, validation entrées, 14 règles métier centralisées, OpenAPI interactive, Docker Compose reproductible, Angular complet avec administration.
+
+L'apport principal n'est pas la pile technique mais la mesure de l'écart entre programme qui fonctionne et service dont on peut garantir le comportement -- écart comblé ici par correction autorisation par rôle effective et par documentation des 14 règles.
+
+%==============================================================================
+\newpage
+\section*{Bibliographie et webographie}
+\addcontentsline{toc}{section}{Bibliographie et webographie}
+\begin{list}{}{%
+  \setlength{\leftmargin}{1.1cm}
+  \setlength{\labelwidth}{0.9cm}
+  \setlength{\labelsep}{0.2cm}
+  \setlength{\itemsep}{5pt}
+}
+\item[{[1]}] VERMEG, \og À propos \fg. www.vermeg.com --- 27 juillet 2026.
+\item[{[2]}] Wikipedia, \og Vermeg \fg. en.wikipedia.org/wiki/Vermeg --- 27 juillet 2026.
+\item[{[3]}] Conventional Commits, www.conventionalcommits.org/fr/v1.0.0/ --- 27 juillet 2026.
+\item[{[4]}] Spring Security Reference. docs.spring.io/spring-security/reference/servlet/architecture.html
+\item[{[5]}] Spring Boot Reference. docs.spring.io/spring-boot/documentation.html
+\item[{[6]}] Spring Data JPA Reference. docs.spring.io/spring-data/jpa/reference/
+\item[{[7]}] PostgreSQL 16 Documentation. www.postgresql.org/docs/16/
+\item[{[8]}] OpenAPI Specification v3.1. spec.openapis.org/oas/v3.1.0
+\item[{[9]}] Docker Inc., Multi-stage builds. docs.docker.com/build/building/multi-stage/
+\item[{[10]}] A. WIGGINS, The Twelve-Factor App -- Config. 12factor.net/fr/config
+\item[{[11]}] RFC 9457 Problem Details. www.rfc-editor.org/rfc/rfc9457
+\end{list}
+
+%==============================================================================
+\newpage
 \appendix
-% -----------------------------------------------------------------------
-\chapter{Principaux points d'accès de l'API}
-% -----------------------------------------------------------------------
-\begin{longtable}{p{1.2cm} p{5cm} p{3.8cm} p{2cm}}
+\renewcommand{\thesection}{\Alph{section}}
+\titleformat{\section}[display]
+  {\normalfont\Large\bfseries\filcenter}
+  {\normalsize\scshape Annexe \thesection}
+  {0.6em}{}
+\setcounter{section}{0}
+
+\section{Points d'accès de l'API -- version finale 17 endpoints}
+Le tableau~\ref{tab:endpoints} recense les 17 points d'accès finaux.
+
+\begin{longtable}{@{}L{1.8cm} L{5.3cm} L{4.4cm} L{2.2cm}@{}}
+\caption{Points d'accès finaux}\label{tab:endpoints}\\
 \toprule
-Méthode & Chemin & Corps / Paramètres & Code \\
+\textbf{Méthode} & \textbf{Chemin} & \textbf{Description} & \textbf{Accès} \\
+\midrule
+\endfirsthead
+\multicolumn{4}{@{}l}{\small\itshape Tableau \thetable{} --- suite}\\
+\toprule
+\textbf{Méthode} & \textbf{Chemin} & \textbf{Description} & \textbf{Accès} \\
 \midrule
 \endhead
-POST & /api/auth/register & RegisterRequest\{username, password, role, firstName, lastName, email\} & 201 \\[4pt]
-POST & /api/auth/login & LoginRequest\{username, password\} & 200 \\[4pt]
-GET & /api/users & --- (ADMIN seulement) & 200 \\[4pt]
-POST & /api/clients & ClientCreateDto & 201 \\[4pt]
-GET & /api/clients & --- (actifs seulement) & 200 \\[4pt]
-GET & /api/clients/\{id\} & --- & 200 \\[4pt]
-PUT & /api/clients/\{id\} & ClientUpdateDto & 200 \\[4pt]
-DELETE & /api/clients/\{id\} & --- (soft-delete) & 204 \\[4pt]
-POST & /api/contracts & ContractCreateDto\{clientId, type, startDate, endDate, coverageAmount, premiumAmount\} & 201 \\[4pt]
-GET & /api/contracts & --- & 200 \\[4pt]
-GET & /api/contracts/\{id\} & --- & 200 \\[4pt]
-GET & /api/contracts/client/\{clientId\} & --- & 200 \\[4pt]
-PUT & /api/contracts/\{id\} & ContractUpdateDto & 200 \\[4pt]
-POST & /api/contracts/\{contractId\}/claims & multipart : ClaimCreateDto + file (optionnel) & 201 \\[4pt]
-GET & /api/contracts/\{contractId\}/claims & --- & 200 \\[4pt]
-GET & /api/claims & --- & 200 \\[4pt]
-GET & /api/claims/\{id\} & --- & 200 \\
 \bottomrule
-\caption{Tableau des endpoints --- version finale}
+\endfoot
+\small POST   & \small\texttt{/api/auth/register}            & \small Création compte + role & \small Public \\
+\small POST   & \small\texttt{/api/auth/login}               & \small JWT & \small Public \\
+\small GET    & \small\texttt{/api/users}                    & \small Liste employés & \small ADMIN (\texttt{hasRole}) \\
+\small POST   & \small\texttt{/api/clients}                  & \small Création client & \small ADMIN,AGENT \\
+\small GET    & \small\texttt{/api/clients}                  & \small Liste actifs seulement & \small ADMIN,AGENT \\
+\small GET    & \small\texttt{/api/clients/\{id\}}           & \small Détail client & \small ADMIN,AGENT \\
+\small PUT    & \small\texttt{/api/clients/\{id\}}           & \small Modif client & \small ADMIN,AGENT \\
+\small DELETE & \small\texttt{/api/clients/\{id\}}           & \small Soft-delete RM11 & \small ADMIN (\texttt{hasRole} au niveau HTTP + @PreAuthorize) \\
+\small POST   & \small\texttt{/api/contracts}                & \small Création contrat & \small ADMIN,AGENT \\
+\small GET    & \small\texttt{/api/contracts}                & \small Liste contrats & \small ADMIN,AGENT \\
+\small GET    & \small\texttt{/api/contracts/\{id\}}         & \small Détail contrat & \small ADMIN,AGENT \\
+\small GET    & \small\texttt{/api/contracts/client/\{id\}} & \small Contrats par client & \small ADMIN,AGENT \\
+\small PUT    & \small\texttt{/api/contracts/\{id\}}         & \small Update contrat & \small ADMIN \\
+\small POST   & \small\texttt{/api/contracts/\{id\}/claims}  & \small Déclar. sinistre + file RM14 & \small ADMIN,AGENT \\
+\small GET    & \small\texttt{/api/contracts/\{id\}/claims}  & \small Sinistres contrat & \small ADMIN,AGENT \\
+\small GET    & \small\texttt{/api/claims}                   & \small Tous sinistres & \small ADMIN,AGENT \\
+\small GET    & \small\texttt{/api/claims/\{id\}}            & \small Détail sinistre & \small ADMIN,AGENT \\
 \end{longtable}
-Toutes les routes, à l'exception de \texttt{/api/auth/**}, \texttt{/swagger-ui/**} et \texttt{/v3/api-docs/**}, exigent l'en-tête \texttt{Authorization: Bearer <token>}. La route \texttt{/api/users/**} est réservée au rôle ADMIN.
-Exemple de corps pour la création d'un contrat :
-\begin{lstlisting}[style=jsonstyle, caption=Exemple de requête POST /api/contracts]
-{
-  "clientId" : 1,
-  "type" : "AUTO",
-  "startDate" : "2026-07-01",
-  "endDate" : "2027-06-30",
-  "coverageAmount" : 50000,
-  "premiumAmount" : 1200
-}
+
+\section{Démarrage}
+\textbf{Docker Compose recommandé :}
+\begin{lstlisting}[style=shellstyle]
+docker compose up --build
 \end{lstlisting}
-% -----------------------------------------------------------------------
-\chapter{Instructions de démarrage}
-% -----------------------------------------------------------------------
-\textbf{Démarrage local (PostgreSQL installé) :}
-\begin{lstlisting}[style=bashstyle, caption=Démarrage en mode local]
-createdb assurance_db
-export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/assurance_db
-export SPRING_DATASOURCE_USERNAME=postgres
-export SPRING_DATASOURCE_PASSWORD=admin
+\textbf{Local :}
+\begin{lstlisting}[style=shellstyle]
 ./mvnw spring-boot:run
 \end{lstlisting}
-\textbf{Démarrage via Docker Compose :}
-\begin{lstlisting}[style=bashstyle, caption=Démarrage via Docker Compose]
-docker compose up --build  # db healthcheck puis api
-docker compose down        # arret (conserve pgdata)
-docker compose down -v     # arret + suppression des donnees
-\end{lstlisting}
-\textbf{Accès :}
-\begin{itemize}
-\item Swagger UI : \url{http://localhost:8080/swagger-ui/index.html}
-\item Frontend Angular : \texttt{cd frontend \&\& npm install \&\& npm start} puis \url{http://localhost:4200}
-\end{itemize}
-\textbf{Comptes de démonstration} (créés automatiquement par \texttt{DataInitializer}, environnement de développement uniquement) :
-\begin{itemize}
-\item \texttt{admin} / \texttt{admin123} --- rôle ADMIN
-\item \texttt{agent} / \texttt{agent123} --- rôle AGENT
-\end{itemize}
-% -----------------------------------------------------------------------
-\chapter{Glossaire}
-% -----------------------------------------------------------------------
-\begin{tabular}{p{3.2cm} p{9.5cm}}
+Docs : \texttt{http://localhost:8080/swagger-ui/index.html} Compte démo admin/admin123 ADMIN, agent/agent123 AGENT.
+
+\section{Glossaire}
+\begin{table}[htbp]
+\centering
+\caption{Glossaire final}
+\label{tab:glossaire}
+\small
+\begin{tabularx}{\linewidth}{@{}L{2.6cm} X@{}}
 \toprule
-Terme & Définition \\
+\textbf{Terme} & \textbf{Définition} \\
 \midrule
-API REST & Interface exposant des ressources via HTTP (verbes sémantiques, codes de statut RFC~9110) \\
-BCrypt & Algorithme de hachage de mot de passe avec sel aléatoire et facteur de coût configurable \\
-CIN & Carte d'identité nationale, identifiant unique du client \\
-CORS & Mécanisme autorisant un navigateur à appeler une API d'une origine différente \\
-CSRF & Attaque exploitant les cookies envoyés automatiquement ; sans objet pour une API stateless \\
-DTO & Objet de transfert de données, distinct de l'entité JPA, évite d'exposer les champs internes \\
-Docker Compose& Outil d'orchestration de conteneurs pour l'environnement de développement \\
-JPA/Hibernate & ORM Java permettant de mapper des objets sur des tables relationnelles \\
-JWT & Jeton signé RFC~7519 transportant les informations d'authentification sans état serveur \\
-Multi-stage & Technique Docker séparant l'étape de build de l'image d'exécution finale \\
-OpenAPI & Standard de description d'API REST (ex-Swagger), version~3.1 \\
-Prime & Montant périodique versé par l'assuré en échange de la garantie \\
-Repository & Interface Spring Data JPA générant automatiquement les requêtes SQL \\
-Sinistre & Événement dommageable déclaré au titre d'un contrat d'assurance \\
-Soft-delete & Archivage logique (champ \texttt{active=false}) sans suppression physique \\
-Stateless & Architecture sans session serveur ; chaque requête porte ses propres informations d'authentification \\
+Police     & Document contractuel\\
+Prime      & Somme versée\\
+Couverture & Montant max garanti\\
+Sinistre   & Événement dommageable + documentPath optionnel\\
+DTO        & Objet transfert, distinct entité persistance\\
+JWT        & Jeton signé sans état\\
+CIN        & Carte identité unique\\
+Soft-delete & Archivage logique active=false\\
 \bottomrule
-\end{tabular}
-% -----------------------------------------------------------------------
-\chapter{Trame de soutenance}
-% -----------------------------------------------------------------------
-Présentation en 12 diapositives, durée estimée 10~minutes + 10~minutes de questions.
-\begin{enumerate}
-\item \textbf{Titre} --- logos Université de Gabès / ISIMG / Vermeg, nom, période, encadrante.
-\item \textbf{Contexte} --- ISIMG et Vermeg Insurance Market Operations.
-\item \textbf{Sujet et problématique} --- mini-API assurance, enjeux.
-\item \textbf{Périmètre} --- BF1 à BF10, hors-périmètre.
-\item \textbf{Modèle de domaine} --- entités avec champs \texttt{active} et \texttt{documentPath}.
-\item \textbf{Architecture en couches} --- diagramme couches.
-\item \textbf{Sécurité} --- JWT, rôles effectifs HTTP Security, roleGuard Angular.
-\item \textbf{Règles métier} --- les 14 règles, démo upload Swagger~UI.
-\item \textbf{Documentation OpenAPI} --- Swagger~UI interactif.
-\item \textbf{Docker Compose} --- healthcheck, reproductibilité.
-\item \textbf{Frontend Angular complet} --- captures d'écran (clients, contrats, sinistres, administration).
-\item \textbf{Regard critique et perspectives} --- limites documentées, priorités d'amélioration.
-\end{enumerate}
+\end{tabularx}
+\end{table}
+
 \end{document}
