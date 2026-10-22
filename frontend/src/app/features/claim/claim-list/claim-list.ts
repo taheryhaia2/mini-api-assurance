@@ -1,12 +1,12 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ClaimService, Claim } from '../../../core/services/claim.service';
 
 @Component({
   selector: 'app-claim-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './claim-list.html',
   styleUrl: './claim-list.css'
 })

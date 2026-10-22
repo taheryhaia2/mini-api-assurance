@@ -64,3 +64,21 @@
   color: #718096;
   padding: 2rem;
 }
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.btn-add {
+  background-color: #0052cc;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.btn-add:hover {
+  background-color: #003d99;
+}

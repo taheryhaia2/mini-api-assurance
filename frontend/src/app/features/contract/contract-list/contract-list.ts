@@ -1,18 +1,18 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router'; // <-- Ajout
+import { Router, RouterLink } from '@angular/router';
 import { ContractService, Contract } from '../../../core/services/contract.service';
 
 @Component({
   selector: 'app-contract-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './contract-list.html',
   styleUrl: './contract-list.css'
 })
 export class ContractListComponent implements OnInit {
   private contractService = inject(ContractService);
-  private router = inject(Router); // <-- Ajout
+  private router = inject(Router);
 
   contracts = signal<Contract[]>([]);
 
@@ -23,7 +23,6 @@ export class ContractListComponent implements OnInit {
     });
   }
 
-  // <-- Ajout de la méthode
   onViewDetails(id: number) {
     this.router.navigate(['/contracts', id]);
   }

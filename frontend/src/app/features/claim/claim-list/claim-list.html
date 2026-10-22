@@ -1,6 +1,8 @@
 <div class="page-container">
-  <h2 class="page-title">Liste des Sinistres</h2>
-
+    <div class="header-actions">
+      <h2 class="page-title">Liste des Sinistres</h2>
+      <a class="btn-add" routerLink="/claims/new">+ Ajouter un sinistre</a>
+    </div>
   <table class="corporate-table">
     <thead>
     <tr>
@@ -26,6 +28,7 @@
         <button class="btn-details" (click)="onViewDetails(claim.id)">
           Détails
         </button>
+
       </td>
     </tr>
     } @empty {
